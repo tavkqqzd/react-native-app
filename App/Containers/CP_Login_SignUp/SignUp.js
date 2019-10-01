@@ -4,8 +4,8 @@ import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
 import { centerAlignment } from "../../Themes/ActivityStyles";
 import { SignUpStyles } from "./Styles/SingUp-Styles";
-import LinearGradient from "react-native-linear-gradient";
-import metrics from "../../Themes/Metrics";
+import { validateClubID } from "../../Services/API";
+import Toast from "react-native-toast-native";
 
 class SignUp extends React.Component {
   static navigationOptions = {
@@ -25,6 +25,20 @@ class SignUp extends React.Component {
     clubId: ""
   };
 
+  validateClubID = clubId => {
+    validateClubID(clubId)
+      .then(res => {
+        if (res.error === 0) {
+        } else if (res.error === 1) {
+          Toast.show("Enter Valid Club ID", Toast.LONG, Toast.BOTTOM, errorToast);
+        }
+      })
+      .catch(err => {
+        Toast.show("Something went wrong...", Toast.LONG, Toast.BOTTOM, errorToast);
+        console.log("err", err);
+      });
+  };
+
   render() {
     let iconRender = "";
     if (!this.state.clubId.length > 0) {
@@ -35,7 +49,7 @@ class SignUp extends React.Component {
       );
     } else {
       iconRender = (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.validateClubID(this.state.clubId)}>
           <Image source={images.blueEnter} />
         </TouchableOpacity>
       );
@@ -56,5 +70,14 @@ class SignUp extends React.Component {
     );
   }
 }
+
+const errorToast = {
+  width: 300,
+  yOffset: 60,
+  height: 120,
+  backgroundColor: "#545454",
+  color: "#FFFFFF",
+  fontSize: 17
+};
 
 export default SignUp;

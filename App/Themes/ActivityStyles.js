@@ -13,5 +13,8 @@ export const centerAlignment = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     position: "relative"
+  },
+  contentAlignInCenter: {
+    alignItems: "center"
   }
 });

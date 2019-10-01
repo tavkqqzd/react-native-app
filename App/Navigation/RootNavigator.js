@@ -69,7 +69,7 @@ const PostLoginNavigators = createStackNavigator(
     SignUp: { screen: SignUp }
   },
   {
-    initialRouteName: "Login",
+    initialRouteName: "SignUp",
     headerLayoutPreset: "center"
   }
 );

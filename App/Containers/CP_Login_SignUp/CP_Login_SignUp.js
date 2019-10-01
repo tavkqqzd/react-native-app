@@ -10,8 +10,8 @@ import Modal from "../../Components/Modal/Modal";
 import { widthPercentageToDP, heightPercentageToDP } from "../../Components/Utils/PercentageToPixels";
 
 const navigateToSignUpPage = NavigationActions.navigate({
-  routeName: "SignUp",
-  action: NavigationActions.navigate({ routeName: "SignUp" })
+  routeName: "EnterClubId",
+  action: NavigationActions.navigate({ routeName: "EnterClubId" })
 });
 
 const navigateToLoginPage = NavigationActions.navigate({

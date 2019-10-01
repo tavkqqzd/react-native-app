@@ -50,7 +50,9 @@ import Splash from "../Containers/Splash/Splash";
 import CP_Login_SignUp from "../Containers/CP_Login_SignUp/CP_Login_SignUp";
 import SignUp from "../Containers/CP_Login_SignUp/SignUp";
 import Login from "../Containers/CP_Login_SignUp/Login";
-import images from "../Themes/Images";
+import combineReducersIndex from "../Store/Reducer/index";
+import { Provider } from "react-redux";
+import EnterClubId from "../Containers/CP_Login_SignUp/EnterClubId";
 
 const PreLoginNavigator = createStackNavigator(
   {
@@ -66,22 +68,23 @@ const PreLoginNavigator = createStackNavigator(
 const PostLoginNavigators = createStackNavigator(
   {
     Login: { screen: Login },
+    EnterClubId: { screen: EnterClubId },
     SignUp: { screen: SignUp }
   },
   {
-    initialRouteName: "SignUp",
+    initialRouteName: "EnterClubId",
     headerLayoutPreset: "center"
   }
 );
 
 const RootNavigator = createAppContainer(PostLoginNavigators);
+const store = createStore(combineReducersIndex);
+const App = () => {
+  return (
+    <Provider store={store}>
+      <RootNavigator />
+    </Provider>
+  );
+};
 
-// const App = () => {
-//   return (
-//     <Provider store={store}>
-//       <APP />
-//     </Provider>
-//   );
-// };
-
-export default RootNavigator;
+export default App;

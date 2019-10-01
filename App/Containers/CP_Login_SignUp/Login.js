@@ -1,11 +1,12 @@
 import React from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image } from "react-native";
 import colors from "../../Themes/Colors";
 import images from "../../Themes/Images";
-import metrics from "../../Themes/Metrics";
 import PhoneInput from "react-native-phone-input";
 import CountryPicker from "react-native-country-picker-modal";
 import { TextField } from "react-native-material-textfield";
+import { LoginStyles } from "./Styles/Login-Styles";
+import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 
 class Login extends React.Component {
   static navigationOptions = {
@@ -61,47 +62,69 @@ class Login extends React.Component {
   render() {
     let { password, clubId } = this.state;
     return (
-      <View style={css.loginActivity}>
-        <Text>Club Passport</Text>
-        <View>
-          {/** Input Phone Number */}
-          <View>
-            <PhoneInput
-              ref={ref => {
-                this.phone = ref;
-              }}
-              onChangePhoneNumber={this.onPhoneChange}
-              onPressFlag={this.onPressFlag}
-              initialCountry="in"
-              value={this.state.phNumber}
-              onFocus={this.state.applyFocus}
-            />
-          </View>
+      <View style={LoginStyles.loginActivity}>
+        <Text style={LoginStyles.header}>Club Passport</Text>
+        <View style={LoginStyles.signInContent}>
+          <View style={LoginStyles.inputPhoneNumber}>
+            {/** Input Phone Number */}
+            <View style={LoginStyles.transparent}>
+              <PhoneInput
+                ref={ref => {
+                  this.phone = ref;
+                }}
+                onChangePhoneNumber={this.onPhoneChange}
+                onPressFlag={this.onPressFlag}
+                initialCountry="in"
+                value={this.state.phNumber}
+                onFocus={this.state.applyFocus}
+              />
+            </View>
 
-          <CountryPicker
-            ref={ref => {
-              this.countryPicker = ref;
-            }}
-            filterable={true}
-            filterPlaceholder="Search Country"
-            onChange={value => this.selectCountry(value)}
-            translation="eng"
-            cca2={this.state.cca2}
-          >
-            <View />
-          </CountryPicker>
+            <CountryPicker
+              ref={ref => {
+                this.countryPicker = ref;
+              }}
+              filterable={true}
+              filterPlaceholder="Search Country"
+              onChange={value => this.selectCountry(value)}
+              translation="eng"
+              cca2={this.state.cca2}
+            >
+              <View />
+            </CountryPicker>
+          </View>
+          <TextField
+            label="Password*"
+            value={password}
+            tintColor="#000"
+            onChangeText={password => this.setState({ password })}
+            inputContainerStyle={LoginStyles.MatUI_Text_Field}
+          />
+          <TextField
+            label="Club ID*"
+            value={clubId}
+            tintColor="#000"
+            onChangeText={clubId => this.setState({ clubId })}
+            inputContainerStyle={LoginStyles.MatUI_Text_Field}
+          />
+          <View>
+            <Text style={LoginStyles.forgotPassword}>Forgot Password ?</Text>
+          </View>
+          <ButtonGradient
+            title="Sign In"
+            color1={colors.commonButtonGradient1}
+            color2={colors.commonButtonGradient2}
+            buttonStyle={LoginStyles.loginButton}
+            buttonTextStyle={LoginStyles.loginButtonText}
+          />
+          <View style={LoginStyles.signUpText}>
+            <Text>Dont't Have an account?</Text>
+            <Text style={LoginStyles.signUp}> Sign Up</Text>
+          </View>
         </View>
-        <TextField label="Password*" value={password} onChangeText={password => this.setState({ password })} />
-        <TextField label="Club ID*" value={clubId} onChangeText={clubId => this.setState({ clubId })} />
       </View>
     );
   }
 }
-
-const css = StyleSheet.create({
-  loginActivity: {
-    margin: metrics.section
-  }
-});
 
 export default Login;

@@ -30,7 +30,7 @@ class EnterClubId extends React.Component {
     headerLeft: <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
   };
   state = {
-    clubId: ""
+    clubId: "CLUENV001"
   };
 
   validateClubID = clubId => {

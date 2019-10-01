@@ -43,50 +43,47 @@ class SignUp extends React.Component {
     const { clubLogo } = this.props.clubData;
     const { name, email, optionalName, password, clubMemberId } = this.state;
     return (
-      <View style={[centerAlignment.contentAlignInCenter, SignUpStyles.signUpPageActivity]}>
-        <Image source={{ uri: clubLogo }} style={{ width: 120, height: 120 }} />
-        <TextField
-          label="Name*"
-          value={name}
-          tintColor="#000"
-          onChangeText={name => this.setState({ name })}
-          inputContainerStyle={LoginStyles.MatUI_Text_Field}
-        />
-        <TextField
-          label="User Name(Optional)"
-          value={optionalName}
-          tintColor="#000"
-          onChangeText={optionalName => this.setState({ optionalName })}
-          inputContainerStyle={LoginStyles.MatUI_Text_Field}
-        />
-        <TextField
-          label="Email Address*"
-          value={email}
-          tintColor="#000"
-          onChangeText={email => this.setState({ email })}
-          inputContainerStyle={LoginStyles.MatUI_Text_Field}
-        />
-        <TextField
-          label="Password*"
-          value={password}
-          tintColor="#000"
-          onChangeText={password => this.setState({ password })}
-          inputContainerStyle={LoginStyles.MatUI_Text_Field}
-        />
-        <TextField
-          label="Club Membership ID(Optional)"
-          value={clubMemberId}
-          tintColor="#000"
-          onChangeText={clubMemberId => this.setState({ clubMemberId })}
-          inputContainerStyle={LoginStyles.MatUI_Text_Field}
-        />
-        <TextField
-          label="Club ID*"
-          value={clubId}
-          tintColor="#000"
-          onChangeText={clubId => this.setState({ clubId })}
-          inputContainerStyle={LoginStyles.MatUI_Text_Field}
-        />
+      <View style={SignUpStyles.signUpPageActivity}>
+        <View style={centerAlignment.contentAlignInCenter}>
+          <Image source={{ uri: clubLogo }} style={{ width: 120, height: 120 }} />
+        </View>
+        <View>
+          <TextField
+            label="Name*"
+            value={name}
+            tintColor="#000"
+            onChangeText={name => this.setState({ name })}
+            inputContainerStyle={LoginStyles.MatUI_Text_Field}
+          />
+          <TextField
+            label="User Name(Optional)"
+            value={optionalName}
+            tintColor="#000"
+            onChangeText={optionalName => this.setState({ optionalName })}
+            inputContainerStyle={LoginStyles.MatUI_Text_Field}
+          />
+          <TextField
+            label="Email Address*"
+            value={email}
+            tintColor="#000"
+            onChangeText={email => this.setState({ email })}
+            inputContainerStyle={LoginStyles.MatUI_Text_Field}
+          />
+          <TextField
+            label="Password*"
+            value={password}
+            tintColor="#000"
+            onChangeText={password => this.setState({ password })}
+            inputContainerStyle={LoginStyles.MatUI_Text_Field}
+          />
+          <TextField
+            label="Club Membership ID(Optional)"
+            value={clubMemberId}
+            tintColor="#000"
+            onChangeText={clubMemberId => this.setState({ clubMemberId })}
+            inputContainerStyle={LoginStyles.MatUI_Text_Field}
+          />
+        </View>
       </View>
     );
   }

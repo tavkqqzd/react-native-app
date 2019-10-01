@@ -7,6 +7,8 @@ import { centerAlignment } from "../../Themes/ActivityStyles";
 import { SignUpStyles } from "./Styles/SingUp-Styles";
 import { validateClubID } from "../../Services/API";
 import Toast from "react-native-toast-native";
+import * as actions from "../../Store/Actions/ClubData";
+import { connect } from "react-redux";
 
 const navigateToSignUpPage = NavigationActions.navigate({
   routeName: "SignUp",
@@ -35,6 +37,7 @@ class EnterClubId extends React.Component {
     validateClubID(clubId)
       .then(res => {
         if (res.error === 0) {
+          this.props.getClubData(res.result[0]);
           console.log("res", res);
           this.props.navigation.dispatch(navigateToSignUpPage);
         } else if (res.error === 1) {
@@ -88,4 +91,13 @@ const errorToast = {
   fontSize: 17
 };
 
-export default EnterClubId;
+const mapDispatchToProps = dispatch => {
+  return {
+    getClubData: data => dispatch(actions.getClubData(data))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(EnterClubId);

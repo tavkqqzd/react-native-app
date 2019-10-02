@@ -53,6 +53,8 @@ import Login from "../Containers/CP_Login_SignUp/Login";
 import combineReducersIndex from "../Store/Reducer/index";
 import { Provider } from "react-redux";
 import EnterClubId from "../Containers/CP_Login_SignUp/EnterClubId";
+import HelpWithPassword from "../Containers/ResetPassword/HelpWithPassword";
+import EnterVerificationCode from "../Containers/ResetPassword/EnterVerificationCode";
 
 const PreLoginNavigator = createStackNavigator(
   {
@@ -72,12 +74,23 @@ const PostLoginNavigators = createStackNavigator(
     SignUp: { screen: SignUp }
   },
   {
-    initialRouteName: "SignUp",
+    initialRouteName: "Login",
     headerLayoutPreset: "center"
   }
 );
 
-const RootNavigator = createAppContainer(PostLoginNavigators);
+const ResetPasswordNavigattor = createStackNavigator(
+  {
+    HelpWithPassword: { screen: HelpWithPassword },
+    EnterVerificationCode: { screen: EnterVerificationCode }
+  },
+  {
+    initialRouteName: "EnterVerificationCode",
+    headerLayoutPreset: "center"
+  }
+);
+
+const RootNavigator = createAppContainer(ResetPasswordNavigattor);
 const store = createStore(combineReducersIndex);
 const App = () => {
   return (

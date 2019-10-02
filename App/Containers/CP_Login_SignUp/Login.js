@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, TouchableNativeFeedback } from "react-native";
 import colors from "../../Themes/Colors";
 import images from "../../Themes/Images";
 import PhoneInput from "react-native-phone-input";
@@ -113,9 +113,9 @@ class Login extends React.Component {
             onChangeText={clubId => this.setState({ clubId })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />
-          <View>
+          <TouchableNativeFeedback>
             <Text style={LoginStyles.forgotPassword}>Forgot Password ?</Text>
-          </View>
+          </TouchableNativeFeedback>
           <ButtonGradient
             title="Sign In"
             color1={colors.commonButtonGradient1}

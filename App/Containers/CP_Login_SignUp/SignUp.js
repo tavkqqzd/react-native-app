@@ -15,11 +15,6 @@ import { LoginStyles } from "./Styles/Login-Styles";
 import { RadioGroup, RadioButton } from "react-native-flexi-radio-button";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 
-const navigateToSignUpPage = NavigationActions.navigate({
-  routeName: "SignUp",
-  action: NavigationActions.navigate({ routeName: "SignUp" })
-});
-
 class SignUp extends React.Component {
   static navigationOptions = {
     title: "Sign Up",

@@ -18,3 +18,23 @@ export const validateClubID = clubId => {
       });
   });
 };
+
+export const login = (phoneNumber, password, clubId) => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: { mobileNumber: phoneNumber }
+    };
+    fetch(`${IP_ADDRESS}/clubvalidation/${clubId}`, data)
+      .then(res => {
+        return resolve(res.json());
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};

@@ -64,9 +64,11 @@ class Login extends React.Component {
     return (
       <View style={LoginStyles.loginActivity}>
         <Text style={LoginStyles.header}>Club Passport</Text>
+
         <View style={LoginStyles.signInContent}>
           <View style={LoginStyles.inputPhoneNumber}>
             {/** Input Phone Number */}
+
             <View style={LoginStyles.transparent}>
               <PhoneInput
                 ref={ref => {
@@ -77,7 +79,11 @@ class Login extends React.Component {
                 initialCountry="in"
                 value={this.state.phNumber}
                 onFocus={this.state.applyFocus}
+                textStyle={{ paddingLeft: 40 }}
               />
+              <Text style={{ position: "absolute", left: 40 }}>
+                {this.state.countryDetails.callingCode ? "+".concat(this.state.countryDetails.callingCode) : "+91"}
+              </Text>
             </View>
 
             <CountryPicker

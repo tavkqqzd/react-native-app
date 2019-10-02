@@ -27,7 +27,8 @@ export const LoginStyles = StyleSheet.create({
   transparent: {
     borderBottomColor: Colors.white,
     borderBottomWidth: 2,
-    marginBottom: 6
+    marginBottom: 6,
+    position: "relative"
   },
   MatUI_Text_Field: {
     borderBottomColor: "#cfcfcf",

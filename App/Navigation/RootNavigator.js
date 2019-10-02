@@ -72,7 +72,7 @@ const PostLoginNavigators = createStackNavigator(
     SignUp: { screen: SignUp }
   },
   {
-    initialRouteName: "EnterClubId",
+    initialRouteName: "Login",
     headerLayoutPreset: "center"
   }
 );

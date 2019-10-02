@@ -24,6 +24,9 @@ export const SignUpStyles = StyleSheet.create({
   signUpPageActivity: {
     margin: metrics.section
   },
+  countryPicker: {
+    marginTop: 35
+  },
   inputContainer: {
     position: "relative"
   },
@@ -31,5 +34,15 @@ export const SignUpStyles = StyleSheet.create({
     position: "absolute",
     right: 0,
     top: 0
+  },
+  isEmployee: {
+    position: "relative",
+    marginTop: 30
+  },
+  signUpButton: {
+    height: 50,
+    marginTop: 30,
+    marginBottom: 35,
+    borderRadius: 30
   }
 });

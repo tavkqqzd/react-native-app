@@ -11,29 +11,31 @@ import { getGameAndUserDetail } from "../../Services/API";
 import DashboardCard from "../../Components/Card/DashboardCard";
 import { ScrollView } from "react-native-gesture-handler";
 
-const enterVerificationCode = NavigationActions.navigate({
-  routeName: "EnterVerificationCode",
-  action: NavigationActions.navigate({ routeName: "EnterVerificationCode" })
+const navigateToProfilePage = NavigationActions.navigate({
+  routeName: "Profile",
+  action: NavigationActions.navigate({ routeName: "Profile" })
 });
 
 class DashboardPage extends React.Component {
-  static navigationOptions = {
-    title: "Club Passport",
-    headerStyle: {
-      backgroundColor: "#fff"
-    },
-    headerBackImage: images.back,
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontWeight: "bold",
-      color: Colors.gradientViolet
-    },
-    headerLeft: <View />,
-    headerRight: (
-      <TouchableOpacity>
-        <Image source={images.user} style={{ height: 24, width: 15, marginRight: 20 }} resizeMode="cover" />
-      </TouchableOpacity>
-    )
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Club Passport",
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerBackImage: images.back,
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+        color: Colors.gradientViolet
+      },
+      headerLeft: <View />,
+      headerRight: (
+        <TouchableOpacity onPress={() => navigation.dispatch(navigateToProfilePage)}>
+          <Image source={images.user} style={{ height: 24, width: 15, marginRight: 20 }} resizeMode="cover" />
+        </TouchableOpacity>
+      )
+    };
   };
   state = {};
 

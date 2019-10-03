@@ -6,7 +6,8 @@ const images = {
   back: require("../Images/app_docs/back.png"),
   blueEnter: require("../Images/app_docs/ic_id_enter.png"),
   blackEnter: require("../Images/app_docs/ic_id_enter_black.png"),
-  user: require("../Images/app_docs/ic_user.png")
+  user: require("../Images/app_docs/ic_user.png"),
+  setting: require("../Images/app_docs/ic_setting.png")
 };
 
 export default images;

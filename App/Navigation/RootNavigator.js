@@ -56,6 +56,7 @@ import EnterClubId from "../Containers/CP_Login_SignUp/EnterClubId";
 import HelpWithPassword from "../Containers/ResetPassword/HelpWithPassword";
 import EnterVerificationCode from "../Containers/ResetPassword/EnterVerificationCode";
 import DashboardPage from "../Containers/CP_Dashboard/Dashboard";
+import Profile from "../Containers/CP_Dashboard/Profile";
 
 const PreLoginNavigator = createStackNavigator(
   {
@@ -73,7 +74,8 @@ const PostLoginNavigators = createStackNavigator(
     Login: { screen: Login },
     EnterClubId: { screen: EnterClubId },
     SignUp: { screen: SignUp },
-    DashboardPage: { screen: DashboardPage }
+    DashboardPage: { screen: DashboardPage },
+    Profile: { screen: Profile }
   },
   {
     initialRouteName: "Login",

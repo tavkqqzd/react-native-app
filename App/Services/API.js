@@ -54,3 +54,35 @@ export const login = (mobileNumber, password, clubId) => {
       });
   });
 };
+
+export const getGameAndUserDetail = (playerId, clubId, userFlag, currentdate, gameUniqueId, gameId) => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        data: [
+          {
+            playerId: playerId,
+            clubId: clubId,
+            userFlag: userFlag,
+            currentdate: currentdate,
+            game: [{ gameUniqueId: gameUniqueId, gameId: gameId }]
+          }
+        ]
+      })
+    };
+    console.log("sending", data);
+
+    fetch(`${IP_ADDRESS}/getgameanduserdetail/`, data)
+      .then(res => {
+        return resolve(res.json());
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};

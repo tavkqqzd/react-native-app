@@ -69,7 +69,6 @@ class Login extends React.Component {
     login(phoneNumber, password, clubId)
       .then(res => {
         if (res.error === 0) {
-          console.log("res", res);
           this.props.userLoginDetails(res.result[0]);
           this.props.navigation.dispatch(navigateToDashboardPage);
         } else if (res.error === 1) {

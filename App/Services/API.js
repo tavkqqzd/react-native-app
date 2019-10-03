@@ -86,3 +86,31 @@ export const getGameAndUserDetail = (playerId, clubId, userFlag, currentdate, ga
       });
   });
 };
+
+export const generateOTP = mobilenumber => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        data: [
+          {
+            mobilenumber: mobilenumber,
+            identity: 2
+          }
+        ]
+      })
+    };
+
+    fetch(`${IP_ADDRESS}/otpgenerator/`, data)
+      .then(res => {
+        return resolve(res.json());
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};

@@ -4,7 +4,7 @@ import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
-import { validateClubID } from "../../Services/API";
+import { generateOTP } from "../../Services/API";
 import Toast from "react-native-toast-native";
 import PhoneInput from "react-native-phone-input";
 import CountryPicker from "react-native-country-picker-modal";
@@ -53,6 +53,24 @@ class HelpWithPassword extends React.Component {
     this.countryPicker.openModal();
   };
 
+  generateOTP = mobileNumberWithPrefix => {
+    let num = `${this.phone.getDialCode()}` + mobileNumberWithPrefix;
+    console.log("numberWithCode", num);
+    generateOTP(num)
+      .then(res => {
+        if (res.error === 0) {
+          Toast.show(res.result[0].message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
+          this.props.navigation.dispatch(enterVerificationCode);
+        } else if (res.error === 1) {
+          Toast.show(res.result[0].message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
+        }
+        console.log("res", res);
+      })
+      .catch(err => {
+        console.log("err", err);
+      });
+  };
+
   selectCountry = country => {
     this.phone.selectCountry(country.cca2.toLowerCase());
     this.setState({ cca2: country.cca2, countryDetails: country });
@@ -60,6 +78,7 @@ class HelpWithPassword extends React.Component {
 
   render() {
     let { params } = this.props.navigation.state;
+    let number = this.state.phNumber ? this.state.phNumber : params;
     return (
       <View style={SignUpStyles.signUpPageActivity}>
         <View style={css.header}>
@@ -100,7 +119,9 @@ class HelpWithPassword extends React.Component {
           </CountryPicker>
         </View>
         <ButtonGradient
-          clickHandler={() => this.props.navigation.dispatch(enterVerificationCode)}
+          // clickHandler={() => this.props.navigation.dispatch(enterVerificationCode)}
+          clickHandler={() => this.generateOTP(number)}
+          generateOTP
           title="Next"
           color1={Colors.commonButtonGradient1}
           color2={Colors.commonButtonGradient2}
@@ -111,6 +132,15 @@ class HelpWithPassword extends React.Component {
     );
   }
 }
+
+const phoneNumberError = {
+  width: 300,
+  yOffset: 60,
+  height: 120,
+  backgroundColor: "#545454",
+  color: "#FFFFFF",
+  fontSize: 17
+};
 
 const css = StyleSheet.create({
   header: {

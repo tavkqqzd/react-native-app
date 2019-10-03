@@ -146,7 +146,7 @@ class Login extends React.Component {
           </TouchableNativeFeedback>
           <ButtonGradient
             title="Sign In"
-            clickHandler={() => this.APILogin(getPhoneNumber, password, clubId)}
+            clickHandler={() => this.APILogin(getPhoneNumber, password, clubId.toUpperCase())}
             color1={colors.commonButtonGradient1}
             color2={colors.commonButtonGradient2}
             buttonStyle={LoginStyles.loginButton}

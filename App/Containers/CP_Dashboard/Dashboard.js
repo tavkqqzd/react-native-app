@@ -4,13 +4,12 @@ import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
+import * as actions from "../../Store/Actions/ClubData";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
-import { validateClubID, getGameAndUserDetail } from "../../Services/API";
-import Toast from "react-native-toast-native";
-import PhoneInput from "react-native-phone-input";
-import CountryPicker from "react-native-country-picker-modal";
-import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
-import ButtonGradient from "../../Components/Buttons/ButtonGradient";
+import { getGameAndUserDetail } from "../../Services/API";
+
+import DashboardCard from "../../Components/Card/DashboardCard";
+import { ScrollView } from "react-native-gesture-handler";
 
 const enterVerificationCode = NavigationActions.navigate({
   routeName: "EnterVerificationCode",
@@ -42,6 +41,7 @@ class DashboardPage extends React.Component {
     let { playerId, clubId, userFlag } = this.props.userLoginData;
     getGameAndUserDetail(playerId, clubId, userFlag, newArr, 0, 0)
       .then(res => {
+        this.props.storeGameData(res.result[0]);
         console.log("res", res);
       })
       .catch(err => {
@@ -50,10 +50,19 @@ class DashboardPage extends React.Component {
   }
 
   render() {
+    let { gameData } = this.props;
     return (
-      <View style={SignUpStyles.signUpPageActivity}>
-        <Text>Dashboard Page</Text>
-      </View>
+      <ScrollView>
+        <View style={{ padding: 10 }}>
+          {!!gameData &&
+            gameData.games &&
+            gameData.games.map(k => (
+              <View key={k.gameName}>
+                <DashboardCard gameName={k.gameName} totalQuestions={k.totalQuestions} />
+              </View>
+            ))}
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -67,11 +76,18 @@ const css = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    userLoginData: state.ClubReducer.userData
+    userLoginData: state.ClubReducer.userData,
+    gameData: state.ClubReducer.gameData
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    storeGameData: data => dispatch(actions.storeGameData(data))
   };
 };
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(DashboardPage);

@@ -30,6 +30,7 @@ class Login extends React.Component {
       fontWeight: "bold",
       color: colors.gradientViolet
     },
+
     headerLeft: <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
   };
   constructor(props) {

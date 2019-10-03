@@ -28,7 +28,7 @@ class DashboardCard extends React.Component {
               <Text style={css.questionsText}>BOOK</Text>
             </View>
             <View style={css.button}>
-              <Text style={css.questionsText}>DONE</Text>
+              <Text style={css.questionsText}>PLAY</Text>
             </View>
           </View>
         </View>

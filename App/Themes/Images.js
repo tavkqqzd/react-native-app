@@ -5,7 +5,8 @@ const images = {
   circularButtonUpArrow: require("../Images/app_docs/btn_screen_up.png"),
   back: require("../Images/app_docs/back.png"),
   blueEnter: require("../Images/app_docs/ic_id_enter.png"),
-  blackEnter: require("../Images/app_docs/ic_id_enter_black.png")
+  blackEnter: require("../Images/app_docs/ic_id_enter_black.png"),
+  user: require("../Images/app_docs/ic_user.png")
 };
 
 export default images;

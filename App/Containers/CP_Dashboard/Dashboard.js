@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import { connect } from "react-redux";
@@ -28,7 +28,12 @@ class DashboardPage extends React.Component {
       fontWeight: "bold",
       color: Colors.gradientViolet
     },
-    headerLeft: <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
+    headerLeft: <View />,
+    headerRight: (
+      <TouchableOpacity>
+        <Image source={images.user} style={{ height: 24, width: 15, marginRight: 20 }} resizeMode="cover" />
+      </TouchableOpacity>
+    )
   };
   state = {};
 

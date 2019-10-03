@@ -7,6 +7,7 @@ import CountryPicker from "react-native-country-picker-modal";
 import { TextField } from "react-native-material-textfield";
 import { LoginStyles } from "./Styles/Login-Styles";
 import { login } from "../../Services/API";
+import Toast from "react-native-toast-native";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 
 class Login extends React.Component {
@@ -59,10 +60,17 @@ class Login extends React.Component {
   APILogin = (phoneNumber, password, clubId) => {
     login(phoneNumber, password, clubId)
       .then(res => {
-        console.log("res", res);
+        if (res.error === 0) {
+          console.log("res", res);
+        } else if (res.error === 1) {
+          if (res.result[0].message === "Invalid Club") {
+            Toast.show(res.result[0].message, Toast.LONG, Toast.BOTTOM, invalidClub);
+          }
+          Toast.show(res.result[0].message, Toast.LONG, Toast.BOTTOM, errorToast);
+        }
       })
       .catch(err => {
-        console.log("err", err);
+        Toast.show("Something went wrong...", Toast.LONG, Toast.BOTTOM, invalidClub);
       });
   };
 
@@ -144,5 +152,23 @@ class Login extends React.Component {
     );
   }
 }
+
+const errorToast = {
+  width: 300,
+  yOffset: 60,
+  height: 280,
+  backgroundColor: "#545454",
+  color: "#FFFFFF",
+  fontSize: 17
+};
+
+const invalidClub = {
+  width: 300,
+  yOffset: 60,
+  height: 120,
+  backgroundColor: "#545454",
+  color: "#FFFFFF",
+  fontSize: 17
+};
 
 export default Login;

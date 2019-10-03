@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, Image, TouchableNativeFeedback } from "react-native";
+import { NavigationActions } from "react-navigation";
 import colors from "../../Themes/Colors";
 import images from "../../Themes/Images";
 import PhoneInput from "react-native-phone-input";
@@ -9,6 +10,13 @@ import { LoginStyles } from "./Styles/Login-Styles";
 import { login } from "../../Services/API";
 import Toast from "react-native-toast-native";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
+import { connect } from "react-redux";
+import * as actions from "../../Store/Actions/ClubData";
+
+const navigateToDashboardPage = NavigationActions.navigate({
+  routeName: "DashboardPage",
+  action: NavigationActions.navigate({ routeName: "DashboardPage" })
+});
 
 class Login extends React.Component {
   static navigationOptions = {
@@ -62,6 +70,8 @@ class Login extends React.Component {
       .then(res => {
         if (res.error === 0) {
           console.log("res", res);
+          this.props.userLoginDetails(res.result[0]);
+          this.props.navigation.dispatch(navigateToDashboardPage);
         } else if (res.error === 1) {
           if (res.result[0].message === "Invalid Club") {
             Toast.show(res.result[0].message, Toast.LONG, Toast.BOTTOM, invalidClub);
@@ -171,4 +181,13 @@ const invalidClub = {
   fontSize: 17
 };
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return {
+    userLoginDetails: data => dispatch(actions.getUserData(data))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);

@@ -59,6 +59,7 @@ class HelpWithPassword extends React.Component {
   };
 
   render() {
+    let { params } = this.props.navigation.state;
     return (
       <View style={SignUpStyles.signUpPageActivity}>
         <View style={css.header}>
@@ -76,7 +77,7 @@ class HelpWithPassword extends React.Component {
               onChangePhoneNumber={this.onPhoneChange}
               onPressFlag={this.onPressFlag}
               initialCountry="in"
-              value={this.state.phNumber}
+              value={this.state.phNumber || params}
               onFocus={this.state.applyFocus}
               textStyle={{ paddingLeft: 40 }}
             />

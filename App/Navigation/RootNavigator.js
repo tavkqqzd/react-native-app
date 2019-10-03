@@ -75,7 +75,8 @@ const PostLoginNavigators = createStackNavigator(
     EnterClubId: { screen: EnterClubId },
     SignUp: { screen: SignUp },
     DashboardPage: { screen: DashboardPage },
-    Profile: { screen: Profile }
+    Profile: { screen: Profile },
+    HelpWithPassword: { screen: HelpWithPassword }
   },
   {
     initialRouteName: "Login",

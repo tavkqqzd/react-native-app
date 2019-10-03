@@ -18,6 +18,13 @@ const navigateToDashboardPage = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "DashboardPage" })
 });
 
+const navigateToHelpWithPasswordPage = number =>
+  NavigationActions.navigate({
+    routeName: "HelpWithPassword",
+    action: NavigationActions.navigate({ routeName: "HelpWithPassword" }),
+    params: number
+  });
+
 class Login extends React.Component {
   static navigationOptions = {
     title: "Sign In",
@@ -84,6 +91,14 @@ class Login extends React.Component {
       });
   };
 
+  checkIfNumberIsValid = number => {
+    if (number.length > 5) {
+      return this.props.navigation.dispatch(navigateToHelpWithPasswordPage(this.state.phNumber));
+    } else {
+      Toast.show("Please check your number...", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+    }
+  };
+
   selectCountry(country) {
     this.phone.selectCountry(country.cca2.toLowerCase());
     this.setState({ cca2: country.cca2, countryDetails: country });
@@ -142,7 +157,7 @@ class Login extends React.Component {
             onChangeText={clubId => this.setState({ clubId })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />
-          <TouchableNativeFeedback>
+          <TouchableNativeFeedback onPress={() => this.checkIfNumberIsValid(this.state.phNumber)}>
             <Text style={LoginStyles.forgotPassword}>Forgot Password ?</Text>
           </TouchableNativeFeedback>
           <ButtonGradient
@@ -173,6 +188,15 @@ const errorToast = {
 };
 
 const invalidClub = {
+  width: 300,
+  yOffset: 60,
+  height: 120,
+  backgroundColor: "#545454",
+  color: "#FFFFFF",
+  fontSize: 17
+};
+
+const phoneNumberError = {
   width: 300,
   yOffset: 60,
   height: 120,

@@ -6,6 +6,7 @@ import PhoneInput from "react-native-phone-input";
 import CountryPicker from "react-native-country-picker-modal";
 import { TextField } from "react-native-material-textfield";
 import { LoginStyles } from "./Styles/Login-Styles";
+import { login } from "../../Services/API";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 
 class Login extends React.Component {
@@ -55,12 +56,22 @@ class Login extends React.Component {
     this.countryPicker.openModal();
   }
 
+  APILogin = (phoneNumber, password, clubId) => {
+    login(phoneNumber, password, clubId)
+      .then(res => {
+        console.log("res", res);
+      })
+      .catch(err => {
+        console.log("err", err);
+      });
+  };
+
   selectCountry(country) {
     this.phone.selectCountry(country.cca2.toLowerCase());
     this.setState({ cca2: country.cca2, countryDetails: country });
   }
   render() {
-    let { password, clubId } = this.state;
+    let { getPhoneNumber, password, clubId } = this.state;
     return (
       <View style={LoginStyles.loginActivity}>
         <Text style={LoginStyles.header}>Club Passport</Text>
@@ -118,6 +129,7 @@ class Login extends React.Component {
           </TouchableNativeFeedback>
           <ButtonGradient
             title="Sign In"
+            clickHandler={() => this.APILogin(getPhoneNumber, password, clubId)}
             color1={colors.commonButtonGradient1}
             color2={colors.commonButtonGradient2}
             buttonStyle={LoginStyles.loginButton}

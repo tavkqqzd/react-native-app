@@ -1,4 +1,5 @@
 import { IP_ADDRESS } from "./config";
+import DeviceInfo from "react-native-device-info";
 
 export const validateClubID = clubId => {
   return new Promise((resolve, reject) => {
@@ -19,7 +20,7 @@ export const validateClubID = clubId => {
   });
 };
 
-export const login = (phoneNumber, password, clubId) => {
+export const login = (mobileNumber, password, clubId) => {
   return new Promise((resolve, reject) => {
     let data = {
       method: "POST",
@@ -27,9 +28,24 @@ export const login = (phoneNumber, password, clubId) => {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: { mobileNumber: phoneNumber }
+      body: JSON.stringify({
+        data: [
+          {
+            mobileNumber: mobileNumber,
+            password: password,
+            userFlag: 0,
+            deviceName: DeviceInfo.getModel(),
+            deviceOs: DeviceInfo.getSystemName(),
+            modelNumber: DeviceInfo.getUniqueID(),
+            deviceType: DeviceInfo.getManufacturer(),
+            appVersion: DeviceInfo.getVersion(),
+            clubId: clubId
+          }
+        ]
+      })
     };
-    fetch(`${IP_ADDRESS}/clubvalidation/${clubId}`, data)
+
+    fetch(`${IP_ADDRESS}/userlogin/`, data)
       .then(res => {
         return resolve(res.json());
       })

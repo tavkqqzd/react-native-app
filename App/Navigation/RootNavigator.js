@@ -90,7 +90,7 @@ const ResetPasswordNavigattor = createStackNavigator(
   }
 );
 
-const RootNavigator = createAppContainer(ResetPasswordNavigattor);
+const RootNavigator = createAppContainer(PostLoginNavigators);
 const store = createStore(combineReducersIndex);
 const App = () => {
   return (

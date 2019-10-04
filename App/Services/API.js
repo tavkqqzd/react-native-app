@@ -10,9 +10,14 @@ export const validateClubID = clubId => {
         "Content-Type": "application/json"
       }
     };
-    fetch(`${IP_ADDRESS}/clubvalidation/${clubId}`, data)
+    let status = undefined;
+    fetch(`${IP_ADDRESS}/cpa/club_validation/${clubId}`, data)
       .then(res => {
-        return resolve(res.json());
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
       })
       .catch(err => {
         return reject(err);

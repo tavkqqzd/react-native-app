@@ -36,17 +36,19 @@ class EnterClubId extends React.Component {
   validateClubID = clubId => {
     validateClubID(clubId)
       .then(res => {
-        if (res.error === 0) {
-          this.props.getClubData(res.result[0]);
-          console.log("res", res);
+        if (res.status === 200) {
+          this.props.getClubData(res.data.result[0]);
           this.props.navigation.dispatch(navigateToSignUpPage);
-        } else if (res.error === 1) {
+        } else if (res.status === 404) {
           Toast.show("Enter Valid Club ID", Toast.LONG, Toast.BOTTOM, errorToast);
+        } else if (res.status === 400) {
+          Toast.show("Bad Request", Toast.LONG, Toast.BOTTOM, errorToast);
+        } else if (res.status === 500) {
+          Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
         }
       })
       .catch(err => {
         Toast.show("Something went wrong...", Toast.LONG, Toast.BOTTOM, errorToast);
-        console.log("err", err);
       });
   };
 

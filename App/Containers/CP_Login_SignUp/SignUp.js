@@ -5,7 +5,7 @@ import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
 import { centerAlignment } from "../../Themes/ActivityStyles";
 import { SignUpStyles } from "./Styles/SingUp-Styles";
-import { validateClubID } from "../../Services/API";
+import { getEmployeeType } from "../../Services/API";
 import Toast from "react-native-toast-native";
 import PhoneInput from "react-native-phone-input";
 import CountryPicker from "react-native-country-picker-modal";
@@ -14,6 +14,8 @@ import { TextField } from "react-native-material-textfield";
 import { LoginStyles } from "./Styles/Login-Styles";
 import { RadioGroup, RadioButton } from "react-native-flexi-radio-button";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
+import { Dropdown } from "react-native-material-dropdown";
+import * as actions from "../../Store/Actions/ClubData";
 
 class SignUp extends React.Component {
   static navigationOptions = {
@@ -78,6 +80,34 @@ class SignUp extends React.Component {
       radioBtn: !this.state.radioBtn
     });
   };
+
+  createNewArrayToRender = arr => {
+    let arrayToPush = [];
+    let object = {};
+    arr.map(
+      k => (
+        (object = {}),
+        (object["id"] = k.id),
+        (object["value"] = k.employeeType),
+        (object["seqId"] = k.seqId),
+        arrayToPush.push(object)
+      )
+    );
+    return arrayToPush;
+  };
+
+  componentDidMount() {
+    getEmployeeType(this.props.clubData.clubId).then(res => {
+      if (res.status === 200) {
+        let arr = this.createNewArrayToRender(res.data.result);
+        this.props.setListOfEmployeeTypes(arr);
+      } else if (res.status === 404) {
+        // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+      } else if (res.status === 500) {
+        // Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+      }
+    });
+  }
 
   render() {
     const { clubLogo } = this.props.clubData;
@@ -164,6 +194,18 @@ class SignUp extends React.Component {
               <Switch value={switchButton} onValueChange={this.switchToggler} />
             </View>
           </View>
+          {this.state.switchButton ? (
+            <View>
+              <Dropdown
+                label="Employee Type"
+                data={this.props.listOfEmployeeTypes}
+                onChangeText={(v, i) => this.props.setEmployeeType(v)}
+              />
+            </View>
+          ) : (
+            <View />
+          )}
+
           <View style={{ flexDirection: "row", marginTop: 20 }}>
             <RadioGroup onSelect={(index, value) => this.onSelect(index, value)}>
               <RadioButton value={radioBtn}></RadioButton>
@@ -187,11 +229,19 @@ class SignUp extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    clubData: state.ClubReducer.clubData
+    clubData: state.ClubReducer.clubData,
+    listOfEmployeeTypes: state.ClubReducer.listOfEmployeeTypes
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setEmployeeType: data => dispatch(actions.setEmployeeType(data)),
+    setListOfEmployeeTypes: data => dispatch(actions.listOfEmployeeTypes(data))
   };
 };
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(SignUp);

@@ -66,7 +66,6 @@ export const getGameAndUserDetail = (empCode, clubId, start, end, playerId) => {
         "Content-Type": "application/json"
       }
     };
-    // localhost:8000/cpa/games_list/?set=0&limit=10&employeeTypeCode=0&clubId=CLUAPP001
     fetch(
       `${IP_ADDRESS}/cpa/games_list/?set=${start}&limit=${end}&employeeTypeCode=${empCode}&clubId=${clubId}&playerId=${playerId}`,
       data
@@ -95,16 +94,43 @@ export const generateOTP = mobilenumber => {
       body: JSON.stringify({
         data: [
           {
-            mobilenumber: mobilenumber,
-            identity: 2
+            mobileNumber: mobilenumber,
+            identity: 1
           }
         ]
       })
     };
-
-    fetch(`${IP_ADDRESS}/otpgenerator/`, data)
+    console.log("sending data", data);
+    fetch(`${IP_ADDRESS}/otp_generator/`, data)
       .then(res => {
-        return resolve(res.json());
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};
+
+export const getEmployeeType = clubId => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    };
+    fetch(`${IP_ADDRESS}/cpa/employee_types/?clubId=${clubId}`, data)
+      .then(res => {
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
       })
       .catch(err => {
         return reject(err);

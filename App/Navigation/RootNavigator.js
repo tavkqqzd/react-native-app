@@ -80,7 +80,7 @@ const PostLoginNavigators = createStackNavigator(
     EnterVerificationCode: { screen: EnterVerificationCode }
   },
   {
-    initialRouteName: "EnterClubId",
+    initialRouteName: "Login",
     headerLayoutPreset: "center"
   }
 );

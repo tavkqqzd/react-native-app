@@ -81,17 +81,17 @@ class Login extends React.Component {
   APILogin = (phoneNumber, password, clubId) => {
     login(phoneNumber, password, clubId)
       .then(res => {
-        if (res.error === 0) {
-          this.props.userLoginDetails(res.result[0]);
+        if (res.status === 200) {
+          this.props.userLoginDetails(res.data.result[0]);
           this.props.navigation.dispatch(navigateToDashboardPage);
-        } else if (res.error === 1) {
-          if (res.result[0].message === "Invalid Club") {
-            Toast.show(res.result[0].message, Toast.LONG, Toast.BOTTOM, invalidClub);
-          }
-          Toast.show(res.result[0].message, Toast.LONG, Toast.BOTTOM, errorToast);
+        } else if (res.status === 404) {
+          Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+        } else if (res.status === 500) {
+          Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
         }
       })
       .catch(err => {
+        console.log("error", err);
         Toast.show("Something went wrong...", Toast.LONG, Toast.BOTTOM, invalidClub);
       });
   };

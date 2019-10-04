@@ -38,21 +38,26 @@ export const login = (mobileNumber, password, clubId) => {
           {
             mobileNumber: mobileNumber,
             password: password,
-            userFlag: 0,
-            deviceName: DeviceInfo.getModel(),
-            deviceOs: DeviceInfo.getSystemName(),
-            modelNumber: DeviceInfo.getUniqueID(),
-            deviceType: DeviceInfo.getManufacturer(),
-            appVersion: DeviceInfo.getVersion(),
+            // userFlag: 0,
+            // deviceName: DeviceInfo.getModel(),
+            // deviceOs: DeviceInfo.getSystemName(),
+            // modelNumber: DeviceInfo.getUniqueID(),
+            // deviceType: DeviceInfo.getManufacturer(),
+            // appVersion: DeviceInfo.getVersion(),
             clubId: clubId
           }
         ]
       })
     };
+    console.log("sending", data);
 
-    fetch(`${IP_ADDRESS}/userlogin/`, data)
+    fetch(`${IP_ADDRESS}/cpa/player_login/`, data)
       .then(res => {
-        return resolve(res.json());
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
       })
       .catch(err => {
         return reject(err);

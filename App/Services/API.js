@@ -56,6 +56,60 @@ export const login = (mobileNumber, password, clubId) => {
       });
   });
 };
+// https://cpatrivia.s3.amazonaws.com/players/userDefault.jpeg
+export const signUp = (
+  name,
+  emailId,
+  username,
+  password,
+  clubId,
+  clubMembershipId,
+  mobileNumberCode,
+  mobileNumber,
+  employeeTypeCode
+) => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        data: [
+          {
+            name: name,
+            emailId: emailId,
+            username: username,
+            password: password,
+            clubId: clubId,
+            clubMembershipId: clubMembershipId,
+            mobileNumberCode: mobileNumberCode,
+            mobileNumber: mobileNumber,
+            profileImage: "https://cpatrivia.s3.amazonaws.com/players/userDefault.jpeg",
+            deviceName: DeviceInfo.getModel(),
+            deviceOs: DeviceInfo.getSystemName(),
+            modelNumber: DeviceInfo.getUniqueID(),
+            deviceType: DeviceInfo.getManufacturer(),
+            appVersion: DeviceInfo.getVersion(),
+            employeeTypeCode: employeeTypeCode
+          }
+        ]
+      })
+    };
+    fetch(`${IP_ADDRESS}/cpa/player_login/`, data)
+      .then(res => {
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};
 
 export const getGameAndUserDetail = (empCode, clubId, start, end, playerId) => {
   return new Promise((resolve, reject) => {

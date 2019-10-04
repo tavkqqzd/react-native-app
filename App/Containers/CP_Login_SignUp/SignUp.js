@@ -5,7 +5,7 @@ import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
 import { centerAlignment } from "../../Themes/ActivityStyles";
 import { SignUpStyles } from "./Styles/SingUp-Styles";
-import { getEmployeeType } from "../../Services/API";
+import { getEmployeeType, signUp } from "../../Services/API";
 import Toast from "react-native-toast-native";
 import PhoneInput from "react-native-phone-input";
 import CountryPicker from "react-native-country-picker-modal";
@@ -96,6 +96,8 @@ class SignUp extends React.Component {
     return arrayToPush;
   };
 
+  uploadImage = () => {};
+
   componentDidMount() {
     getEmployeeType(this.props.clubData.clubId).then(res => {
       if (res.status === 200) {
@@ -108,6 +110,20 @@ class SignUp extends React.Component {
       }
     });
   }
+
+  signUp = () => {
+    let { employeeType } = this.props;
+    // name,
+    // emailId,
+    // username,
+    // password,
+    // clubId,
+    // clubMembershipId,
+    // mobileNumberCode,
+    // mobileNumber,
+    // employeeTypeCode
+    signUp(employeeType);
+  };
 
   render() {
     const { clubLogo } = this.props.clubData;
@@ -230,7 +246,8 @@ class SignUp extends React.Component {
 const mapStateToProps = state => {
   return {
     clubData: state.ClubReducer.clubData,
-    listOfEmployeeTypes: state.ClubReducer.listOfEmployeeTypes
+    listOfEmployeeTypes: state.ClubReducer.listOfEmployeeTypes,
+    employeeType: state.ClubReducer.employeeType
   };
 };
 

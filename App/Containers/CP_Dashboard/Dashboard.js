@@ -45,11 +45,17 @@ class DashboardPage extends React.Component {
     let d = new Date().getDay();
     let arr = [].concat(y, m, d);
     let newArr = arr.join("-");
-    let { playerId, clubId, userFlag } = this.props.userLoginData;
-    getGameAndUserDetail(playerId, clubId, userFlag, newArr, 0, 0)
+    let { clubId, playerId } = this.props.userLoginData;
+    getGameAndUserDetail(0, clubId, 0, 10, playerId)
       .then(res => {
-        this.props.storeGameData(res.result[0]);
-        console.log("res", res);
+        if (res.status === 200) {
+          this.props.storeGameData(res.data);
+          // this.props.navigation.dispatch(navigateToDashboardPage);
+        } else if (res.status === 404) {
+          // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+        } else if (res.status === 500) {
+          // Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+        }
       })
       .catch(err => {
         console.log(err, err);
@@ -62,10 +68,10 @@ class DashboardPage extends React.Component {
       <ScrollView>
         <View style={{ padding: 10 }}>
           {!!gameData &&
-            gameData.games &&
-            gameData.games.map(k => (
-              <View key={k.gameName}>
-                <DashboardCard gameName={k.gameName} totalQuestions={k.totalQuestions} />
+            gameData.result &&
+            gameData.result.map(k => (
+              <View key={k.name}>
+                <DashboardCard gameName={k.name} totalQuestions={k.totalQuestions} />
               </View>
             ))}
         </View>

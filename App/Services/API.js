@@ -38,19 +38,11 @@ export const login = (mobileNumber, password, clubId) => {
           {
             mobileNumber: mobileNumber,
             password: password,
-            // userFlag: 0,
-            // deviceName: DeviceInfo.getModel(),
-            // deviceOs: DeviceInfo.getSystemName(),
-            // modelNumber: DeviceInfo.getUniqueID(),
-            // deviceType: DeviceInfo.getManufacturer(),
-            // appVersion: DeviceInfo.getVersion(),
             clubId: clubId
           }
         ]
       })
     };
-    console.log("sending", data);
-
     fetch(`${IP_ADDRESS}/cpa/player_login/`, data)
       .then(res => {
         status = res.status;
@@ -65,31 +57,26 @@ export const login = (mobileNumber, password, clubId) => {
   });
 };
 
-export const getGameAndUserDetail = (playerId, clubId, userFlag, currentdate, gameUniqueId, gameId) => {
+export const getGameAndUserDetail = (empCode, clubId, start, end, playerId) => {
   return new Promise((resolve, reject) => {
     let data = {
-      method: "POST",
+      method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        data: [
-          {
-            playerId: playerId,
-            clubId: clubId,
-            userFlag: userFlag,
-            currentdate: currentdate,
-            game: [{ gameUniqueId: gameUniqueId, gameId: gameId }]
-          }
-        ]
-      })
+      }
     };
-    console.log("sending", data);
-
-    fetch(`${IP_ADDRESS}/getgameanduserdetail/`, data)
+    // localhost:8000/cpa/games_list/?set=0&limit=10&employeeTypeCode=0&clubId=CLUAPP001
+    fetch(
+      `${IP_ADDRESS}/cpa/games_list/?set=${start}&limit=${end}&employeeTypeCode=${empCode}&clubId=${clubId}&playerId=${playerId}`,
+      data
+    )
       .then(res => {
-        return resolve(res.json());
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
       })
       .catch(err => {
         return reject(err);

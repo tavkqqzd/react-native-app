@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
 import * as actions from "../../Store/Actions/ClubData";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
-import { getGameAndUserDetail } from "../../Services/API";
 
 import DashboardCard from "../../Components/Card/DashboardCard";
 import { ScrollView } from "react-native-gesture-handler";

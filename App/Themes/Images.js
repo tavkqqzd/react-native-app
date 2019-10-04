@@ -7,7 +7,8 @@ const images = {
   blueEnter: require("../Images/app_docs/ic_id_enter.png"),
   blackEnter: require("../Images/app_docs/ic_id_enter_black.png"),
   user: require("../Images/app_docs/ic_user.png"),
-  setting: require("../Images/app_docs/ic_setting.png")
+  setting: require("../Images/app_docs/ic_setting.png"),
+  ic_passport: require("../Images/app_docs/ic_passport.png")
 };
 
 export default images;

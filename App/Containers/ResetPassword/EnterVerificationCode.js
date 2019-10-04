@@ -5,7 +5,7 @@ import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
 import { centerAlignment } from "../../Themes/ActivityStyles";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
-import { validateClubID } from "../../Services/API";
+import { compareOTP } from "../../Services/API";
 import Toast from "react-native-toast-native";
 import PhoneInput from "react-native-phone-input";
 import CountryPicker from "react-native-country-picker-modal";
@@ -37,7 +37,20 @@ class EnterVerificationCode extends React.Component {
   state = {
     code: ""
   };
+
+  compareOTP = (phNumber, OTPCode) => {
+    compareOTP(phNumber, OTPCode)
+      .then(res => {
+        console.log("res from compare", res);
+      })
+      .catch(err => {
+        console.log("err", err);
+      });
+  };
+
   render() {
+    let { code } = this.state;
+    let { params } = this.props.navigation.state;
     return (
       <View style={[SignUpStyles.signUpPageActivity]}>
         <View style={centerAlignment.contentAlignInCenter}>
@@ -45,7 +58,7 @@ class EnterVerificationCode extends React.Component {
             <Text>OTP has been sent to your mobile number please enter it below.</Text>
           </View>
           <View style={{ height: 80 }}>
-            <OtpInputs handleChange={code => console.log(code)} numberOfInputs={4} />
+            <OtpInputs handleChange={code => this.setState({ code })} numberOfInputs={4} />
           </View>
           <View style={{ margin: 10 }}>
             <Text>Resend code?</Text>
@@ -55,6 +68,7 @@ class EnterVerificationCode extends React.Component {
           </View>
         </View>
         <ButtonGradient
+          clickHandler={() => this.compareOTP(params, code)}
           title="Verify"
           color1={Colors.commonButtonGradient1}
           color2={Colors.commonButtonGradient2}

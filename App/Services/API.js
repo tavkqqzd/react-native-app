@@ -114,3 +114,32 @@ export const generateOTP = mobilenumber => {
       });
   });
 };
+
+export const compareOTP = (mobilenumber, OTP) => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        data: [
+          {
+            mobilenumber: mobilenumber,
+            OTP: OTP,
+            identity: 1
+          }
+        ]
+      })
+    };
+    console.log("sending", data);
+    fetch(`${IP_ADDRESS}/optcompare/`, data)
+      .then(res => {
+        return resolve(res.json());
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};

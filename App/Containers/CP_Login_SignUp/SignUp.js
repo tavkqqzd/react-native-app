@@ -169,7 +169,7 @@ class SignUp extends React.Component {
               <RadioButton value={radioBtn}></RadioButton>
             </RadioGroup>
             <View>
-              <Text>By Clicking Sing Up, I agree to Terms of Service and Privacy Policy</Text>
+              <Text>By Clicking Sign Up, I agree to Terms of Service and Privacy Policy</Text>
             </View>
           </View>
           <ButtonGradient

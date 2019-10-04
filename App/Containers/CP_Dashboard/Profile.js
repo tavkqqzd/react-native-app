@@ -10,6 +10,7 @@ import { getGameAndUserDetail } from "../../Services/API";
 
 import DashboardCard from "../../Components/Card/DashboardCard";
 import { ScrollView } from "react-native-gesture-handler";
+import { widthPercentageToDP } from "../../Components/Utils/PercentageToPixels";
 
 // const navigateToProfilePage = NavigationActions.navigate({
 //   routeName: "Profile",
@@ -42,36 +43,47 @@ class ProfilePage extends React.Component {
   componentDidMount() {}
 
   render() {
+    let { playerName, clubId } = this.props.userLoginData;
     return (
-      <ScrollView>
-        <Text>Profile Page</Text>
-        {/* <View style={{ padding: 10 }}>
-          {!!gameData &&
-            gameData.games &&
-            gameData.games.map(k => (
-              <View key={k.gameName}>
-                <DashboardCard gameName={k.gameName} totalQuestions={k.totalQuestions} />
-              </View>
-            ))}
-        </View> */}
-      </ScrollView>
+      <View style={css.profileActivity}>
+        <View style={css.basicProfileInfo}>
+          <View style={css.col6}>
+            <View>
+              <Text>{playerName}</Text>
+            </View>
+            <View>
+              <Text>{clubId}</Text>
+            </View>
+            <View>
+              <Text>Change Club</Text>
+            </View>
+          </View>
+          <View style={[css.col6]}>
+            <Image source={images.ic_passport} style={{ width: 80, height: 80 }} />
+          </View>
+        </View>
+        <ScrollView></ScrollView>
+      </View>
     );
   }
 }
 
 const css = StyleSheet.create({
-  header: {
-    margin: 15
+  profileActivity: { margin: 10 },
+  basicProfileInfo: { flexDirection: "row" },
+  col6: {
+    width: widthPercentageToDP("50%")
   },
-  headerText: { textAlign: "center" }
+  headerText: { textAlign: "center" },
+  profileImage: { alignItems: "flex-end", marginRight: 20 }
 });
 
-// const mapStateToProps = state => {
-//   return {
-//     userLoginData: state.ClubReducer.userData,
-//     gameData: state.ClubReducer.gameData
-//   };
-// };
+const mapStateToProps = state => {
+  return {
+    userLoginData: state.ClubReducer.userData,
+    gameData: state.ClubReducer.gameData
+  };
+};
 
 // const mapDispatchToProps = dispatch => {
 //   return {
@@ -80,6 +92,6 @@ const css = StyleSheet.create({
 // };
 
 export default connect(
-  null,
+  mapStateToProps,
   null
 )(ProfilePage);

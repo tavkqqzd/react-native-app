@@ -18,6 +18,11 @@ const navigateToDashboardPage = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "DashboardPage" })
 });
 
+const navigateToSignUpPage = NavigationActions.navigate({
+  routeName: "SignUp",
+  action: NavigationActions.navigate({ routeName: "SignUp" })
+});
+
 const navigateToHelpWithPasswordPage = number =>
   NavigationActions.navigate({
     routeName: "HelpWithPassword",
@@ -168,9 +173,12 @@ class Login extends React.Component {
             buttonStyle={LoginStyles.loginButton}
             buttonTextStyle={LoginStyles.loginButtonText}
           />
+
           <View style={LoginStyles.signUpText}>
             <Text>Dont't Have an account?</Text>
-            <Text style={LoginStyles.signUp}> Sign Up</Text>
+            <TouchableNativeFeedback onPress={() => this.props.navigation.dispatch(navigateToSignUpPage)}>
+              <Text style={LoginStyles.signUp}> Sign Up</Text>
+            </TouchableNativeFeedback>
           </View>
         </View>
       </View>

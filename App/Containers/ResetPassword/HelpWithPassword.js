@@ -12,10 +12,12 @@ import { connect } from "react-redux";
 import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 
-const enterVerificationCode = NavigationActions.navigate({
-  routeName: "EnterVerificationCode",
-  action: NavigationActions.navigate({ routeName: "EnterVerificationCode" })
-});
+const enterVerificationCode = number =>
+  NavigationActions.navigate({
+    routeName: "EnterVerificationCode",
+    action: NavigationActions.navigate({ routeName: "EnterVerificationCode" }),
+    params: number
+  });
 
 class HelpWithPassword extends React.Component {
   static navigationOptions = {
@@ -55,12 +57,11 @@ class HelpWithPassword extends React.Component {
 
   generateOTP = mobileNumberWithPrefix => {
     let num = `${this.phone.getDialCode()}` + mobileNumberWithPrefix;
-    console.log("numberWithCode", num);
     generateOTP(num)
       .then(res => {
         if (res.error === 0) {
           Toast.show(res.result[0].message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
-          this.props.navigation.dispatch(enterVerificationCode);
+          this.props.navigation.dispatch(enterVerificationCode(num));
         } else if (res.error === 1) {
           Toast.show(res.result[0].message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
         }

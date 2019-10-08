@@ -102,6 +102,7 @@ class SignUp extends React.Component {
     getEmployeeType(this.props.clubData.clubId).then(res => {
       if (res.status === 200) {
         let arr = this.createNewArrayToRender(res.data.result);
+        console.log("res.data.result", res.data.result);
         this.props.setListOfEmployeeTypes(arr);
       } else if (res.status === 404) {
         // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
@@ -110,19 +111,27 @@ class SignUp extends React.Component {
       }
     });
   }
-
+  //
   signUp = () => {
-    let { employeeType } = this.props;
-    // name,
-    // emailId,
-    // username,
-    // password,
-    // clubId,
-    // clubMembershipId,
-    // mobileNumberCode,
-    // mobileNumber,
-    // employeeTypeCode
-    signUp(employeeType);
+    let callingCode = this.state.countryDetails.callingCode ? "+".concat(this.state.countryDetails.callingCode) : "+91";
+    let memId = this.state.clubMemberId.length > 0 ? this.state.clubMemberId : 0;
+    let optionalName = this.state.optionalName.length > 0 ? this.state.optionalName : "User";
+    let empCode = this.getIdOfEmployee() ? this.getIdOfEmployee() : 0;
+    let { clubId } = this.props.clubData;
+    let { name, email, password } = this.state;
+    signUp(name, email, optionalName, password, clubId, memId, callingCode, this.state.phNumber, empCode)
+      .then(res => {
+        console.log("sign up successfull", res);
+      })
+      .catch(err => {
+        console.log("sign up failed", err);
+      });
+  };
+
+  getIdOfEmployee = () => {
+    let el = this.props.listOfEmployeeTypes.filter(k => k.value === this.props.employeeType);
+    console.log("getIdOfEmployee", el);
+    return el.id;
   };
 
   render() {
@@ -231,6 +240,7 @@ class SignUp extends React.Component {
             </View>
           </View>
           <ButtonGradient
+            clickHandler={() => this.signUp()}
             title="Sign Up"
             color1={Colors.commonButtonGradient1}
             color2={Colors.commonButtonGradient2}

@@ -14,10 +14,12 @@ import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import OtpInputs from "react-native-otp-inputs";
 
-const navigateToSignUpPage = NavigationActions.navigate({
-  routeName: "SignUp",
-  action: NavigationActions.navigate({ routeName: "SignUp" })
-});
+const navigateToMobileNumberVerified = number =>
+  NavigationActions.navigate({
+    routeName: "MobileNumberVerified",
+    action: NavigationActions.navigate({ routeName: "MobileNumberVerified" }),
+    params: number
+  });
 
 class EnterVerificationCode extends React.Component {
   static navigationOptions = {
@@ -41,6 +43,7 @@ class EnterVerificationCode extends React.Component {
   compareOTP = (phNumber, OTPCode) => {
     compareOTP(phNumber, OTPCode)
       .then(res => {
+        this.props.navigation.dispatch(navigateToMobileNumberVerified(phNumber));
         console.log("res from compare", res);
       })
       .catch(err => {

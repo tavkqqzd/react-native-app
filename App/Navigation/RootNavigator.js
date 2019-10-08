@@ -55,6 +55,7 @@ import { Provider } from "react-redux";
 import EnterClubId from "../Containers/CP_Login_SignUp/EnterClubId";
 import HelpWithPassword from "../Containers/ResetPassword/HelpWithPassword";
 import EnterVerificationCode from "../Containers/ResetPassword/EnterVerificationCode";
+import MobileNumberVerified from "../Containers/ResetPassword/MobileNumberVerified";
 import DashboardPage from "../Containers/CP_Dashboard/Dashboard";
 import Profile from "../Containers/CP_Dashboard/Profile";
 
@@ -77,10 +78,11 @@ const PostLoginNavigators = createStackNavigator(
     DashboardPage: { screen: DashboardPage },
     Profile: { screen: Profile },
     HelpWithPassword: { screen: HelpWithPassword },
-    EnterVerificationCode: { screen: EnterVerificationCode }
+    EnterVerificationCode: { screen: EnterVerificationCode },
+    MobileNumberVerified: { screen: MobileNumberVerified }
   },
   {
-    initialRouteName: "EnterClubId",
+    initialRouteName: "Login",
     headerLayoutPreset: "center"
   }
 );

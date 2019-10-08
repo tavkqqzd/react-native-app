@@ -43,7 +43,6 @@ const reducer = (state = initialState, action) => {
         gameData: action.data
       };
     case actionTypes.SET_EMPLOYEE_TYPE:
-      console.log("set employee", action.data);
       return {
         ...state,
         employeeType: action.data

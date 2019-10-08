@@ -97,7 +97,8 @@ export const signUp = (
         ]
       })
     };
-    fetch(`${IP_ADDRESS}/cpa/player_login/`, data)
+    console.log("data", data);
+    fetch(`${IP_ADDRESS}/cpa/player_signup/`, data)
       .then(res => {
         status = res.status;
         return res.json();
@@ -203,15 +204,41 @@ export const compareOTP = (mobilenumber, OTP) => {
       body: JSON.stringify({
         data: [
           {
-            mobilenumber: mobilenumber,
-            OTP: OTP,
+            mobileNumber: mobilenumber,
+            otp: OTP,
             identity: 1
           }
         ]
       })
     };
-    console.log("sending", data);
-    fetch(`${IP_ADDRESS}/optcompare/`, data)
+    fetch(`${IP_ADDRESS}/otp_validator/`, data)
+      .then(res => {
+        return resolve(res.json());
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};
+
+export const setNewPassword = (mobilenumber, password) => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        data: [
+          {
+            mobileNumber: mobilenumber,
+            password: password
+          }
+        ]
+      })
+    };
+    fetch(`${IP_ADDRESS}/cpa/forgot_password/`, data)
       .then(res => {
         return resolve(res.json());
       })

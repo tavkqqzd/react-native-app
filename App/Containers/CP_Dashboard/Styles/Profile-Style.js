@@ -20,12 +20,22 @@ export const ProfileStyle = StyleSheet.create({
     width: widthPercentageToDP("50%"),
     flexDirection: "row",
     backgroundColor: "#66C8EF",
-    borderRadius: 10
+    borderRadius: 10,
+    padding: 10
   },
   totalScoreSection: {
     width: widthPercentageToDP("50%"),
     backgroundColor: "#717CFB",
     borderRadius: 10,
-    alignItems: "center"
+    alignItems: "center",
+    padding: 10
+  },
+  clubLogo: {
+    width: 60,
+    height: 60
+  },
+  clubName: {
+    color: Colors.white,
+    fontSize: 20
   }
 });

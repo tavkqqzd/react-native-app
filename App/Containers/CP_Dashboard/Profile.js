@@ -11,9 +11,9 @@ import DashboardCard from "../../Components/Card/DashboardCard";
 import { ScrollView } from "react-native-gesture-handler";
 import { widthPercentageToDP } from "../../Components/Utils/PercentageToPixels";
 
-const navigateBackToDashboard = NavigationActions.navigate({
-  routeName: "DashboardPage",
-  action: NavigationActions.navigate({ routeName: "DashboardPage" })
+const navigateToLeaderBoardPage = NavigationActions.navigate({
+  routeName: "LeaderBoard",
+  action: NavigationActions.navigate({ routeName: "LeaderBoard" })
 });
 
 class ProfilePage extends React.Component {
@@ -44,12 +44,11 @@ class ProfilePage extends React.Component {
 
   state = {};
 
-  componentDidMount() {
-    console.log("clubData", this.props.clubData);
-  }
+  componentDidMount() {}
 
   render() {
     let { playerName, clubId } = this.props.userLoginData;
+    let { clubName, clubLogo } = this.props.clubData;
     return (
       <View style={ProfileStyle.profileActivity}>
         <View style={ProfileStyle.basicProfileInfo}>
@@ -72,11 +71,11 @@ class ProfilePage extends React.Component {
         </View>
         <View style={ProfileStyle.basicProfileInfo}>
           <View style={ProfileStyle.clubNameBox}>
-            <View style={ProfileStyle.col6}>
-              <Text>A</Text>
+            <View style={{ width: "60%" }}>
+              <Text style={ProfileStyle.clubName}>{clubName}</Text>
             </View>
-            <View style={ProfileStyle.col6}>
-              <Text>B</Text>
+            <View style={{ width: "40%", justifyContent: "center" }}>
+              <Image source={{ uri: clubLogo }} style={ProfileStyle.clubLogo} />
             </View>
           </View>
           <View style={ProfileStyle.totalScoreSection}>
@@ -86,10 +85,13 @@ class ProfilePage extends React.Component {
             <View>
               <Text>+0</Text>
             </View>
-            <View>
+            <TouchableOpacity onPress={() => this.props.navigation.dispatch(navigateToLeaderBoardPage)}>
               <Text>Leader Board</Text>
-            </View>
+            </TouchableOpacity>
           </View>
+        </View>
+        <View>
+          <Text>Score Board</Text>
         </View>
         <ScrollView></ScrollView>
       </View>

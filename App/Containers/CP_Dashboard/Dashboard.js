@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
 import * as actions from "../../Store/Actions/ClubData";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
-import { getGameAndUserDetail } from "../../Services/API";
+import { getGameAndUserDetail, validateClubID } from "../../Services/API";
 
 import DashboardCard from "../../Components/Card/DashboardCard";
 import { ScrollView } from "react-native-gesture-handler";
@@ -50,7 +50,6 @@ class DashboardPage extends React.Component {
       .then(res => {
         if (res.status === 200) {
           this.props.storeGameData(res.data);
-          // this.props.navigation.dispatch(navigateToDashboardPage);
         } else if (res.status === 404) {
           // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
         } else if (res.status === 500) {
@@ -60,6 +59,13 @@ class DashboardPage extends React.Component {
       .catch(err => {
         console.log(err, err);
       });
+    validateClubID(clubId)
+      .then(res => {
+        if (res.status === 200) {
+          this.props.getClubData(res.data.result[0]);
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -96,7 +102,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    storeGameData: data => dispatch(actions.storeGameData(data))
+    storeGameData: data => dispatch(actions.storeGameData(data)),
+    getClubData: data => dispatch(actions.getClubData(data))
   };
 };
 

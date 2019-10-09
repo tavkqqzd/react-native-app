@@ -5,7 +5,8 @@ export const initialState = {
   userData: "",
   gameData: "",
   employeeType: "",
-  listOfEmployeeTypes: ""
+  listOfEmployeeTypes: "",
+  leaderBoard: ""
 };
 
 createNewArrayToRender = arr => {
@@ -52,6 +53,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         listOfEmployeeTypes: action.data
       };
+    case actionTypes.GET_LEADERBOARD:
+      return {
+        ...state,
+        leaderBoard: action.data
+      };
+
     default:
       return state;
   }

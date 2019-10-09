@@ -3,7 +3,8 @@ import {
   GET_USER_DATA,
   STORE_GAME_DATA,
   SET_EMPLOYEE_TYPE,
-  LIST_OF_EMPLOYEE_TYPES
+  LIST_OF_EMPLOYEE_TYPES,
+  GET_LEADERBOARD
 } from "./actionTypes";
 
 export const getClubData = data => {
@@ -37,6 +38,13 @@ export const listOfEmployeeTypes = data => {
 export const setEmployeeType = data => {
   return {
     type: SET_EMPLOYEE_TYPE,
+    data: data
+  };
+};
+
+export const getLeaderBoard = data => {
+  return {
+    type: GET_LEADERBOARD,
     data: data
   };
 };

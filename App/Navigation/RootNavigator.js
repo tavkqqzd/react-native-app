@@ -58,6 +58,7 @@ import EnterVerificationCode from "../Containers/ResetPassword/EnterVerification
 import MobileNumberVerified from "../Containers/ResetPassword/MobileNumberVerified";
 import DashboardPage from "../Containers/CP_Dashboard/Dashboard";
 import Profile from "../Containers/CP_Dashboard/Profile";
+import LeaderBoard from "../Containers/CP_Dashboard/LeaderBoard";
 
 const PreLoginNavigator = createStackNavigator(
   {
@@ -77,12 +78,10 @@ const PostLoginNavigators = createStackNavigator(
     SignUp: { screen: SignUp },
     DashboardPage: { screen: DashboardPage },
     Profile: { screen: Profile },
-    HelpWithPassword: { screen: HelpWithPassword },
-    EnterVerificationCode: { screen: EnterVerificationCode },
-    MobileNumberVerified: { screen: MobileNumberVerified }
+    LeaderBoard: { screen: LeaderBoard }
   },
   {
-    initialRouteName: "Login",
+    initialRouteName: "EnterClubId",
     headerLayoutPreset: "center"
   }
 );
@@ -90,15 +89,27 @@ const PostLoginNavigators = createStackNavigator(
 const ResetPasswordNavigattor = createStackNavigator(
   {
     HelpWithPassword: { screen: HelpWithPassword },
-    EnterVerificationCode: { screen: EnterVerificationCode }
+    EnterVerificationCode: { screen: EnterVerificationCode },
+    MobileNumberVerified: { screen: MobileNumberVerified }
   },
   {
-    initialRouteName: "EnterVerificationCode",
+    initialRouteName: "HelpWithPassword",
     headerLayoutPreset: "center"
   }
 );
 
-const RootNavigator = createAppContainer(PostLoginNavigators);
+const RootNav = createSwitchNavigator(
+  {
+    PreLogin: PreLoginNavigator,
+    Post_Login_SignUp: PostLoginNavigators,
+    ResetPassword: ResetPasswordNavigattor
+  },
+  {
+    headerMode: "none"
+  }
+);
+
+const RootNavigator = createAppContainer(RootNav);
 const store = createStore(combineReducersIndex);
 const App = () => {
   return (

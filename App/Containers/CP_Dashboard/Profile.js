@@ -5,60 +5,90 @@ import images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
 import * as actions from "../../Store/Actions/ClubData";
-import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
+import { ProfileStyle } from "./Styles/Profile-Style";
 
 import DashboardCard from "../../Components/Card/DashboardCard";
 import { ScrollView } from "react-native-gesture-handler";
 import { widthPercentageToDP } from "../../Components/Utils/PercentageToPixels";
 
-// const navigateToProfilePage = NavigationActions.navigate({
-//   routeName: "Profile",
-//   action: NavigationActions.navigate({ routeName: "Profile" })
-// });
+const navigateBackToDashboard = NavigationActions.navigate({
+  routeName: "DashboardPage",
+  action: NavigationActions.navigate({ routeName: "DashboardPage" })
+});
 
 class ProfilePage extends React.Component {
-  static navigationOptions = {
-    title: "Profile",
-    headerStyle: {
-      backgroundColor: "#fff"
-    },
-    headerBackImage: images.back,
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontWeight: "bold",
-      color: Colors.gradientViolet
-    },
-    headerLeft: <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />,
-    headerRight: (
-      <TouchableOpacity>
-        <Image source={images.setting} style={{ height: 24, width: 25, marginRight: 20 }} resizeMode="cover" />
-      </TouchableOpacity>
-    )
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Profile",
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerBackImage: images.back,
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+        color: Colors.gradientViolet
+      },
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.dispatch(navigateBackToDashboard)}>
+          <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
+        </TouchableOpacity>
+      ),
+      headerRight: (
+        <TouchableOpacity>
+          <Image source={images.setting} style={{ height: 24, width: 25, marginRight: 20 }} resizeMode="cover" />
+        </TouchableOpacity>
+      )
+    };
   };
 
-  // onPress={() => this.props.navigation.dispatch(navigateToProfilePage)}
   state = {};
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log("clubData", this.props.clubData);
+  }
 
   render() {
     let { playerName, clubId } = this.props.userLoginData;
     return (
-      <View style={css.profileActivity}>
-        <View style={css.basicProfileInfo}>
-          <View style={css.col6}>
+      <View style={ProfileStyle.profileActivity}>
+        <View style={ProfileStyle.basicProfileInfo}>
+          <View style={ProfileStyle.col6}>
             <View>
-              <Text>{playerName}</Text>
+              <Text style={ProfileStyle.userName}>{playerName}</Text>
             </View>
             <View>
-              <Text>{clubId}</Text>
+              <Text style={ProfileStyle.clubId}>{clubId}</Text>
             </View>
             <View>
-              <Text>Change Club</Text>
+              <Text style={ProfileStyle.changeClub}>Change Club</Text>
             </View>
           </View>
-          <View style={[css.col6]}>
-            <Image source={images.ic_passport} style={{ width: 80, height: 80 }} />
+          <View style={[ProfileStyle.col6, { position: "relative" }]}>
+            <View style={ProfileStyle.userImage}>
+              <Image source={images.ic_passport} style={ProfileStyle.userImagePic} />
+            </View>
+          </View>
+        </View>
+        <View style={ProfileStyle.basicProfileInfo}>
+          <View style={ProfileStyle.clubNameBox}>
+            <View style={ProfileStyle.col6}>
+              <Text>A</Text>
+            </View>
+            <View style={ProfileStyle.col6}>
+              <Text>B</Text>
+            </View>
+          </View>
+          <View style={ProfileStyle.totalScoreSection}>
+            <View>
+              <Text>Total Score</Text>
+            </View>
+            <View>
+              <Text>+0</Text>
+            </View>
+            <View>
+              <Text>Leader Board</Text>
+            </View>
           </View>
         </View>
         <ScrollView></ScrollView>
@@ -67,20 +97,11 @@ class ProfilePage extends React.Component {
   }
 }
 
-const css = StyleSheet.create({
-  profileActivity: { margin: 10 },
-  basicProfileInfo: { flexDirection: "row" },
-  col6: {
-    width: widthPercentageToDP("50%")
-  },
-  headerText: { textAlign: "center" },
-  profileImage: { alignItems: "flex-end", marginRight: 20 }
-});
-
 const mapStateToProps = state => {
   return {
     userLoginData: state.ClubReducer.userData,
-    gameData: state.ClubReducer.gameData
+    gameData: state.ClubReducer.gameData,
+    clubData: state.ClubReducer.clubData
   };
 };
 

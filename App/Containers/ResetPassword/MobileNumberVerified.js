@@ -40,7 +40,6 @@ class HelpWithPassword extends React.Component {
     if (password1 === password2) {
       setNewPassword(params, password1)
         .then(res => {
-          console.log("res", res);
           if (res.status === 200) {
             Toast.show("Password Reset Successfull", Toast.LONG, Toast.BOTTOM, phoneNumberError);
             this.props.navigation.dispatch(navigateToLoginPage);

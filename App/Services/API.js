@@ -155,7 +155,6 @@ export const generateOTP = mobilenumber => {
         ]
       })
     };
-    console.log("sending data", data);
     fetch(`${IP_ADDRESS}/otp_generator/`, data)
       .then(res => {
         status = res.status;

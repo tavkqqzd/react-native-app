@@ -40,7 +40,6 @@ class EnterVerificationCode extends React.Component {
   compareOTP = (phNumber, OTPCode) => {
     compareOTP(phNumber, OTPCode)
       .then(res => {
-        console.log("res from compare", res);
         if (res.status === 200) {
           this.props.navigation.dispatch(navigateToMobileNumberVerified(phNumber));
         } else if (res.status === 404) {

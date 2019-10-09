@@ -213,7 +213,11 @@ export const compareOTP = (mobilenumber, OTP) => {
     };
     fetch(`${IP_ADDRESS}/otp_validator/`, data)
       .then(res => {
-        return resolve(res.json());
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
       })
       .catch(err => {
         return reject(err);
@@ -240,7 +244,11 @@ export const setNewPassword = (mobilenumber, password) => {
     };
     fetch(`${IP_ADDRESS}/cpa/forgot_password/`, data)
       .then(res => {
-        return resolve(res.json());
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
       })
       .catch(err => {
         return reject(err);

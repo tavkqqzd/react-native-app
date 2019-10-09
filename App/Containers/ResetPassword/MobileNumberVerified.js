@@ -3,9 +3,9 @@ import { Text, View, StyleSheet, Image } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
+import Toast from "react-native-toast-native";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
 import { setNewPassword } from "../../Services/API";
-import { connect } from "react-redux";
 import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { TextField } from "react-native-material-textfield";
@@ -37,15 +37,25 @@ class HelpWithPassword extends React.Component {
   setNewPassword = () => {
     let { params } = this.props.navigation.state;
     let { password1, password2 } = this.state;
-    let password = password1 === password2 ? password1 : "";
-    setNewPassword(params, password)
-      .then(res => {
-        this.props.navigation.dispatch(navigateToLoginPage);
-        console.log("password reset successfull", res);
-      })
-      .catch(err => {
-        console.log("password reset failed", res);
-      });
+    if (password1 === password2) {
+      setNewPassword(params, password1)
+        .then(res => {
+          console.log("res", res);
+          if (res.status === 200) {
+            Toast.show("Password Reset Successfull", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+            this.props.navigation.dispatch(navigateToLoginPage);
+          } else if (res.status === 404) {
+            Toast.show("Invalid OTP", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+          } else if (res.status === 500) {
+            Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+          }
+        })
+        .catch(err => {
+          console.log("err", err);
+        });
+    } else {
+      Toast.show("Please Check your password", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+    }
   };
 
   render() {

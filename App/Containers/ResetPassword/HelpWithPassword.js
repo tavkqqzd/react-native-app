@@ -59,12 +59,11 @@ class HelpWithPassword extends React.Component {
     let num = `${this.phone.getDialCode()}` + mobileNumberWithPrefix;
     generateOTP(num)
       .then(res => {
-        console.log("generateOTP", res);
         if (res.status === 200) {
           Toast.show("OTP Sent Successfully", Toast.LONG, Toast.BOTTOM, phoneNumberError);
           this.props.navigation.dispatch(enterVerificationCode(num));
         } else if (res.status === 404) {
-          // Toast.show(res.result[0].message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
+          Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
         } else if (res.status === 500) {
           Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
         }

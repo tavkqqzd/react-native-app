@@ -7,9 +7,6 @@ import { centerAlignment } from "../../Themes/ActivityStyles";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
 import { compareOTP } from "../../Services/API";
 import Toast from "react-native-toast-native";
-import PhoneInput from "react-native-phone-input";
-import CountryPicker from "react-native-country-picker-modal";
-import { connect } from "react-redux";
 import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import OtpInputs from "react-native-otp-inputs";
@@ -43,8 +40,14 @@ class EnterVerificationCode extends React.Component {
   compareOTP = (phNumber, OTPCode) => {
     compareOTP(phNumber, OTPCode)
       .then(res => {
-        this.props.navigation.dispatch(navigateToMobileNumberVerified(phNumber));
         console.log("res from compare", res);
+        if (res.status === 200) {
+          this.props.navigation.dispatch(navigateToMobileNumberVerified(phNumber));
+        } else if (res.status === 404) {
+          Toast.show("Invalid OTP", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+        } else if (res.status === 500) {
+          Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+        }
       })
       .catch(err => {
         console.log("err", err);
@@ -82,6 +85,15 @@ class EnterVerificationCode extends React.Component {
     );
   }
 }
+
+const phoneNumberError = {
+  width: 300,
+  yOffset: 60,
+  height: 120,
+  backgroundColor: "#545454",
+  color: "#FFFFFF",
+  fontSize: 17
+};
 
 const css = StyleSheet.create({
   header: {

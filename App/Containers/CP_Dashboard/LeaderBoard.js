@@ -6,11 +6,12 @@ import images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
 import * as actions from "../../Store/Actions/ClubData";
-import { ProfileStyle } from "./Styles/Profile-Style";
+import { LeaderBoardStyle } from "./Styles/LeaderBoard-Style";
 
 import DashboardCard from "../../Components/Card/DashboardCard";
 import { ScrollView } from "react-native-gesture-handler";
 import { widthPercentageToDP } from "../../Components/Utils/PercentageToPixels";
+import { randomColorGenerator } from "../../Components/Utils/RandomColorGenerator";
 
 const navigateBackToProfile = NavigationActions.navigate({
   routeName: "Profile",
@@ -60,12 +61,20 @@ class LeaderBoard extends React.Component {
 
   render() {
     return (
-      <View style={ProfileStyle.profileActivity}>
-        <ScrollView>
+      <View>
+        <ScrollView contentContainerStyle={{ margin: 4 }}>
           {!!this.props.leaderBoard &&
             this.props.leaderBoard.result.map((k, i) => (
-              <View key={i}>
-                <Text>{k.playerName}</Text>
+              <View key={i} style={LeaderBoardStyle.row}>
+                <View style={LeaderBoardStyle.userName}>
+                  <View style={[LeaderBoardStyle.randomColor, { backgroundColor: randomColorGenerator() }]}></View>
+                  <View style={LeaderBoardStyle.playerName}>
+                    <Text style={LeaderBoardStyle.playerNameText}>{k.playerName}</Text>
+                  </View>
+                </View>
+                <View style={LeaderBoardStyle.userScore}>
+                  <Text>{k.score}</Text>
+                </View>
               </View>
             ))}
         </ScrollView>

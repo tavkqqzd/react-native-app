@@ -45,14 +45,29 @@ class InstructionPage extends React.Component {
         <View>
           <Image source={images.small_logo} />
         </View>
-        <View>
-          <Text>Club Passport is your ticket to all the Fun that is available at your Club...</Text>
+        <View
+          style={{
+            marginTop: 15,
+            marginBottom: 15,
+            marginLeft: 35,
+            marginRight: 35,
+            borderWidth: 2,
+            paddingBottom: 5,
+            borderTopColor: "#fff",
+            borderLeftColor: "#fff",
+            borderRightColor: "#fff",
+            borderBottomColor: "#747474"
+          }}
+        >
+          <Text style={{ fontSize: 17, color: "#282828", textAlign: "center", opacity: 0.5 }}>
+            Club Passport is your ticket to all the Fun that is available at your Club...
+          </Text>
+        </View>
+        <View style={{ marginBottom: 20 }}>
+          <Text style={{ fontSize: 16, color: "#000" }}>Instruction for game</Text>
         </View>
         <View>
-          <Text>Instruction for game</Text>
-        </View>
-        <View>
-          <Text>{instruction}</Text>
+          <Text style={{ fontSize: 17, color: "#282828", textAlign: "center", opacity: 0.8 }}>{instruction}</Text>
         </View>
         <View style={{ position: "absolute", bottom: 100 }}>
           <ButtonGradient

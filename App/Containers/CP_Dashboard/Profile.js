@@ -123,19 +123,33 @@ class ProfilePage extends React.Component {
         <ScrollView>
           {!!this.props.leaderBoardForLoggedUser &&
             this.props.leaderBoardForLoggedUser.result.map((k, i) => (
-              <View key={i} style={LeaderBoardStyle.row}>
-                <View style={LeaderBoardStyle.userName}>
+              <View key={i} style={ProfileStyle.card}>
+                <View style={ProfileStyle.leaderBoardGameName_Color}>
                   <View style={[LeaderBoardStyle.randomColor, { backgroundColor: randomColorGenerator() }]}></View>
-                  <View style={LeaderBoardStyle.playerName}>
-                    <Text style={LeaderBoardStyle.playerNameText}>{k.gameName}</Text>
+                  <View style={ProfileStyle.leaderBoardGameNameAlignment}>
+                    <View style={ProfileStyle.w_100}>
+                      <Text style={LeaderBoardStyle.playerNameText}>{k.gameName}</Text>
+                    </View>
+                    <View style={ProfileStyle.leaderBoardBUttonAlignment}>
+                      <View style={ProfileStyle.leaderBoard_clickButton}>
+                        <Text>Leader Board</Text>
+                      </View>
+                    </View>
                   </View>
                 </View>
-                <View style={LeaderBoardStyle.userScore}>
-                  <View style={LeaderBoardStyle.coinAlignment}>
-                    <Image source={Images.coins} style={LeaderBoardStyle.coins} />
+                <View style={ProfileStyle.leaderBoardBookAlignment}>
+                  <View style={ProfileStyle.book}>
+                    <Text>BOOK</Text>
                   </View>
-                  <View style={LeaderBoardStyle.scoreAlignment}>
-                    <Text style={LeaderBoardStyle.score}>+{k.score}</Text>
+                </View>
+                <View style={ProfileStyle.leaderBoardCoinsAlignment}>
+                  <View style={LeaderBoardStyle.userScore}>
+                    <View style={LeaderBoardStyle.coinAlignment}>
+                      <Image source={Images.coins} style={LeaderBoardStyle.coins} />
+                    </View>
+                    <View style={LeaderBoardStyle.scoreAlignment}>
+                      <Text style={LeaderBoardStyle.score}>+{k.score}</Text>
+                    </View>
                   </View>
                 </View>
               </View>

@@ -14,7 +14,7 @@ export const LeaderBoardStyle = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    height: 60,
+    height: 80,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -31,7 +31,7 @@ export const LeaderBoardStyle = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     width: "3%",
-    height: 60
+    height: 80
   },
   playerName: { width: "95%" },
   playerNameText: { padding: 10, fontSize: 17, color: "#282828", opacity: 0.8 },

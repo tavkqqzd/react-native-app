@@ -34,7 +34,8 @@ export const ProfileStyle = StyleSheet.create({
   },
   clubLogo: {
     width: 60,
-    height: 60
+    height: 60,
+    borderRadius: 50
   },
   clubName: {
     color: Colors.white,
@@ -64,5 +65,58 @@ export const ProfileStyle = StyleSheet.create({
   row: { flexDirection: "row" },
   clubLogoImage: { width: "40%", justifyContent: "center" },
   clubNameText: { width: "60%" },
-  scoreBoard: { color: Colors.black, fontSize: 20 }
+  scoreBoard: { color: Colors.black, fontSize: 20 },
+  leaderBoardBookAlignment: {
+    width: "35%",
+    alignItems: "center",
+    justifyContent: "flex-end"
+  },
+  book: {
+    borderColor: Colors.black,
+    borderRadius: 1,
+    padding: 2,
+    borderWidth: 1,
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingTop: 3,
+    paddingBottom: 3,
+    marginBottom: 10
+  },
+  randomColor: {
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    width: "3%",
+    height: 80
+  },
+  card: {
+    flexDirection: "row",
+    height: 80,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 2.22,
+    elevation: 3,
+    borderRadius: 10,
+    margin: 10,
+    marginBottom: 5
+  },
+  leaderBoardCoinsAlignment: { width: "15%", justifyContent: "center" },
+  leaderBoard_clickButton: {
+    alignItems: "center",
+    borderColor: "#000",
+    borderWidth: 1,
+    width: "55%",
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingTop: 3,
+    paddingBottom: 3,
+    position: "relative"
+  },
+  leaderBoardBUttonAlignment: { width: "100%", alignItems: "flex-end" },
+  w_100: { width: "100%" },
+  leaderBoardGameNameAlignment: { flexDirection: "column", width: "100%", position: "relative" },
+  leaderBoardGameName_Color: { width: "50%", flexDirection: "row" }
 });

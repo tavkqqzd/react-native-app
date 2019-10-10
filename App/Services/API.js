@@ -38,7 +38,12 @@ export const login = (mobileNumber, password, clubId) => {
           {
             mobileNumber: mobileNumber,
             password: password,
-            clubId: clubId
+            clubId: clubId,
+            deviceName: DeviceInfo.getModel(),
+            deviceOs: DeviceInfo.getSystemName(),
+            modelNumber: DeviceInfo.getUniqueID(),
+            deviceType: DeviceInfo.getManufacturer(),
+            appVersion: DeviceInfo.getVersion(),
           }
         ]
       })
@@ -290,6 +295,30 @@ export const getLeaderBoardForLoggedInUser = (clubId, playerId) => {
     };
     let status = undefined;
     fetch(`${IP_ADDRESS}/cpa/player_leaderborad/?clubId=${clubId}&playerId=${playerId}}`, data)
+      .then(res => {
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};
+
+export const getLeaderBoardForGameIdOfLoggedInUser = (clubId, gameId) => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    };
+    let status = undefined;
+    fetch(`${IP_ADDRESS}/cpa/leaderborad/?clubId=${clubId}&gameId=${gameId}`, data)
       .then(res => {
         status = res.status;
         return res.json();

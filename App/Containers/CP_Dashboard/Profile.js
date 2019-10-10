@@ -7,7 +7,7 @@ import Colors from "../../Themes/Colors";
 import Images from "../../Themes/Images";
 import * as actions from "../../Store/Actions/ClubData";
 import { ProfileStyle } from "./Styles/Profile-Style";
-import { getLeaderBoardForLoggedInUser } from "../../Services/API";
+import { getLeaderBoardForLoggedInUser, getLeaderBoardForGameIdOfLoggedInUser } from "../../Services/API";
 import { ScrollView } from "react-native-gesture-handler";
 import { LeaderBoardStyle } from "./Styles/LeaderBoard-Style";
 import { randomColorGenerator } from "../../Components/Utils/RandomColorGenerator";
@@ -63,6 +63,19 @@ class ProfilePage extends React.Component {
         console.log("err", err);
       });
   }
+
+  getLeaderBoardForGameIdOfLoggedInUser = (clubId, gameId) => {
+    getLeaderBoardForGameIdOfLoggedInUser(clubId, gameId).then(res => {
+      if (res.status === 200) {
+        this.props.storeLeaderboardData(res.data);
+        this.props.navigation.dispatch(navigateToLeaderBoardPage);
+      } else if (res.status === 404) {
+        // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+      } else if (res.status === 500) {
+        // Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+      }
+    });
+  };
 
   render() {
     console.log("userLoginData", this.props.userLoginData);
@@ -131,9 +144,12 @@ class ProfilePage extends React.Component {
                       <Text style={LeaderBoardStyle.playerNameText}>{k.gameName}</Text>
                     </View>
                     <View style={ProfileStyle.leaderBoardBUttonAlignment}>
-                      <View style={ProfileStyle.leaderBoard_clickButton}>
+                      <TouchableOpacity
+                        onPress={() => this.getLeaderBoardForGameIdOfLoggedInUser(clubId, k.gameId)}
+                        style={ProfileStyle.leaderBoard_clickButton}
+                      >
                         <Text>Leader Board</Text>
-                      </View>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
@@ -171,7 +187,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getLeaderBoardForLoggedUser: data => dispatch(actions.getLeaderBoardForLoggedUser(data))
+    getLeaderBoardForLoggedUser: data => dispatch(actions.getLeaderBoardForLoggedUser(data)),
+    storeLeaderboardData: data => dispatch(actions.getLeaderBoard(data))
   };
 };
 

@@ -9,7 +9,8 @@ const images = {
   user: require("../Images/app_docs/ic_user.png"),
   setting: require("../Images/app_docs/ic_setting.png"),
   ic_passport: require("../Images/app_docs/ic_passport.png"),
-  coins: require("../Images/app_docs/ic_coins.png")
+  coins: require("../Images/app_docs/ic_coins.png"),
+  dollar: require("../Images/app_docs/ic_dollar.png")
 };
 
 export default images;

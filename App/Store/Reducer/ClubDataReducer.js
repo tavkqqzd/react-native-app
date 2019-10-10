@@ -6,7 +6,8 @@ export const initialState = {
   gameData: "",
   employeeType: "",
   listOfEmployeeTypes: "",
-  leaderBoard: ""
+  leaderBoard: "",
+  leaderBoardForLoggedUser: ""
 };
 
 createNewArrayToRender = arr => {
@@ -57,6 +58,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         leaderBoard: action.data
+      };
+    case actionTypes.GET_LEADERBOARD_FOR_LOGGED_USER:
+      return {
+        ...state,
+        leaderBoardForLoggedUser: action.data
       };
 
     default:

@@ -37,5 +37,30 @@ export const ProfileStyle = StyleSheet.create({
   clubName: {
     color: Colors.white,
     fontSize: 20
-  }
+  },
+  violetBoxText: {
+    color: Colors.white,
+    fontSize: 17
+  },
+  leaderBoard: {
+    color: Colors.white,
+    fontSize: 17,
+    fontWeight: "bold"
+  },
+  leaderBoardButton: {
+    borderColor: Colors.black,
+    borderRadius: 1,
+    padding: 2,
+    borderWidth: 1,
+    paddingRight: 5,
+    paddingLeft: 5,
+    paddingTop: 3,
+    paddingBottom: 3
+  },
+  dollarImage: { height: 15, width: 15 },
+  dollarImageAlignment: { marginRight: 5, paddingTop: 4 },
+  row: { flexDirection: "row" },
+  clubLogoImage: { width: "40%", justifyContent: "center" },
+  clubNameText: { width: "60%" },
+  scoreBoard: { color: Colors.black, fontSize: 20 }
 });

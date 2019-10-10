@@ -4,7 +4,8 @@ import {
   STORE_GAME_DATA,
   SET_EMPLOYEE_TYPE,
   LIST_OF_EMPLOYEE_TYPES,
-  GET_LEADERBOARD
+  GET_LEADERBOARD,
+  GET_LEADERBOARD_FOR_LOGGED_USER
 } from "./actionTypes";
 
 export const getClubData = data => {
@@ -45,6 +46,13 @@ export const setEmployeeType = data => {
 export const getLeaderBoard = data => {
   return {
     type: GET_LEADERBOARD,
+    data: data
+  };
+};
+
+export const getLeaderBoardForLoggedUser = data => {
+  return {
+    type: GET_LEADERBOARD_FOR_LOGGED_USER,
     data: data
   };
 };

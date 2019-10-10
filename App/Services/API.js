@@ -278,3 +278,27 @@ export const getLeaderBoard = clubId => {
       });
   });
 };
+
+export const getLeaderBoardForLoggedInUser = (clubId, playerId) => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    };
+    let status = undefined;
+    fetch(`${IP_ADDRESS}/cpa/player_leaderborad/?clubId=${clubId}&playerId=${playerId}}`, data)
+      .then(res => {
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};

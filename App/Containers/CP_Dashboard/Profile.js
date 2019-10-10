@@ -4,11 +4,13 @@ import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
+import Images from "../../Themes/Images";
 import * as actions from "../../Store/Actions/ClubData";
 import { ProfileStyle } from "./Styles/Profile-Style";
-
-import DashboardCard from "../../Components/Card/DashboardCard";
+import { getLeaderBoardForLoggedInUser } from "../../Services/API";
 import { ScrollView } from "react-native-gesture-handler";
+import { LeaderBoardStyle } from "./Styles/LeaderBoard-Style";
+import { randomColorGenerator } from "../../Components/Utils/RandomColorGenerator";
 import { widthPercentageToDP } from "../../Components/Utils/PercentageToPixels";
 
 const navigateToLeaderBoardPage = NavigationActions.navigate({
@@ -44,9 +46,26 @@ class ProfilePage extends React.Component {
 
   state = {};
 
-  componentDidMount() {}
+  componentDidMount() {
+    let { playerId, clubId } = this.props.userLoginData;
+    getLeaderBoardForLoggedInUser(clubId, playerId)
+      .then(res => {
+        console.log("getLeaderBoardForLoggedInUser res", res);
+        if (res.status === 200) {
+          this.props.getLeaderBoardForLoggedUser(res.data);
+        } else if (res.status === 404) {
+          // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+        } else if (res.status === 500) {
+          // Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+        }
+      })
+      .catch(err => {
+        console.log("err", err);
+      });
+  }
 
   render() {
+    console.log("userLoginData", this.props.userLoginData);
     let { playerName, clubId } = this.props.userLoginData;
     let { clubName, clubLogo } = this.props.clubData;
     return (
@@ -71,29 +90,57 @@ class ProfilePage extends React.Component {
         </View>
         <View style={ProfileStyle.basicProfileInfo}>
           <View style={ProfileStyle.clubNameBox}>
-            <View style={{ width: "60%" }}>
+            <View style={ProfileStyle.clubNameText}>
               <Text style={ProfileStyle.clubName}>{clubName}</Text>
             </View>
-            <View style={{ width: "40%", justifyContent: "center" }}>
+            <View style={ProfileStyle.clubLogoImage}>
               <Image source={{ uri: clubLogo }} style={ProfileStyle.clubLogo} />
             </View>
           </View>
           <View style={ProfileStyle.totalScoreSection}>
             <View>
-              <Text>Total Score</Text>
+              <Text style={ProfileStyle.violetBoxText}>Total Score</Text>
             </View>
-            <View>
-              <Text>+0</Text>
+            <View style={ProfileStyle.row}>
+              <View style={ProfileStyle.dollarImageAlignment}>
+                <Image source={Images.dollar} style={ProfileStyle.dollarImage} />
+              </View>
+              <View>
+                <Text style={ProfileStyle.violetBoxText}>+0</Text>
+              </View>
             </View>
-            <TouchableOpacity onPress={() => this.props.navigation.dispatch(navigateToLeaderBoardPage)}>
-              <Text>Leader Board</Text>
+            <TouchableOpacity
+              style={ProfileStyle.leaderBoardButton}
+              onPress={() => this.props.navigation.dispatch(navigateToLeaderBoardPage)}
+            >
+              <Text style={ProfileStyle.leaderBoard}>Leader Board</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View>
-          <Text>Score Board</Text>
+          <Text style={ProfileStyle.scoreBoard}>Score Board</Text>
         </View>
-        <ScrollView></ScrollView>
+        <ScrollView>
+          {!!this.props.leaderBoardForLoggedUser &&
+            this.props.leaderBoardForLoggedUser.result.map((k, i) => (
+              <View key={i} style={LeaderBoardStyle.row}>
+                <View style={LeaderBoardStyle.userName}>
+                  <View style={[LeaderBoardStyle.randomColor, { backgroundColor: randomColorGenerator() }]}></View>
+                  <View style={LeaderBoardStyle.playerName}>
+                    <Text style={LeaderBoardStyle.playerNameText}>{k.gameName}</Text>
+                  </View>
+                </View>
+                <View style={LeaderBoardStyle.userScore}>
+                  <View style={LeaderBoardStyle.coinAlignment}>
+                    <Image source={Images.coins} style={LeaderBoardStyle.coins} />
+                  </View>
+                  <View style={LeaderBoardStyle.scoreAlignment}>
+                    <Text style={LeaderBoardStyle.score}>+{k.score}</Text>
+                  </View>
+                </View>
+              </View>
+            ))}
+        </ScrollView>
       </View>
     );
   }
@@ -103,17 +150,18 @@ const mapStateToProps = state => {
   return {
     userLoginData: state.ClubReducer.userData,
     gameData: state.ClubReducer.gameData,
-    clubData: state.ClubReducer.clubData
+    clubData: state.ClubReducer.clubData,
+    leaderBoardForLoggedUser: state.ClubReducer.leaderBoardForLoggedUser
   };
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     storeGameData: data => dispatch(actions.storeGameData(data))
-//   };
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    getLeaderBoardForLoggedUser: data => dispatch(actions.getLeaderBoardForLoggedUser(data))
+  };
+};
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(ProfilePage);

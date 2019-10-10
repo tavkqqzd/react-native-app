@@ -4,8 +4,8 @@ import Colors from "../../../Themes/Colors";
 import { widthPercentageToDP } from "../../../Components/Utils/PercentageToPixels";
 
 export const ProfileStyle = StyleSheet.create({
-  profileActivity: { margin: 0 },
-  basicProfileInfo: { flexDirection: "row", position: "relative", marginTop: 10 },
+  profileActivity: { margin: 3 },
+  basicProfileInfo: { flexDirection: "row", position: "relative", marginTop: 10, justifyContent: "center" },
   col6: {
     width: widthPercentageToDP("50%")
   },
@@ -17,18 +17,20 @@ export const ProfileStyle = StyleSheet.create({
   clubId: { color: "#282828", opacity: 0.8, fontSize: 15 },
   changeClub: { color: "#15ABED", fontSize: 20, marginTop: 10 },
   clubNameBox: {
-    width: widthPercentageToDP("50%"),
+    width: widthPercentageToDP("47%"),
     flexDirection: "row",
     backgroundColor: "#66C8EF",
     borderRadius: 10,
-    padding: 10
+    padding: 10,
+    marginRight: 5
   },
   totalScoreSection: {
-    width: widthPercentageToDP("50%"),
+    width: widthPercentageToDP("47%"),
     backgroundColor: "#717CFB",
     borderRadius: 10,
     alignItems: "center",
-    padding: 10
+    padding: 10,
+    marginLeft: 5
   },
   clubLogo: {
     width: 60,

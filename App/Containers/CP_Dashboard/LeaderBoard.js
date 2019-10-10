@@ -5,6 +5,7 @@ import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
+import Images from "../../Themes/Images";
 import * as actions from "../../Store/Actions/ClubData";
 import { LeaderBoardStyle } from "./Styles/LeaderBoard-Style";
 
@@ -21,7 +22,7 @@ const navigateBackToProfile = NavigationActions.navigate({
 class LeaderBoard extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "LeaderBoard",
+      title: "Leader Board",
       headerStyle: {
         backgroundColor: "#fff"
       },
@@ -73,7 +74,12 @@ class LeaderBoard extends React.Component {
                   </View>
                 </View>
                 <View style={LeaderBoardStyle.userScore}>
-                  <Text>{k.score}</Text>
+                  <View style={LeaderBoardStyle.coinAlignment}>
+                    <Image source={Images.coins} style={LeaderBoardStyle.coins} />
+                  </View>
+                  <View style={LeaderBoardStyle.scoreAlignment}>
+                    <Text style={LeaderBoardStyle.score}>+{k.score}</Text>
+                  </View>
                 </View>
               </View>
             ))}

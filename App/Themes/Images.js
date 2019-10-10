@@ -8,7 +8,8 @@ const images = {
   blackEnter: require("../Images/app_docs/ic_id_enter_black.png"),
   user: require("../Images/app_docs/ic_user.png"),
   setting: require("../Images/app_docs/ic_setting.png"),
-  ic_passport: require("../Images/app_docs/ic_passport.png")
+  ic_passport: require("../Images/app_docs/ic_passport.png"),
+  coins: require("../Images/app_docs/ic_coins.png")
 };
 
 export default images;

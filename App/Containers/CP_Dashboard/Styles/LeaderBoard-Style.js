@@ -5,10 +5,16 @@ import { widthPercentageToDP } from "../../../Components/Utils/PercentageToPixel
 
 export const LeaderBoardStyle = StyleSheet.create({
   userName: { width: "50%", justifyContent: "center", alignItems: "flex-start", flexDirection: "row" },
-  userScore: { width: "50%", justifyContent: "flex-end", alignItems: "flex-end", paddingRight: 10 },
+  userScore: {
+    width: "50%",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    paddingRight: 10,
+    flexDirection: "row"
+  },
   row: {
     flexDirection: "row",
-    height: 50,
+    height: 60,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -25,8 +31,12 @@ export const LeaderBoardStyle = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     width: "3%",
-    height: 50
+    height: 60
   },
   playerName: { width: "95%" },
-  playerNameText: { padding: 10 }
+  playerNameText: { padding: 10, fontSize: 17, color: "#282828", opacity: 0.8 },
+  coins: { height: 15, width: 15, marginRight: 5 },
+  coinAlignment: { paddingBottom: 8 },
+  scoreAlignment: { paddingBottom: 5 },
+  score: { color: Colors.black }
 });

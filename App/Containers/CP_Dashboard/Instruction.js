@@ -5,8 +5,10 @@ import images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
 import * as actions from "../../Store/Actions/ClubData";
+import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
-import { getGameAndUserDetail, validateClubID } from "../../Services/API";
+import { getQuestions } from "../../Services/API";
+import { widthPercentageToDP, heightPercentageToDP } from "../../Components/Utils/PercentageToPixels";
 
 const navigateToProfilePage = NavigationActions.navigate({
   routeName: "Profile",
@@ -16,12 +18,30 @@ const navigateToProfilePage = NavigationActions.navigate({
 class InstructionPage extends React.Component {
   state = {};
 
+  getQuestions = gameId => {
+    getQuestions(gameId)
+      .then(res => {
+        console.log("getQuestions", res);
+        if (res.status === 200) {
+          // this.props.userLoginDetails(res.data.result[0]);
+          // this.props.navigation.dispatch(navigateToDashboardPage);
+        } else if (res.status === 404) {
+          // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+        } else if (res.status === 500) {
+          // Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+        }
+      })
+      .catch(err => {
+        console.log("err", err);
+      });
+  };
+
   render() {
-    let { instruction } = this.props.navigation.state.params;
+    let { instruction, id } = this.props.navigation.state.params;
     console.log("instructions page", this.props.navigation.state.params);
     // let { gameData } = this.props;
     return (
-      <View style={{ padding: 10, alignItems: "center", position: "relative" }}>
+      <View style={{ padding: 10, alignItems: "center", position: "relative", height: heightPercentageToDP("100%") }}>
         <View>
           <Image source={images.small_logo} />
         </View>
@@ -34,10 +54,10 @@ class InstructionPage extends React.Component {
         <View>
           <Text>{instruction}</Text>
         </View>
-        <View>
+        <View style={{ position: "absolute", bottom: 100 }}>
           <ButtonGradient
             title="Enter The Game"
-            // clickHandler={() => this.APILogin(getPhoneNumber, password, clubId.toUpperCase())}
+            clickHandler={() => this.getQuestions(id)}
             color1={Colors.commonButtonGradient1}
             color2={Colors.commonButtonGradient2}
             buttonStyle={css.startButton}
@@ -57,7 +77,7 @@ const css = StyleSheet.create({
   },
   startButton: {
     height: 50,
-
+    width: widthPercentageToDP("80%"),
     borderRadius: 30
   }
 });

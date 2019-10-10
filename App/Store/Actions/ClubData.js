@@ -5,7 +5,8 @@ import {
   SET_EMPLOYEE_TYPE,
   LIST_OF_EMPLOYEE_TYPES,
   GET_LEADERBOARD,
-  GET_LEADERBOARD_FOR_LOGGED_USER
+  GET_LEADERBOARD_FOR_LOGGED_USER,
+  GET_QUESTIONS
 } from "./actionTypes";
 
 export const getClubData = data => {
@@ -53,6 +54,13 @@ export const getLeaderBoard = data => {
 export const getLeaderBoardForLoggedUser = data => {
   return {
     type: GET_LEADERBOARD_FOR_LOGGED_USER,
+    data: data
+  };
+};
+
+export const getQuestions = data => {
+  return {
+    type: GET_QUESTIONS,
     data: data
   };
 };

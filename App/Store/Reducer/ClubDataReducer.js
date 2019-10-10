@@ -7,7 +7,8 @@ export const initialState = {
   employeeType: "",
   listOfEmployeeTypes: "",
   leaderBoard: "",
-  leaderBoardForLoggedUser: ""
+  leaderBoardForLoggedUser: "",
+  questions: ""
 };
 
 createNewArrayToRender = arr => {
@@ -63,6 +64,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         leaderBoardForLoggedUser: action.data
+      };
+    case actionTypes.GET_QUESTIONS:
+      return {
+        ...state,
+        questions: action.data
       };
 
     default:

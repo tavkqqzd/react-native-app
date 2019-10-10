@@ -16,6 +16,13 @@ const navigateToProfilePage = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "Profile" })
 });
 
+const navigateToInstructionsPage = data =>
+  NavigationActions.navigate({
+    routeName: "Instructions",
+    action: NavigationActions.navigate({ routeName: "Instructions" }),
+    params: data
+  });
+
 class DashboardPage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -45,9 +52,10 @@ class DashboardPage extends React.Component {
     let d = new Date().getDay();
     let arr = [].concat(y, m, d);
     let newArr = arr.join("-");
-    let { clubId, playerId } = this.props.userLoginData;
-    getGameAndUserDetail(0, clubId, 0, 10, playerId)
+    let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
+    getGameAndUserDetail(employeeTypeCode, clubId, 0, 10, playerId)
       .then(res => {
+        console.log("res.data", res.data);
         if (res.status === 200) {
           this.props.storeGameData(res.data);
         } else if (res.status === 404) {
@@ -77,7 +85,11 @@ class DashboardPage extends React.Component {
             gameData.result &&
             gameData.result.map(k => (
               <View key={k.name}>
-                <DashboardCard gameName={k.name} totalQuestions={k.totalQuestions} />
+                <DashboardCard
+                  gameName={k.name}
+                  totalQuestions={k.totalQuestions}
+                  onClickHandler={() => this.props.navigation.dispatch(navigateToInstructionsPage(k))}
+                />
               </View>
             ))}
         </View>

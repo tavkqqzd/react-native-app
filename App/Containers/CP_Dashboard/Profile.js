@@ -84,7 +84,7 @@ class ProfilePage extends React.Component {
     return (
       <View style={ProfileStyle.profileActivity}>
         <View style={ProfileStyle.basicProfileInfo}>
-          <View style={ProfileStyle.col6}>
+          <View style={[ProfileStyle.col6, { paddingLeft: 5 }]}>
             <View>
               <Text style={ProfileStyle.userName}>{playerName}</Text>
             </View>

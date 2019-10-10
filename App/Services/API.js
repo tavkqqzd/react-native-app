@@ -41,9 +41,10 @@ export const login = (mobileNumber, password, clubId) => {
             clubId: clubId,
             deviceName: DeviceInfo.getModel(),
             deviceOs: DeviceInfo.getSystemName(),
-            modelNumber: DeviceInfo.getUniqueID(),
+            deviceId: DeviceInfo.getUniqueID(),
             deviceType: DeviceInfo.getManufacturer(),
-            appVersion: DeviceInfo.getVersion(),
+            appVersion: DeviceInfo.getVersion()
+            // deviceId: DeviceInfo.getUniqueID()
           }
         ]
       })

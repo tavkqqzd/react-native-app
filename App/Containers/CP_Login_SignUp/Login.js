@@ -91,6 +91,7 @@ class Login extends React.Component {
         }
       })
       .catch(err => {
+        console.log("err", err);
         Toast.show("Something went wrong...", Toast.LONG, Toast.BOTTOM, invalidClub);
       });
   };

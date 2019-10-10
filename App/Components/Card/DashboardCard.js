@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { randomColorGenerator } from "../Utils/RandomColorGenerator";
 import colors from "../../Themes/Colors";
@@ -7,7 +7,7 @@ import { widthPercentageToDP } from "../Utils/PercentageToPixels";
 
 class DashboardCard extends React.Component {
   render() {
-    let { gameName, totalQuestions } = this.props;
+    let { gameName, totalQuestions, onClickHandler } = this.props;
     return (
       <LinearGradient
         useAngle={true}
@@ -24,12 +24,9 @@ class DashboardCard extends React.Component {
             <Text style={css.questionsText}>{totalQuestions} Questions</Text>
           </View>
           <View style={css.bottomButtonSection}>
-            <View style={css.button}>
-              <Text style={css.questionsText}>BOOK</Text>
-            </View>
-            <View style={css.button}>
+            <TouchableOpacity style={css.button} onPress={onClickHandler}>
               <Text style={css.questionsText}>PLAY</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
         {/* </View> */}
@@ -63,7 +60,7 @@ const css = StyleSheet.create({
   questionsText: { fontWeight: "bold", fontSize: 18, color: colors.white },
   cardBottomRow: { height: 60, flexDirection: "row", padding: 10 },
   questionSection: { width: widthPercentageToDP("40%"), justifyContent: "flex-end" },
-  bottomButtonSection: { width: widthPercentageToDP("60"), flexDirection: "row" },
+  bottomButtonSection: { width: widthPercentageToDP("60"), flexDirection: "row", justifyContent: "flex-end" },
   headerText: { textAlign: "center" }
 });
 

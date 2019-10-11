@@ -21,6 +21,15 @@ class InstructionPage extends React.Component {
   state = {};
 
   getQuestions = gameId => {
+    let { remainingQuestions, totalQuestions } = this.props.selectedGame;
+    let questionIndex = "";
+    if (remainingQuestions === totalQuestions || remainingQuestions === 0) {
+      questionIndex = 0;
+      this.props.getIndexOfQuestion(questionIndex);
+    } else if (totalQuestions > remainingQuestions) {
+      questionIndex = totalQuestions - remainingQuestions;
+      this.props.getIndexOfQuestion(questionIndex);
+    }
     getQuestions(gameId)
       .then(res => {
         console.log("getQuestions", res.data);
@@ -40,7 +49,7 @@ class InstructionPage extends React.Component {
 
   render() {
     let { id, instruction } = this.props.selectedGame;
-    console.log("id, instruction", id, instruction);
+    console.log("this.props.selectedGame instruction page", this.props.selectedGame);
     return (
       <View style={InstructionStyle.instructionIntent}>
         <View>
@@ -96,7 +105,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getClubData: data => dispatch(actions.getClubData(data)),
-    getQuestions: data => dispatch(actions.getQuestions(data))
+    getQuestions: data => dispatch(actions.getQuestions(data)),
+    getIndexOfQuestion: index => dispatch(actions.indexOfQuestion(index))
   };
 };
 

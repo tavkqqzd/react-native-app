@@ -7,7 +7,8 @@ import {
   GET_LEADERBOARD,
   GET_LEADERBOARD_FOR_LOGGED_USER,
   GET_QUESTIONS,
-  SELECTED_GAME
+  SELECTED_GAME,
+  INDEX_OF_QUESTION
 } from "./actionTypes";
 
 export const getClubData = data => {
@@ -69,6 +70,13 @@ export const getQuestions = data => {
 export const selectedGame = data => {
   return {
     type: SELECTED_GAME,
+    data: data
+  };
+};
+
+export const indexOfQuestion = data => {
+  return {
+    type: INDEX_OF_QUESTION,
     data: data
   };
 };

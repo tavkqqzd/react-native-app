@@ -29,9 +29,10 @@ const WrongAnswerPage = index =>
 
 class QuestionAnswer extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
-  state = { selectedOption: "", questionIndex: "" };
+  state = { selectedOption: "" };
 
   submitAnswer = (id, question, qId, selectedAnswer) => {
+    let { questionIndex } = this.props;
     let { remainingQuestions, totalQuestions } = this.props.selectedGame;
     let obj = [
       {
@@ -42,12 +43,6 @@ class QuestionAnswer extends React.Component {
         selectedAnswer: selectedAnswer
       }
     ];
-    let questionIndex = "";
-    if (remainingQuestions === totalQuestions || remainingQuestions === 0) {
-      questionIndex = 0;
-    } else {
-      questionIndex = totalQuestions - remainingQuestions;
-    }
     if (this.props.questions.result[questionIndex].correctAnswer === this.state.selectedOption) {
       sumbitAnswer(obj)
         .then(res => {
@@ -81,18 +76,14 @@ class QuestionAnswer extends React.Component {
     this.setState({ selectedOption: ans });
   };
 
-  componentWillReceiveProps(newProps) {
-    newProps.navigation.state.params;
-  }
+  // componentWillReceiveProps(newProps) {
+  //   this.props.getIndexOfQuestion(newProps.navigation.state.params);
+  // }
 
   render() {
-    let { remainingQuestions, totalQuestions, id } = this.props.selectedGame;
-    let questionIndex = "";
-    if (remainingQuestions === totalQuestions || remainingQuestions === 0) {
-      questionIndex = 0;
-    } else {
-      questionIndex = totalQuestions - remainingQuestions;
-    }
+    let { id } = this.props.selectedGame;
+    let QuestionIndex = this.props && this.props.questionIndex;
+    console.log("qIndex", QuestionIndex);
     return (
       <View>
         <View style={{ justifyContent: "flex-end", alignItems: "flex-end", margin: 20 }}>
@@ -120,10 +111,10 @@ class QuestionAnswer extends React.Component {
             </View>
           </View>
           <View>
-            <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[questionIndex].question}</Text>
+            <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[QuestionIndex].question}</Text>
           </View>
           {!!this.props.questions &&
-            this.props.questions.result[questionIndex].options.map((k, i) => (
+            this.props.questions.result[QuestionIndex].options.map((k, i) => (
               <TouchableOpacity
                 key={i}
                 onPress={() => this.selectedOptionFn(k)}
@@ -139,8 +130,8 @@ class QuestionAnswer extends React.Component {
             clickHandler={() =>
               this.submitAnswer(
                 id,
-                this.props.questions.result[questionIndex].question,
-                this.props.questions.result[questionIndex].queId,
+                this.props.questions.result[QuestionIndex].question,
+                this.props.questions.result[QuestionIndex].queId,
                 this.state.selectedOption
               )
             }
@@ -155,15 +146,22 @@ class QuestionAnswer extends React.Component {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    getIndexOfQuestion: index => dispatch(actions.indexOfQuestion(index))
+  };
+};
+
 const mapStateToProps = state => {
   return {
     questions: state.ClubReducer.questions,
     selectedGame: state.ClubReducer.selectedGame,
-    userData: state.ClubReducer.userData
+    userData: state.ClubReducer.userData,
+    questionIndex: state.ClubReducer.indexOfQuestion
   };
 };
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(QuestionAnswer);

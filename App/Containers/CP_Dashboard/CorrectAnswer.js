@@ -3,12 +3,13 @@ import { Text, View, Image, Dimensions, BackHandler } from "react-native";
 import Styles from "./Styles/CorrectAnswer-Style";
 import { NavigationActions } from "react-navigation";
 import image from "../../Themes/Images";
+import { connect } from "react-redux";
+import * as actions from "../../Store/Actions/ClubData";
 
 // updated data
 const navigateToQuestionAnswerPage = NavigationActions.navigate({
   routeName: "QuestionAnswer",
   action: NavigationActions.navigate({ routeName: "QuestionAnswer" })
-  // params: this.props.navigation.state.params + 1
 });
 
 class CorrectAnswerPage extends React.Component {
@@ -21,7 +22,11 @@ class CorrectAnswerPage extends React.Component {
     this.setState({
       countDown: this.state.countDown - 1
     });
+
     if (this.state.countDown < 0) {
+      let index = this.props.questionIndex;
+      let updatedIndex = index + 1;
+      this.props.getIndexOfQuestion(updatedIndex);
       this.props.navigation.dispatch(navigateToQuestionAnswerPage);
       clearInterval(this.intervalId);
     }
@@ -57,4 +62,19 @@ class CorrectAnswerPage extends React.Component {
   }
 }
 
-export default CorrectAnswerPage;
+const mapDispatchToProps = dispatch => {
+  return {
+    getIndexOfQuestion: index => dispatch(actions.indexOfQuestion(index))
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    questionIndex: state.ClubReducer.indexOfQuestion
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CorrectAnswerPage);

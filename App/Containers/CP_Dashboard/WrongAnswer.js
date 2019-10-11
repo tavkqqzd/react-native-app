@@ -3,13 +3,13 @@ import { Text, View, Image, StyleSheet, Dimensions, BackHandler } from "react-na
 import { NavigationActions } from "react-navigation";
 import image from "../../Themes/Images";
 import Styles from "./Styles/CorrectAnswer-Style";
+import { connect } from "react-redux";
+import * as actions from "../../Store/Actions/ClubData";
 
-const navigateToQuestionAnswerPage = index =>
-  NavigationActions.navigate({
-    routeName: "QuestionAnswer",
-    action: NavigationActions.navigate({ routeName: "QuestionAnswer" }),
-    params: index
-  });
+const navigateToQuestionAnswerPage = NavigationActions.navigate({
+  routeName: "QuestionAnswer",
+  action: NavigationActions.navigate({ routeName: "QuestionAnswer" })
+});
 
 class WrongAnswer extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
@@ -18,13 +18,15 @@ class WrongAnswer extends React.Component {
   };
 
   timer = () => {
-    let index = this.props.navigation.state.params;
-    let updatedIndex = index + 1;
     this.setState({
       countDown: this.state.countDown - 1
     });
+
     if (this.state.countDown < 0) {
-      this.props.navigation.dispatch(navigateToQuestionAnswerPage(updatedIndex));
+      let index = this.props.questionIndex;
+      let updatedIndex = index + 1;
+      this.props.getIndexOfQuestion(updatedIndex);
+      this.props.navigation.dispatch(navigateToQuestionAnswerPage);
       clearInterval(this.intervalId);
     }
   };
@@ -66,4 +68,19 @@ class WrongAnswer extends React.Component {
   }
 }
 
-export default WrongAnswer;
+const mapDispatchToProps = dispatch => {
+  return {
+    getIndexOfQuestion: index => dispatch(actions.indexOfQuestion(index))
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    questionIndex: state.ClubReducer.indexOfQuestion
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WrongAnswer);

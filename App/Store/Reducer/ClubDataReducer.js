@@ -9,7 +9,8 @@ export const initialState = {
   leaderBoard: "",
   leaderBoardForLoggedUser: "",
   questions: "",
-  selectedGame: ""
+  selectedGame: "",
+  indexOfQuestion: ""
 };
 
 createNewArrayToRender = arr => {
@@ -76,7 +77,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         selectedGame: action.data
       };
-
+    case actionTypes.INDEX_OF_QUESTION:
+      return {
+        ...state,
+        indexOfQuestion: action.data
+      };
     default:
       return state;
   }

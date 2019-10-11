@@ -12,7 +12,7 @@ const navigateToQuestionAnswerPage = NavigationActions.navigate({
 });
 
 class CorrectAnswerPage extends React.Component {
-  // static navigationOptions = ({ navigation }) => ({ header: null });
+  static navigationOptions = ({ navigation }) => ({ header: null });
   state = {
     countDown: 5
   };

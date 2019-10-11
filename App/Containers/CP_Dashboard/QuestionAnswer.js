@@ -13,20 +13,23 @@ import { InstructionStyle } from "./Styles/Instruction-Style";
 import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
 import ProgressCircle from "react-native-progress-circle";
 
-const CorrectAnswerPage = NavigationActions.navigate({
-  routeName: "CorrectAnswer",
-  action: NavigationActions.navigate({ routeName: "CorrectAnswer" })
-  // params: index
-});
+const CorrectAnswerPage = index =>
+  NavigationActions.navigate({
+    routeName: "CorrectAnswer",
+    action: NavigationActions.navigate({ routeName: "CorrectAnswer" }),
+    params: index
+  });
 
-const WrongAnswerPage = NavigationActions.navigate({
-  routeName: "WrongAnswer",
-  action: NavigationActions.navigate({ routeName: "WrongAnswer" })
-});
+const WrongAnswerPage = index =>
+  NavigationActions.navigate({
+    routeName: "WrongAnswer",
+    action: NavigationActions.navigate({ routeName: "WrongAnswer" }),
+    params: index
+  });
 
 class QuestionAnswer extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
-  state = { selectedOption: "" };
+  state = { selectedOption: "", questionIndex: "" };
 
   submitAnswer = (id, question, qId, selectedAnswer) => {
     let { remainingQuestions, totalQuestions } = this.props.selectedGame;
@@ -49,7 +52,7 @@ class QuestionAnswer extends React.Component {
       sumbitAnswer(obj)
         .then(res => {
           if (res.status === 200) {
-            this.props.navigation.dispatch(CorrectAnswerPage);
+            this.props.navigation.dispatch(CorrectAnswerPage(questionIndex));
             console.log("submitted answer");
           } else if (res.status === 404) {
             console.log("404");
@@ -65,7 +68,7 @@ class QuestionAnswer extends React.Component {
         .then(res => {
           console.log("wrong answer", res);
           if (res.status === 401) {
-            this.props.navigation.dispatch(WrongAnswerPage);
+            this.props.navigation.dispatch(WrongAnswerPage(questionIndex));
           }
         })
         .catch(err => {
@@ -77,6 +80,10 @@ class QuestionAnswer extends React.Component {
   selectedOptionFn = ans => {
     this.setState({ selectedOption: ans });
   };
+
+  componentWillReceiveProps(newProps) {
+    newProps.navigation.state.params;
+  }
 
   render() {
     let { remainingQuestions, totalQuestions, id } = this.props.selectedGame;

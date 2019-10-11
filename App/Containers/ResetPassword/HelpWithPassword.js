@@ -123,7 +123,6 @@ class HelpWithPassword extends React.Component {
         <ButtonGradient
           // clickHandler={() => this.props.navigation.dispatch(enterVerificationCode)}
           clickHandler={() => this.generateOTP(number)}
-          generateOTP
           title="Next"
           color1={Colors.commonButtonGradient1}
           color2={Colors.commonButtonGradient2}

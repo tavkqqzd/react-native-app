@@ -4,24 +4,27 @@ import { NavigationActions } from "react-navigation";
 import image from "../../Themes/Images";
 import Styles from "./Styles/CorrectAnswer-Style";
 
-const navigateToQuestionAnswerPage = NavigationActions.navigate({
-  routeName: "QuestionAnswer",
-  action: NavigationActions.navigate({ routeName: "QuestionAnswer" })
-  // params: this.props.navigation.state.params + 1
-});
+const navigateToQuestionAnswerPage = index =>
+  NavigationActions.navigate({
+    routeName: "QuestionAnswer",
+    action: NavigationActions.navigate({ routeName: "QuestionAnswer" }),
+    params: index
+  });
 
 class WrongAnswer extends React.Component {
-  // static navigationOptions = ({ navigation }) => ({ header: null });
+  static navigationOptions = ({ navigation }) => ({ header: null });
   state = {
     countDown: 5
   };
 
   timer = () => {
+    let index = this.props.navigation.state.params;
+    let updatedIndex = index + 1;
     this.setState({
       countDown: this.state.countDown - 1
     });
     if (this.state.countDown < 0) {
-      this.props.navigation.dispatch(navigateToQuestionAnswerPage);
+      this.props.navigation.dispatch(navigateToQuestionAnswerPage(updatedIndex));
       clearInterval(this.intervalId);
     }
   };

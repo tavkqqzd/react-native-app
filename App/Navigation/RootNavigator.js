@@ -16,6 +16,8 @@ import Profile from "../Containers/CP_Dashboard/Profile";
 import LeaderBoard from "../Containers/CP_Dashboard/LeaderBoard";
 import Instruction from "../Containers/CP_Dashboard/Instruction";
 import QuestionAnswer from "../Containers/CP_Dashboard/QuestionAnswer";
+import CorrectAnswer from "../Containers/CP_Dashboard/CorrectAnswer";
+import WrongAnswer from "../Containers/CP_Dashboard/WrongAnswer";
 
 const PreLoginNavigator = createStackNavigator(
   {
@@ -59,7 +61,9 @@ const ResetPasswordNavigattor = createStackNavigator(
 const InGameNavigators = createStackNavigator(
   {
     Instructions: { screen: Instruction },
-    QuestionAnswer: { screen: QuestionAnswer }
+    QuestionAnswer: { screen: QuestionAnswer },
+    CorrectAnswer: { screen: CorrectAnswer },
+    WrongAnswer: { screen: WrongAnswer }
   },
   {
     headerMode: "screen"

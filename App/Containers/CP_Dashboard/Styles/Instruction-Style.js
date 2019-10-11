@@ -21,5 +21,11 @@ export const InstructionStyle = StyleSheet.create({
   gameInstructionText: { fontSize: 16, color: "#000" },
   gameInstruction: { fontSize: 17, color: "#282828", textAlign: "center", opacity: 0.8 },
   buttonAlignment: { position: "absolute", bottom: 100 },
-  instructionIntent: { padding: 10, alignItems: "center", position: "relative", height: heightPercentageToDP("100%") }
+  instructionIntent: {
+    padding: 10,
+    alignItems: "center",
+    position: "relative",
+    height: heightPercentageToDP("100%")
+    // width: widthPercentageToDP("100%")
+  }
 });

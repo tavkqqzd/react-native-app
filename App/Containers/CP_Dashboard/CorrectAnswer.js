@@ -12,6 +12,11 @@ const navigateToQuestionAnswerPage = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "QuestionAnswer" })
 });
 
+const navigateScoreScreen = NavigationActions.navigate({
+  routeName: "ScoreScreen",
+  action: NavigationActions.navigate({ routeName: "ScoreScreen" })
+});
+
 class CorrectAnswerPage extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
   state = {
@@ -19,6 +24,7 @@ class CorrectAnswerPage extends React.Component {
   };
 
   timer = () => {
+    let { totalQuestions } = this.props.selectedGame;
     this.setState({
       countDown: this.state.countDown - 1
     });
@@ -26,9 +32,16 @@ class CorrectAnswerPage extends React.Component {
     if (this.state.countDown < 0) {
       let index = this.props.questionIndex;
       let updatedIndex = index + 1;
-      this.props.getIndexOfQuestion(updatedIndex);
-      this.props.navigation.dispatch(navigateToQuestionAnswerPage);
-      clearInterval(this.intervalId);
+      console.log("wrong updatedIndex", updatedIndex);
+      if (updatedIndex > totalQuestions - 1) {
+        this.props.getIndexOfQuestion(0);
+        this.props.navigation.dispatch(navigateScoreScreen);
+        clearInterval(this.intervalId);
+      } else if (updatedIndex <= totalQuestions - 1) {
+        this.props.getIndexOfQuestion(updatedIndex);
+        this.props.navigation.dispatch(navigateToQuestionAnswerPage);
+        clearInterval(this.intervalId);
+      }
     }
   };
 
@@ -70,7 +83,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    questionIndex: state.ClubReducer.indexOfQuestion
+    questionIndex: state.ClubReducer.indexOfQuestion,
+    selectedGame: state.ClubReducer.selectedGame
   };
 };
 

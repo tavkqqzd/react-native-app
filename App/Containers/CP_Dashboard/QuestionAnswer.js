@@ -76,10 +76,6 @@ class QuestionAnswer extends React.Component {
     this.setState({ selectedOption: ans });
   };
 
-  // componentWillReceiveProps(newProps) {
-  //   this.props.getIndexOfQuestion(newProps.navigation.state.params);
-  // }
-
   render() {
     let { id } = this.props.selectedGame;
     let QuestionIndex = this.props && this.props.questionIndex;

@@ -9,22 +9,24 @@ import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
 import { getQuestions } from "../../Services/API";
 import { widthPercentageToDP, heightPercentageToDP } from "../../Components/Utils/PercentageToPixels";
+import { InstructionStyle } from "./Styles/Instruction-Style";
 
-const navigateToProfilePage = NavigationActions.navigate({
-  routeName: "Profile",
-  action: NavigationActions.navigate({ routeName: "Profile" })
+const QuestionAnswerPage = NavigationActions.navigate({
+  routeName: "QuestionAnswer",
+  action: NavigationActions.navigate({ routeName: "QuestionAnswer" })
 });
 
 class InstructionPage extends React.Component {
+  static navigationOptions = ({ navigation }) => ({ header: null });
   state = {};
 
   getQuestions = gameId => {
     getQuestions(gameId)
       .then(res => {
-        console.log("getQuestions", res);
+        console.log("getQuestions", res.data);
         if (res.status === 200) {
-          // this.props.userLoginDetails(res.data.result[0]);
-          // this.props.navigation.dispatch(navigateToDashboardPage);
+          this.props.getQuestions(res.data);
+          this.props.navigation.dispatch(QuestionAnswerPage);
         } else if (res.status === 404) {
           // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
         } else if (res.status === 500) {
@@ -37,39 +39,25 @@ class InstructionPage extends React.Component {
   };
 
   render() {
-    let { instruction, id } = this.props.navigation.state.params;
-    console.log("instructions page", this.props.navigation.state.params);
-    // let { gameData } = this.props;
+    let { id, instruction } = this.props.selectedGame;
+    console.log("id, instruction", id, instruction);
     return (
-      <View style={{ padding: 10, alignItems: "center", position: "relative", height: heightPercentageToDP("100%") }}>
+      <View style={InstructionStyle.instructionIntent}>
         <View>
           <Image source={images.small_logo} />
         </View>
-        <View
-          style={{
-            marginTop: 15,
-            marginBottom: 15,
-            marginLeft: 35,
-            marginRight: 35,
-            borderWidth: 2,
-            paddingBottom: 5,
-            borderTopColor: "#fff",
-            borderLeftColor: "#fff",
-            borderRightColor: "#fff",
-            borderBottomColor: "#747474"
-          }}
-        >
-          <Text style={{ fontSize: 17, color: "#282828", textAlign: "center", opacity: 0.5 }}>
+        <View style={InstructionStyle.CP_banner}>
+          <Text style={InstructionStyle.CP_banner2}>
             Club Passport is your ticket to all the Fun that is available at your Club...
           </Text>
         </View>
-        <View style={{ marginBottom: 20 }}>
-          <Text style={{ fontSize: 16, color: "#000" }}>Instruction for game</Text>
+        <View style={InstructionStyle.gameInstructionAlignment}>
+          <Text style={InstructionStyle.gameInstructionText}>Instruction for game</Text>
         </View>
         <View>
-          <Text style={{ fontSize: 17, color: "#282828", textAlign: "center", opacity: 0.8 }}>{instruction}</Text>
+          <Text style={InstructionStyle.gameInstruction}>{instruction}</Text>
         </View>
-        <View style={{ position: "absolute", bottom: 100 }}>
+        <View style={InstructionStyle.buttonAlignment}>
           <ButtonGradient
             title="Enter The Game"
             clickHandler={() => this.getQuestions(id)}
@@ -100,14 +88,15 @@ const css = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     userLoginData: state.ClubReducer.userData,
-    gameData: state.ClubReducer.gameData
+    gameData: state.ClubReducer.gameData,
+    selectedGame: state.ClubReducer.selectedGame
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    storeGameData: data => dispatch(actions.storeGameData(data)),
-    getClubData: data => dispatch(actions.getClubData(data))
+    getClubData: data => dispatch(actions.getClubData(data)),
+    getQuestions: data => dispatch(actions.getQuestions(data))
   };
 };
 

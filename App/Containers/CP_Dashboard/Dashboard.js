@@ -16,12 +16,10 @@ const navigateToProfilePage = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "Profile" })
 });
 
-const navigateToInstructionsPage = data =>
-  NavigationActions.navigate({
-    routeName: "Instructions",
-    action: NavigationActions.navigate({ routeName: "Instructions" }),
-    params: data
-  });
+const navigateToInstructionsPage = NavigationActions.navigate({
+  routeName: "Instructions",
+  action: NavigationActions.navigate({ routeName: "Instructions" })
+});
 
 class DashboardPage extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -76,6 +74,11 @@ class DashboardPage extends React.Component {
       .catch(err => console.log(err));
   }
 
+  selectedGame = data => {
+    this.props.selectedGame(data);
+    this.props.navigation.dispatch(navigateToInstructionsPage);
+  };
+
   render() {
     let { gameData } = this.props;
     return (
@@ -88,7 +91,7 @@ class DashboardPage extends React.Component {
                 <DashboardCard
                   gameName={k.name}
                   totalQuestions={k.totalQuestions}
-                  onClickHandler={() => this.props.navigation.dispatch(navigateToInstructionsPage(k))}
+                  onClickHandler={() => this.selectedGame(k)}
                 />
               </View>
             ))}
@@ -115,7 +118,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     storeGameData: data => dispatch(actions.storeGameData(data)),
-    getClubData: data => dispatch(actions.getClubData(data))
+    getClubData: data => dispatch(actions.getClubData(data)),
+    selectedGame: data => dispatch(actions.selectedGame(data))
   };
 };
 

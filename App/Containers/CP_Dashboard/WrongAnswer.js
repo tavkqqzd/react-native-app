@@ -1,10 +1,17 @@
 import React from "react";
 import { Text, View, Image, StyleSheet, Dimensions, BackHandler } from "react-native";
-// import svg from "../../Themes/Svg";
+import { NavigationActions } from "react-navigation";
 import image from "../../Themes/Images";
 import Styles from "./Styles/CorrectAnswer-Style";
 
+const navigateToQuestionAnswerPage = NavigationActions.navigate({
+  routeName: "QuestionAnswer",
+  action: NavigationActions.navigate({ routeName: "QuestionAnswer" })
+  // params: this.props.navigation.state.params + 1
+});
+
 class WrongAnswer extends React.Component {
+  // static navigationOptions = ({ navigation }) => ({ header: null });
   state = {
     countDown: 5
   };
@@ -13,12 +20,14 @@ class WrongAnswer extends React.Component {
     this.setState({
       countDown: this.state.countDown - 1
     });
-    if (this.state.countDown < 1) {
+    if (this.state.countDown < 0) {
+      this.props.navigation.dispatch(navigateToQuestionAnswerPage);
       clearInterval(this.intervalId);
     }
   };
 
   componentDidMount() {
+    console.log("wrong answer params", this.props.navigation.state.params);
     this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       BackHandler.exitApp();
       return true;

@@ -42,7 +42,9 @@ class DashboardPage extends React.Component {
       )
     };
   };
-  state = {};
+  state = {
+    cardsData: ""
+  };
 
   componentDidMount() {
     let y = new Date().getFullYear();
@@ -89,6 +91,7 @@ class DashboardPage extends React.Component {
             gameData.result.map(k => (
               <View key={k.name}>
                 <DashboardCard
+                  gameData={k}
                   gameName={k.name}
                   totalQuestions={k.totalQuestions}
                   onClickHandler={() => this.selectedGame(k)}

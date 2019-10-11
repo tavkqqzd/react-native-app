@@ -1,12 +1,18 @@
 import React from "react";
 import { Text, View, Image, Dimensions, BackHandler } from "react-native";
 import Styles from "./Styles/CorrectAnswer-Style";
+import { NavigationActions } from "react-navigation";
+import image from "../../Themes/Images";
+
+// updated data
 const navigateToQuestionAnswerPage = NavigationActions.navigate({
   routeName: "QuestionAnswer",
   action: NavigationActions.navigate({ routeName: "QuestionAnswer" })
+  // params: this.props.navigation.state.params + 1
 });
 
 class CorrectAnswerPage extends React.Component {
+  // static navigationOptions = ({ navigation }) => ({ header: null });
   state = {
     countDown: 5
   };

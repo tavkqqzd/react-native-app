@@ -6,6 +6,17 @@ import colors from "../../Themes/Colors";
 import { widthPercentageToDP } from "../Utils/PercentageToPixels";
 
 class DashboardCard extends React.Component {
+  gameStatusDisplay = () => {
+    let { totalQuestions, totalQuestionsAnswered, remainingQuestions } = this.props.gameData;
+    if (totalQuestions === totalQuestionsAnswered) {
+      return "Restart";
+    } else if (totalQuestions === remainingQuestions) {
+      return "Start Now";
+    } else if (remainingQuestions < totalQuestions) {
+      return "Resume";
+    }
+  };
+
   render() {
     let { gameName, totalQuestions, onClickHandler } = this.props;
     return (
@@ -25,7 +36,7 @@ class DashboardCard extends React.Component {
           </View>
           <View style={css.bottomButtonSection}>
             <TouchableOpacity style={css.button} onPress={onClickHandler}>
-              <Text style={css.questionsText}>PLAY</Text>
+              <Text style={css.questionsText}>{this.gameStatusDisplay()}</Text>
             </TouchableOpacity>
           </View>
         </View>

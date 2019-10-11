@@ -13,9 +13,15 @@ import { InstructionStyle } from "./Styles/Instruction-Style";
 import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
 import ProgressCircle from "react-native-progress-circle";
 
-const QuestionAnswerPage = NavigationActions.navigate({
-  routeName: "QuestionAnswer",
-  action: NavigationActions.navigate({ routeName: "QuestionAnswer" })
+const CorrectAnswerPage = NavigationActions.navigate({
+  routeName: "CorrectAnswer",
+  action: NavigationActions.navigate({ routeName: "CorrectAnswer" })
+  // params: index
+});
+
+const WrongAnswerPage = NavigationActions.navigate({
+  routeName: "WrongAnswer",
+  action: NavigationActions.navigate({ routeName: "WrongAnswer" })
 });
 
 class QuestionAnswer extends React.Component {
@@ -23,6 +29,7 @@ class QuestionAnswer extends React.Component {
   state = { selectedOption: "" };
 
   submitAnswer = (id, question, qId, selectedAnswer) => {
+    let { remainingQuestions, totalQuestions } = this.props.selectedGame;
     let obj = [
       {
         gameId: id,
@@ -32,11 +39,17 @@ class QuestionAnswer extends React.Component {
         selectedAnswer: selectedAnswer
       }
     ];
+    let questionIndex = "";
+    if (remainingQuestions === totalQuestions || remainingQuestions === 0) {
+      questionIndex = 0;
+    } else {
+      questionIndex = totalQuestions - remainingQuestions;
+    }
     if (this.props.questions.result[questionIndex].correctAnswer === this.state.selectedOption) {
       sumbitAnswer(obj)
         .then(res => {
-          console.log(res);
           if (res.status === 200) {
+            this.props.navigation.dispatch(CorrectAnswerPage);
             console.log("submitted answer");
           } else if (res.status === 404) {
             console.log("404");
@@ -47,16 +60,12 @@ class QuestionAnswer extends React.Component {
         .catch(err => {
           console.log("catch err", err);
         });
-    } else {
+    } else if (this.props.questions.result[questionIndex].correctAnswer !== this.state.selectedOption) {
       sumbitAnswer(obj)
         .then(res => {
-          console.log(res);
-          if (res.status === 200) {
-            console.log("submitted answer");
-          } else if (res.status === 404) {
-            console.log("404");
-          } else if (res.status === 500) {
-            console.log("500");
+          console.log("wrong answer", res);
+          if (res.status === 401) {
+            this.props.navigation.dispatch(WrongAnswerPage);
           }
         })
         .catch(err => {
@@ -72,8 +81,10 @@ class QuestionAnswer extends React.Component {
   render() {
     let { remainingQuestions, totalQuestions, id } = this.props.selectedGame;
     let questionIndex = "";
-    if (remainingQuestions === totalQuestions) {
+    if (remainingQuestions === totalQuestions || remainingQuestions === 0) {
       questionIndex = 0;
+    } else {
+      questionIndex = totalQuestions - remainingQuestions;
     }
     return (
       <View>

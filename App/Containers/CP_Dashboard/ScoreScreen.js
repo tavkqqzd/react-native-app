@@ -1,19 +1,18 @@
 import React from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { NavigationActions } from "react-navigation";
-import images from "../../Themes/Images";
+import Images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
-import * as actions from "../../Store/Actions/ClubData";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
-import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
-import { getQuestions } from "../../Services/API";
-import { widthPercentageToDP, heightPercentageToDP } from "../../Components/Utils/PercentageToPixels";
-import { InstructionStyle } from "./Styles/Instruction-Style";
+import { NavigationActions } from "react-navigation";
+import LinearGradient from "react-native-linear-gradient";
+import * as ActivityStyles from "../../Themes/ActivityStyles";
+import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
+import { ScoreStyles } from "./Styles/ScoreScreen-Style";
 
-const QuestionAnswerPage = NavigationActions.navigate({
-  routeName: "QuestionAnswer",
-  action: NavigationActions.navigate({ routeName: "QuestionAnswer" })
+const NavigateToDashboard = NavigationActions.navigate({
+  routeName: "DashboardPage",
+  action: NavigationActions.navigate({ routeName: "DashboardPage" })
 });
 
 class ScoreScreen extends React.Component {
@@ -21,28 +20,76 @@ class ScoreScreen extends React.Component {
   state = {};
 
   render() {
+    let { playerName } = this.props.userLoginData;
+    let { clubName } = this.props.clubData;
+    let { name } = this.props.selectedGame;
     return (
-      <View style={InstructionStyle.instructionIntent}>
-        <Text>Game Completed</Text>
+      <View style={ActivityStyles.coverCompleteActivity.globalPage}>
+        <LinearGradient
+          useAngle={true}
+          angle={90}
+          colors={[Colors.gradientBlue, Colors.gradientViolet]}
+          style={ScoreStyles.ScoreScreenActivity}
+        >
+          <View style={ScoreStyles.AlignCenter}>
+            <Text style={ScoreStyles.GameName}>{name}</Text>
+            <View>
+              <Image source={Images.ic_passport} style={ScoreStyles.UserImage} />
+            </View>
+          </View>
+        </LinearGradient>
+
+        <View style={ScoreStyles.Player_ClubInfo}>
+          <View style={ScoreStyles.PlayerNameAlignment}>
+            <Text style={ScoreStyles.PlayerNameText}>{playerName}</Text>
+          </View>
+          <View style={ScoreStyles.PlayerNameAlignment}>
+            <Text style={ScoreStyles.ClubNameText}>{clubName}</Text>
+          </View>
+        </View>
+        <View style={ScoreStyles.WhiteScreen}>
+          <View>
+            <Text style={ScoreStyles.PointsEarnedText}>Points Earned</Text>
+          </View>
+          <View style={[QuestionAnswerStyle.coinAlignment, ScoreStyles.coins]}>
+            <View>
+              <Image source={Images.dollar} style={QuestionAnswerStyle.coin} />
+            </View>
+            <View style={QuestionAnswerStyle.score}>
+              <Text>+5</Text>
+            </View>
+          </View>
+          <ButtonGradient
+            title="Leaderboard"
+            color1={Colors.commonButtonGradient1}
+            color2={Colors.commonButtonGradient2}
+            buttonStyle={ScoreStyles.LeaderBoard}
+            buttonTextStyle={ScoreStyles.LeaderBoardButtonText}
+          />
+          <TouchableOpacity
+            style={ScoreStyles.MoreGames}
+            onPress={() => this.props.navigation.dispatch(NavigateToDashboard)}
+          >
+            <Text style={ScoreStyles.LeaderBoardButtonText}>More games</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
 }
 
-const css = StyleSheet.create({
-  buttonTextStyle: {
-    fontSize: 17,
-    color: Colors.white,
-    fontWeight: "bold"
-  },
-  startButton: {
-    height: 50,
-    width: widthPercentageToDP("80%"),
-    borderRadius: 30
-  }
-});
+const mapStateToProps = state => {
+  return {
+    userLoginData: state.ClubReducer.userData,
+    gameData: state.ClubReducer.gameData,
+    clubData: state.ClubReducer.clubData,
+    selectedGame: state.ClubReducer.selectedGame
+  };
+};
+
+const css = StyleSheet.create({});
 
 export default connect(
-  null,
+  mapStateToProps,
   null
 )(ScoreScreen);

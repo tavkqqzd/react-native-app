@@ -68,7 +68,8 @@ const InGameNavigators = createStackNavigator(
     ScoreScreen: { screen: ScoreScreen }
   },
   {
-    headerMode: "screen"
+    headerMode: "screen",
+    initialRouteName: "Instructions"
   }
 );
 

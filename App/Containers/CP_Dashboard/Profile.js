@@ -18,6 +18,11 @@ const navigateToLeaderBoardPage = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "LeaderBoard" })
 });
 
+const navigateBackToDashboard = NavigationActions.navigate({
+  routeName: "DashboardPage",
+  action: NavigationActions.navigate({ routeName: "DashboardPage" })
+});
+
 class ProfilePage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {

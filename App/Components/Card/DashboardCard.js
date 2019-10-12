@@ -71,7 +71,7 @@ const css = StyleSheet.create({
   questionsText: { fontWeight: "bold", fontSize: 18, color: colors.white },
   cardBottomRow: { height: 60, flexDirection: "row", padding: 10 },
   questionSection: { width: widthPercentageToDP("40%"), justifyContent: "flex-end" },
-  bottomButtonSection: { width: widthPercentageToDP("60"), flexDirection: "row", justifyContent: "flex-end" },
+  bottomButtonSection: { width: widthPercentageToDP("50%"), flexDirection: "row", justifyContent: "flex-end" },
   headerText: { textAlign: "center" }
 });
 

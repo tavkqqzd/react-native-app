@@ -386,7 +386,7 @@ class QuestionAnswer extends React.Component {
           <View style={QuestionAnswerStyle.AudioSection}>
             <View style={QuestionAnswerStyle.AudioImageAlignment}>
               <View style={QuestionAnswerStyle.AudioImageAlignment_BTM_Margin}>
-                <Image source={images.audio} style={QuestionAnswerStyle.AudioImage} />
+                <Image source={images.pdf} style={QuestionAnswerStyle.AudioImage} />
               </View>
               <View style={QuestionAnswerStyle.AudioControlsAlignment}>
                 <TouchableOpacity onPress={() => this.openPdf()} style={QuestionAnswerStyle.AudioControls}>

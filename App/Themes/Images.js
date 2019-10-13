@@ -12,7 +12,8 @@ const images = {
   coins: require("../Images/app_docs/ic_coins.png"),
   dollar: require("../Images/app_docs/ic_dollar.png"),
   small_logo: require("../Images/app_docs/cpa_small_logo.png"),
-  audio: require("../Images/app_docs/audio.png")
+  audio: require("../Images/app_docs/audio.png"),
+  pdf: require("../Images/app_docs/pdf.png")
 };
 
 export default images;

@@ -11,7 +11,8 @@ const images = {
   ic_passport: require("../Images/app_docs/ic_passport.png"),
   coins: require("../Images/app_docs/ic_coins.png"),
   dollar: require("../Images/app_docs/ic_dollar.png"),
-  small_logo: require("../Images/app_docs/cpa_small_logo.png")
+  small_logo: require("../Images/app_docs/cpa_small_logo.png"),
+  audio: require("../Images/app_docs/audio.png")
 };
 
 export default images;

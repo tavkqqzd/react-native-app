@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import metrics from "../../../Themes/Metrics";
 import Colors from "../../../Themes/Colors";
-import { widthPercentageToDP } from "../../../Components/Utils/PercentageToPixels";
+import { widthPercentageToDP, heightPercentageToDP } from "../../../Components/Utils/PercentageToPixels";
 
 export const QuestionAnswerStyle = StyleSheet.create({
   coinAlignment: {
@@ -58,5 +58,24 @@ export const QuestionAnswerStyle = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center"
+  },
+
+  // audio component
+  AudioImageAlignment: {
+    width: widthPercentageToDP("75%"),
+    padding: 5,
+    justifyContent: "center"
+  },
+  AudioImageAlignment_BTM_Margin: { alignItems: "center", marginBottom: 20 },
+  AudioImage: { height: 160, width: 160 },
+  AudioSection: { flexDirection: "row", height: heightPercentageToDP("45%") },
+  AudioControlsAlignment: { justifyContent: "center", alignItems: "center", flexDirection: "row" },
+  AudioControls: { backgroundColor: "#22A9D4", margin: 5, width: 80, alignItems: "center" },
+  AudioControlsText: { color: "#fff", fontWeight: "bold", padding: 5 },
+  AudioViewRightView: {
+    width: widthPercentageToDP("25%"),
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20
   }
 });

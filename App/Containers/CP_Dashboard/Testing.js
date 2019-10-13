@@ -91,7 +91,7 @@ class Testing extends React.Component {
         console.log("playback failed due to audio decoding errors");
       }
     });
-    whoosh.play(success => {
+        whoosh.play(success => {
       if (success) {
         console.log("successfully finished playing");
       } else {

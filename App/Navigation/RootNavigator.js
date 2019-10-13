@@ -19,6 +19,7 @@ import QuestionAnswer from "../Containers/CP_Dashboard/QuestionAnswer";
 import CorrectAnswer from "../Containers/CP_Dashboard/CorrectAnswer";
 import WrongAnswer from "../Containers/CP_Dashboard/WrongAnswer";
 import ScoreScreen from "../Containers/CP_Dashboard/ScoreScreen";
+import Testing from "../Containers/CP_Dashboard/Testing";
 
 const PreLoginNavigator = createStackNavigator(
   {
@@ -65,7 +66,8 @@ const InGameNavigators = createStackNavigator(
     QuestionAnswer: { screen: QuestionAnswer },
     CorrectAnswer: { screen: CorrectAnswer },
     WrongAnswer: { screen: WrongAnswer },
-    ScoreScreen: { screen: ScoreScreen }
+    ScoreScreen: { screen: ScoreScreen },
+    Testing: { screen: Testing }
   },
   {
     headerMode: "screen",

@@ -12,7 +12,7 @@ import { widthPercentageToDP, heightPercentageToDP } from "../../Components/Util
 import { InstructionStyle } from "./Styles/Instruction-Style";
 import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
 import ProgressCircle from "react-native-progress-circle";
-
+import VideoPlayer from "react-native-video-controls";
 const CorrectAnswerPage = index =>
   NavigationActions.navigate({
     routeName: "CorrectAnswer",
@@ -79,66 +79,168 @@ class QuestionAnswer extends React.Component {
   render() {
     let { id } = this.props.selectedGame;
     let QuestionIndex = this.props && this.props.questionIndex;
-    console.log("qIndex", QuestionIndex);
-    return (
-      <View>
-        <View style={{ justifyContent: "flex-end", alignItems: "flex-end", margin: 20 }}>
-          <ButtonGradient
-            title="Exit"
-            // clickHandler={() => this.getQuestions(id)}
-            color1={Colors.commonButtonGradient1}
-            color2={Colors.commonButtonGradient2}
-            buttonStyle={QuestionAnswerStyle.exitButton}
-            buttonTextStyle={QuestionAnswerStyle.exitButtonText}
-          />
-        </View>
-        <View style={InstructionStyle.instructionIntent}>
-          <View style={{ marginTop: 20, marginBottom: 10 }}>
-            <ProgressCircle percent={30} radius={40} borderWidth={2} color="#1CACF4" shadowColor="#999" bgColor="#fff">
-              <Text style={{ fontSize: 18 }}>{"30%"}</Text>
-            </ProgressCircle>
+
+    let renderByQuestionType = "";
+    if (this.props.questions.result[QuestionIndex].image.includes("mp4")) {
+      renderByQuestionType = (
+        <View>
+          <View style={{ flexDirection: "row", height: heightPercentageToDP("45%") }}>
+            <View style={{ width: widthPercentageToDP("75%"), padding: 5 }}>
+              <VideoPlayer
+                source={{ uri: "https://cpatrivia.s3.amazonaws.com/gameAssets/sampleVideo.mp4" }}
+                toggleResizeModeOnFullscreen={true}
+                navigator={this.props.navigator}
+                paused={false}
+                repeat={false}
+              />
+            </View>
+            <View
+              style={{
+                width: widthPercentageToDP("25%"),
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 20
+              }}
+            >
+              <View>
+                <ButtonGradient
+                  title="Exit"
+                  // clickHandler={() => this.getQuestions(id)}
+                  color1={Colors.commonButtonGradient1}
+                  color2={Colors.commonButtonGradient2}
+                  buttonStyle={QuestionAnswerStyle.exitButton}
+                  buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+                />
+              </View>
+
+              <View style={{ marginTop: 20, marginBottom: 10 }}>
+                <ProgressCircle
+                  percent={30}
+                  radius={40}
+                  borderWidth={2}
+                  color="#1CACF4"
+                  shadowColor="#999"
+                  bgColor="#fff"
+                >
+                  <Text style={{ fontSize: 18 }}>{"30%"}</Text>
+                </ProgressCircle>
+              </View>
+              <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
+                <View>
+                  <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
+                </View>
+                <View style={QuestionAnswerStyle.score}>
+                  <Text>+5</Text>
+                </View>
+              </View>
+            </View>
           </View>
-          <View style={QuestionAnswerStyle.coinAlignment}>
+          <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
             <View>
-              <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
+              <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[QuestionIndex].question}</Text>
             </View>
-            <View style={QuestionAnswerStyle.score}>
-              <Text>+5</Text>
+            {!!this.props.questions &&
+              this.props.questions.result[QuestionIndex].options.map((k, i) => (
+                <TouchableOpacity
+                  key={i}
+                  onPress={() => this.selectedOptionFn(k)}
+                  style={QuestionAnswerStyle.questionOptions}
+                >
+                  <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+                </TouchableOpacity>
+              ))}
+
+            <View style={{ marginTop: 20, alignItems: "center" }}>
+              <ButtonGradient
+                title="Next"
+                clickHandler={() =>
+                  this.submitAnswer(
+                    id,
+                    this.props.questions.result[QuestionIndex].question,
+                    this.props.questions.result[QuestionIndex].queId,
+                    this.state.selectedOption
+                  )
+                }
+                color1={Colors.commonButtonGradient1}
+                color2={Colors.commonButtonGradient2}
+                buttonStyle={QuestionAnswerStyle.nextButton}
+                buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+              />
             </View>
           </View>
-          <View>
-            <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[QuestionIndex].question}</Text>
+        </View>
+      );
+    } else {
+      renderByQuestionType = (
+        <View>
+          <View style={{ justifyContent: "flex-end", alignItems: "flex-end", margin: 20 }}>
+            <ButtonGradient
+              title="Exit"
+              // clickHandler={() => this.getQuestions(id)}
+              color1={Colors.commonButtonGradient1}
+              color2={Colors.commonButtonGradient2}
+              buttonStyle={QuestionAnswerStyle.exitButton}
+              buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+            />
           </View>
-          {!!this.props.questions &&
-            this.props.questions.result[QuestionIndex].options.map((k, i) => (
-              <TouchableOpacity
-                key={i}
-                onPress={() => this.selectedOptionFn(k)}
-                style={QuestionAnswerStyle.questionOptions}
+          <View style={InstructionStyle.instructionIntent}>
+            <View style={{ marginTop: 20, marginBottom: 10 }}>
+              <ProgressCircle
+                percent={30}
+                radius={40}
+                borderWidth={2}
+                color="#1CACF4"
+                shadowColor="#999"
+                bgColor="#fff"
               >
-                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
-              </TouchableOpacity>
-            ))}
+                <Text style={{ fontSize: 18 }}>{"30%"}</Text>
+              </ProgressCircle>
+            </View>
+            <View style={QuestionAnswerStyle.coinAlignment}>
+              <View>
+                <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
+              </View>
+              <View style={QuestionAnswerStyle.score}>
+                <Text>+5</Text>
+              </View>
+            </View>
+            <View>
+              <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[QuestionIndex].question}</Text>
+            </View>
+            {!!this.props.questions &&
+              this.props.questions.result[QuestionIndex].options.map((k, i) => (
+                <TouchableOpacity
+                  key={i}
+                  onPress={() => this.selectedOptionFn(k)}
+                  style={QuestionAnswerStyle.questionOptions}
+                >
+                  <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+                </TouchableOpacity>
+              ))}
+          </View>
+          <View style={{ bottom: 200, alignItems: "center" }}>
+            <ButtonGradient
+              title="Next"
+              clickHandler={() =>
+                this.submitAnswer(
+                  id,
+                  this.props.questions.result[QuestionIndex].question,
+                  this.props.questions.result[QuestionIndex].queId,
+                  this.state.selectedOption
+                )
+              }
+              color1={Colors.commonButtonGradient1}
+              color2={Colors.commonButtonGradient2}
+              buttonStyle={QuestionAnswerStyle.nextButton}
+              buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+            />
+          </View>
         </View>
-        <View style={{ bottom: 200, alignItems: "center" }}>
-          <ButtonGradient
-            title="Next"
-            clickHandler={() =>
-              this.submitAnswer(
-                id,
-                this.props.questions.result[QuestionIndex].question,
-                this.props.questions.result[QuestionIndex].queId,
-                this.state.selectedOption
-              )
-            }
-            color1={Colors.commonButtonGradient1}
-            color2={Colors.commonButtonGradient2}
-            buttonStyle={QuestionAnswerStyle.nextButton}
-            buttonTextStyle={QuestionAnswerStyle.exitButtonText}
-          />
-        </View>
-      </View>
-    );
+      );
+      return renderByQuestionType;
+    }
+
+    return renderByQuestionType;
   }
 }
 

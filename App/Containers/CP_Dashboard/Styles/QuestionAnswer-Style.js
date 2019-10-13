@@ -15,6 +15,18 @@ export const QuestionAnswerStyle = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  coinAlignmentVideoScreen: {
+    flexDirection: "row",
+    borderRadius: 25,
+    height: 30,
+    borderWidth: 1,
+    borderColor: "#FFCC33",
+    padding: 5,
+    width: 70,
+    marginTop: 10,
+    alignItems: "center",
+    justifyContent: "center"
+  },
   coin: { width: 15, height: 15 },
   score: { marginLeft: 5 },
   question: { textAlign: "center", margin: 20 },
@@ -44,8 +56,6 @@ export const QuestionAnswerStyle = StyleSheet.create({
     width: widthPercentageToDP("80%"),
     marginBottom: 10,
     borderRadius: 25,
-    borderColor: "#282828",
-    borderWidth: 1,
     justifyContent: "center",
     alignItems: "center"
   }

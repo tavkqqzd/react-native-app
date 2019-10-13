@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions, Button } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import { connect } from "react-redux";
@@ -13,184 +13,65 @@ import { InstructionStyle } from "./Styles/Instruction-Style";
 import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
 import ProgressCircle from "react-native-progress-circle";
 import VideoPlayer from "react-native-video-controls";
-var Sound = require("react-native-sound");
 
-Sound.setCategory("Playback");
-
-var whoosh = new Sound("https://cpatrivia.s3.amazonaws.com/gameAssets/WhatsApp+Audio.mp3", Sound.MAIN_BUNDLE, error => {
-  if (error) {
-    console.log("failed to load the sound", error);
-    return;
-  }
-  console.log("duration in seconds: " + whoosh.getDuration() + "number of channels: " + whoosh.getNumberOfChannels());
-});
+import Pdf from "react-native-pdf";
+import Modal from "react-native-modal";
 
 class Testing extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
   state = {
-    countDown: 0,
-    intervalId: "",
-    timer: "",
-    paused: false
+    pdf: false
   };
-  showVideo = () => {
-    this.setState({
-      show: !this.state.show,
-      width: widthPercentageToDP("100%"),
-      height: heightPercentageToDP("80%")
-    });
+  openPdf = () => {
+    this.setState({ pdf: !this.state.pdf });
   };
-  timer = () => {
-    if (!this.state.paused) {
-      this.setState({
-        countDown: this.state.countDown + 1
-      });
-      if (this.state.countDown === 12) {
-        this.setState(
-          {
-            countDown: 0
-          },
-          () => {
-            clearInterval(this.intervalId);
-          }
-        );
-      }
-    }
-  };
-
-  componentWillUnmount() {
-    this.backHandler.remove();
-    clearInterval(this.intervalId);
-  }
-
-  playSound = () => {
-    whoosh.play(success => {
-      if (success) {
-        console.log("successfully finished playing");
-      } else {
-        console.log("playback failed due to audio decoding errors");
-      }
-    });
-  };
-
-  pauseSound = () => {
-    whoosh.pause(success => {
-      if (success) {
-        console.log("successfully finished playing");
-      } else {
-        console.log("playback failed due to audio decoding errors");
-      }
-    });
-  };
-
-  resetSound = () => {
-    whoosh.stop(success => {
-      if (success) {
-        console.log("successfully finished playing");
-      } else {
-        console.log("playback failed due to audio decoding errors");
-      }
-    });
-        whoosh.play(success => {
-      if (success) {
-        console.log("successfully finished playing");
-      } else {
-        console.log("playback failed due to audio decoding errors");
-      }
-    });
-  };
-
   render() {
     return (
-      <View>
-        <View style={QuestionAnswerStyle.AudioSection}>
-          <View style={QuestionAnswerStyle.AudioImageAlignment}>
-            <View style={QuestionAnswerStyle.AudioImageAlignment_BTM_Margin}>
-              <Image source={images.audio} style={QuestionAnswerStyle.AudioImage} />
-            </View>
-            <View style={QuestionAnswerStyle.AudioControlsAlignment}>
-              <TouchableOpacity onPress={() => this.playSound()} style={QuestionAnswerStyle.AudioControls}>
-                <Text style={QuestionAnswerStyle.AudioControlsText}>Play</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.pauseSound()} style={QuestionAnswerStyle.AudioControls}>
-                <Text style={QuestionAnswerStyle.AudioControlsText}>Pause</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => this.resetSound()} style={QuestionAnswerStyle.AudioControls}>
-                <Text style={QuestionAnswerStyle.AudioControlsText}>Repeat</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={QuestionAnswerStyle.AudioViewRightView}>
-            <View>
-              <ButtonGradient
-                title="Exit"
-                // clickHandler={() => this.getQuestions(id)}
-                color1={Colors.commonButtonGradient1}
-                color2={Colors.commonButtonGradient2}
-                buttonStyle={QuestionAnswerStyle.exitButton}
-                buttonTextStyle={QuestionAnswerStyle.exitButtonText}
-              />
-            </View>
-
-            <View style={{ marginTop: 20, marginBottom: 10 }}>
-              <ProgressCircle
-                percent={30}
-                radius={40}
-                borderWidth={2}
-                color="#1CACF4"
-                shadowColor="#999"
-                bgColor="#fff"
-              >
-                <Text style={{ fontSize: 18 }}>{"30%"}</Text>
-              </ProgressCircle>
-            </View>
-            <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
-              <View>
-                <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
-              </View>
-              <View style={QuestionAnswerStyle.score}>
-                <Text>+5</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
-          <View>
-            <Text style={QuestionAnswerStyle.question}>asdad</Text>
-          </View>
-          {/* {!!this.props.questions &&
-            this.props.questions.result[QuestionIndex].options.map((k, i) => ( */}
-          <TouchableOpacity
-            // key={i}
-            // onPress={() => this.selectedOptionFn(k)}
-            style={QuestionAnswerStyle.questionOptions}
-          >
-            <Text style={QuestionAnswerStyle.optionsText}>asdas</Text>
+      <View style={{ width: "100%", height: "100%" }}>
+        <TouchableOpacity onPress={() => this.openPdf()}>
+          <Text>PDF</Text>
+        </TouchableOpacity>
+        <Modal
+          isVisible={this.state.pdf}
+          onBackdropPress={this.openPdf}
+          modalType="pdfModal"
+          style={{ backgroundColor: "#fff", width: "100%", height: "100%" }}
+        >
+          <TouchableOpacity onPress={() => this.openPdf()}>
+            <Text>close</Text>
           </TouchableOpacity>
-          {/* ))} */}
-
-          <View style={{ marginTop: 20, alignItems: "center" }}>
-            <ButtonGradient
-              title="Next"
-              // clickHandler={() =>
-              //   this.submitAnswer(
-              //     id,
-              //     this.props.questions.result[QuestionIndex].question,
-              //     this.props.questions.result[QuestionIndex].queId,
-              //     this.state.selectedOption
-              //   )
-              // }
-              color1={Colors.commonButtonGradient1}
-              color2={Colors.commonButtonGradient2}
-              buttonStyle={QuestionAnswerStyle.nextButton}
-              buttonTextStyle={QuestionAnswerStyle.exitButtonText}
-            />
-          </View>
-        </View>
+          <Pdf
+            source={{ uri: "https://cpatrivia.s3.amazonaws.com/gameAssets/samplePDF.pdf", cache: true }}
+            onLoadComplete={(numberOfPages, filePath) => {
+              console.log(`number of pages: ${numberOfPages}`);
+            }}
+            onPageChanged={(page, numberOfPages) => {
+              console.log(`current page: ${page}`);
+            }}
+            onError={error => {
+              console.log(error);
+            }}
+            style={styles.pdf}
+          />
+        </Modal>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginTop: 25
+  },
+  pdf: {
+    flex: 1,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height
+  }
+});
 
 const mapStateToProps = state => {
   return {

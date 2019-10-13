@@ -20,6 +20,7 @@ import CorrectAnswer from "../Containers/CP_Dashboard/CorrectAnswer";
 import WrongAnswer from "../Containers/CP_Dashboard/WrongAnswer";
 import ScoreScreen from "../Containers/CP_Dashboard/ScoreScreen";
 import Testing from "../Containers/CP_Dashboard/Testing";
+import Pdf from "react-native-pdf";
 
 const PreLoginNavigator = createStackNavigator(
   {
@@ -70,8 +71,8 @@ const InGameNavigators = createStackNavigator(
     Testing: { screen: Testing }
   },
   {
-    headerMode: "screen",
-    initialRouteName: "Instructions"
+    headerMode: "Instructions",
+    initialRouteName: "Testing"
   }
 );
 

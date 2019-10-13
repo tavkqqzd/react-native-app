@@ -31,10 +31,33 @@ class ModalC extends React.Component {
         </View>
       </Modal>
     );
+    let pdfModal = (
+      <Modal
+        isVisible={this.props.modalState}
+        useNativeDriver={true}
+        onBackdropPress={this.props.toggleModal}
+        height="90%"
+        backdropOpacity={0.5}
+      >
+        <View>
+          <RoundedButton
+            title="Close"
+            styleProps={css.b_margin}
+            toggleModal={this.props.toggleModal}
+            onClickHandler={this.props.navigateToLoginPage && this.props.navigateToLoginPage}
+            nav={this.props.nav && this.props.nav}
+          />
+          {this.props.children}
+        </View>
+      </Modal>
+    );
     let modal = undefined;
     switch (this.props.modalType) {
       case "loginModal":
         modal = LoginModal;
+        break;
+      case "pdfModal":
+        modal = pdfModal;
         break;
       default:
         modal = LoginModal;

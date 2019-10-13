@@ -441,24 +441,25 @@ class QuestionAnswer extends React.Component {
                   <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
                 </TouchableOpacity>
               ))}
+            <View style={{ marginTop: 20, alignItems: "center" }}>
+              <ButtonGradient
+                title="Next"
+                clickHandler={() =>
+                  this.submitAnswer(
+                    id,
+                    this.props.questions.result[QuestionIndex].question,
+                    this.props.questions.result[QuestionIndex].queId,
+                    this.state.selectedOption
+                  )
+                }
+                color1={Colors.commonButtonGradient1}
+                color2={Colors.commonButtonGradient2}
+                buttonStyle={QuestionAnswerStyle.nextButton}
+                buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+              />
+            </View>
           </View>
-          <View style={{ marginTop: 20, alignItems: "center" }}>
-            <ButtonGradient
-              title="Next"
-              clickHandler={() =>
-                this.submitAnswer(
-                  id,
-                  this.props.questions.result[QuestionIndex].question,
-                  this.props.questions.result[QuestionIndex].queId,
-                  this.state.selectedOption
-                )
-              }
-              color1={Colors.commonButtonGradient1}
-              color2={Colors.commonButtonGradient2}
-              buttonStyle={QuestionAnswerStyle.nextButton}
-              buttonTextStyle={QuestionAnswerStyle.exitButtonText}
-            />
-          </View>
+
           <Modal
             isVisible={this.state.pdf}
             onBackdropPress={this.openPdf}

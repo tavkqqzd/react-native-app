@@ -130,7 +130,7 @@ class QuestionAnswer extends React.Component {
   };
 
   mediaType2 = QuestionIndex => {
-    let { id } = this.props.selectedGame;
+    let { id, totalQuestions } = this.props.selectedGame;
     return (
       <View>
         <View style={{ flexDirection: "row", height: heightPercentageToDP("45%") }}>
@@ -171,7 +171,9 @@ class QuestionAnswer extends React.Component {
                 shadowColor="#999"
                 bgColor="#fff"
               >
-                <Text style={{ fontSize: 18 }}>{"30%"}</Text>
+                <Text style={{ fontSize: 18 }}>
+                  {QuestionIndex + 1} of {totalQuestions}
+                </Text>
               </ProgressCircle>
             </View>
             <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
@@ -234,7 +236,7 @@ class QuestionAnswer extends React.Component {
   };
 
   mediaType1 = QuestionIndex => {
-    let { id } = this.props.selectedGame;
+    let { id, totalQuestions } = this.props.selectedGame;
     return (
       <View>
         <View style={QuestionAnswerStyle.AudioSection}>
@@ -274,7 +276,9 @@ class QuestionAnswer extends React.Component {
                 shadowColor="#999"
                 bgColor="#fff"
               >
-                <Text style={{ fontSize: 18 }}>30%</Text>
+                <Text style={{ fontSize: 18 }}>
+                  {QuestionIndex + 1} of {totalQuestions}
+                </Text>
               </ProgressCircle>
             </View>
             <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
@@ -336,7 +340,7 @@ class QuestionAnswer extends React.Component {
   };
 
   mediaType3 = QuestionIndex => {
-    let { id } = this.props.selectedGame;
+    let { id, totalQuestions } = this.props.selectedGame;
     return (
       <View>
         <View style={QuestionAnswerStyle.AudioSection}>
@@ -370,7 +374,9 @@ class QuestionAnswer extends React.Component {
                 shadowColor="#999"
                 bgColor="#fff"
               >
-                <Text style={{ fontSize: 18 }}>30%</Text>
+                <Text style={{ fontSize: 18 }}>
+                  {QuestionIndex + 1} of {totalQuestions}
+                </Text>
               </ProgressCircle>
             </View>
             <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
@@ -458,7 +464,7 @@ class QuestionAnswer extends React.Component {
   };
 
   mediaWithImage = QuestionIndex => {
-    let { id } = this.props.selectedGame;
+    let { id, totalQuestions } = this.props.selectedGame;
     return (
       <View>
         <View style={QuestionAnswerStyle.AudioSection}>
@@ -491,7 +497,9 @@ class QuestionAnswer extends React.Component {
                 shadowColor="#999"
                 bgColor="#fff"
               >
-                <Text style={{ fontSize: 18 }}>30%</Text>
+                <Text style={{ fontSize: 18 }}>
+                  {QuestionIndex + 1} of {totalQuestions}
+                </Text>
               </ProgressCircle>
             </View>
             <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
@@ -555,7 +563,7 @@ class QuestionAnswer extends React.Component {
   };
 
   regularQuestionAnswer = QuestionIndex => {
-    let { id } = this.props.selectedGame;
+    let { id, totalQuestions } = this.props.selectedGame;
     return (
       <View>
         <View style={{ justifyContent: "flex-end", alignItems: "flex-end", margin: 20 }}>
@@ -571,7 +579,9 @@ class QuestionAnswer extends React.Component {
         <View style={InstructionStyle.instructionIntent}>
           <View style={{ marginTop: 20, marginBottom: 10 }}>
             <ProgressCircle percent={30} radius={40} borderWidth={2} color="#1CACF4" shadowColor="#999" bgColor="#fff">
-              <Text style={{ fontSize: 18 }}>{"30%"}</Text>
+              <Text style={{ fontSize: 18 }}>
+                {QuestionIndex + 1} of {totalQuestions}
+              </Text>
             </ProgressCircle>
           </View>
           <View style={QuestionAnswerStyle.coinAlignment}>
@@ -682,7 +692,8 @@ const mapStateToProps = state => {
     questions: state.ClubReducer.questions,
     selectedGame: state.ClubReducer.selectedGame,
     userData: state.ClubReducer.userData,
-    questionIndex: state.ClubReducer.indexOfQuestion
+    questionIndex: state.ClubReducer.indexOfQuestion,
+    gameData: state.ClubReducer.gameData
   };
 };
 

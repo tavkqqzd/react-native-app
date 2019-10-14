@@ -35,12 +35,22 @@ export const QuestionAnswerStyle = StyleSheet.create({
     width: widthPercentageToDP("80%"),
     marginBottom: 10,
     borderRadius: 25,
-    borderColor: "#282828",
+    borderColor: "#9a9a9a",
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center"
   },
+  questionOptionsSelected: {
+    height: 40,
+    width: widthPercentageToDP("80%"),
+    marginBottom: 10,
+    borderRadius: 25,
+    backgroundColor: Colors.commonButtonGradient2,
+    justifyContent: "center",
+    alignItems: "center"
+  },
   optionsText: { color: "black" },
+  optionsTextSelected: { color: "white", fontWeight: "bold" },
   exitButton: {
     height: 50,
     width: 90,

@@ -193,9 +193,21 @@ class QuestionAnswer extends React.Component {
               <TouchableOpacity
                 key={i}
                 onPress={() => this.selectedOptionFn(k)}
-                style={QuestionAnswerStyle.questionOptions}
+                style={
+                  this.state.selectedOption === k
+                    ? QuestionAnswerStyle.questionOptionsSelected
+                    : QuestionAnswerStyle.questionOptions
+                }
               >
-                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+                <Text
+                  style={
+                    this.state.selectedOption === k
+                      ? QuestionAnswerStyle.optionsTextSelected
+                      : QuestionAnswerStyle.optionsText
+                  }
+                >
+                  {k}
+                </Text>
               </TouchableOpacity>
             ))}
 
@@ -284,9 +296,21 @@ class QuestionAnswer extends React.Component {
               <TouchableOpacity
                 key={i}
                 onPress={() => this.selectedOptionFn(k)}
-                style={QuestionAnswerStyle.questionOptions}
+                style={
+                  this.state.selectedOption === k
+                    ? QuestionAnswerStyle.questionOptionsSelected
+                    : QuestionAnswerStyle.questionOptions
+                }
               >
-                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+                <Text
+                  style={
+                    this.state.selectedOption === k
+                      ? QuestionAnswerStyle.optionsTextSelected
+                      : QuestionAnswerStyle.optionsText
+                  }
+                >
+                  {k}
+                </Text>
               </TouchableOpacity>
             ))}
           <View style={{ marginTop: 20, alignItems: "center" }}>
@@ -370,9 +394,21 @@ class QuestionAnswer extends React.Component {
               <TouchableOpacity
                 key={i}
                 onPress={() => this.selectedOptionFn(k)}
-                style={QuestionAnswerStyle.questionOptions}
+                style={
+                  this.state.selectedOption === k
+                    ? QuestionAnswerStyle.questionOptionsSelected
+                    : QuestionAnswerStyle.questionOptions
+                }
               >
-                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+                <Text
+                  style={
+                    this.state.selectedOption === k
+                      ? QuestionAnswerStyle.optionsTextSelected
+                      : QuestionAnswerStyle.optionsText
+                  }
+                >
+                  {k}
+                </Text>
               </TouchableOpacity>
             ))}
           <View style={{ marginTop: 20, alignItems: "center" }}>
@@ -479,9 +515,21 @@ class QuestionAnswer extends React.Component {
               <TouchableOpacity
                 key={i}
                 onPress={() => this.selectedOptionFn(k)}
-                style={QuestionAnswerStyle.questionOptions}
+                style={
+                  this.state.selectedOption === k
+                    ? QuestionAnswerStyle.questionOptionsSelected
+                    : QuestionAnswerStyle.questionOptions
+                }
               >
-                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+                <Text
+                  style={
+                    this.state.selectedOption === k
+                      ? QuestionAnswerStyle.optionsTextSelected
+                      : QuestionAnswerStyle.optionsText
+                  }
+                >
+                  {k}
+                </Text>
               </TouchableOpacity>
             ))}
           <View style={{ marginTop: 20, alignItems: "center" }}>
@@ -544,9 +592,21 @@ class QuestionAnswer extends React.Component {
               <TouchableOpacity
                 key={i}
                 onPress={() => this.selectedOptionFn(k)}
-                style={QuestionAnswerStyle.questionOptions}
+                style={
+                  this.state.selectedOption === k
+                    ? QuestionAnswerStyle.questionOptionsSelected
+                    : QuestionAnswerStyle.questionOptions
+                }
               >
-                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+                <Text
+                  style={
+                    this.state.selectedOption === k
+                      ? QuestionAnswerStyle.optionsTextSelected
+                      : QuestionAnswerStyle.optionsText
+                  }
+                >
+                  {k}
+                </Text>
               </TouchableOpacity>
             ))}
         </View>

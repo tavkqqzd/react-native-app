@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, TextInput, Image, TouchableOpacity, Switch, ScrollView } from "react-native";
+import { Text, View, TextInput, Image, TouchableOpacity, Switch, ScrollView, Button } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
@@ -16,6 +16,29 @@ import { RadioGroup, RadioButton } from "react-native-flexi-radio-button";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { Dropdown } from "react-native-material-dropdown";
 import * as actions from "../../Store/Actions/ClubData";
+
+import { RNS3 } from "react-native-s3-upload";
+
+// AWS_ACCESSKEY_ID="AKIAJZ5F3ACPRUYRU2AQ"
+// AWS_SECRET_ACCESS_KEY="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"
+// AWS_S3_BUCKET_NAME="cpatrivia"
+// AWS_S3_REGION="us-east-1"
+
+const file = {
+  // `uri` can also be a file system path (i.e. file://)
+  uri: "https://upload.wikimedia.org/wikipedia/commons/5/5d/401_Gridlock.jpg",
+  name: "image.png",
+  type: "image/png"
+};
+
+const options = {
+  keyPrefix: "players/",
+  bucket: "cpatrivia",
+  region: "us-east-1",
+  accessKey: "AKIAJZ5F3ACPRUYRU2AQ",
+  secretKey: "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",
+  successActionStatus: 201
+};
 
 class SignUp extends React.Component {
   static navigationOptions = {
@@ -96,8 +119,6 @@ class SignUp extends React.Component {
     return arrayToPush;
   };
 
-  uploadImage = () => {};
-
   componentDidMount() {
     getEmployeeType(this.props.clubData.clubId).then(res => {
       if (res.status === 200) {
@@ -126,6 +147,14 @@ class SignUp extends React.Component {
       .catch(err => {
         console.log("sign up failed", err);
       });
+  };
+
+  uploadImage = () => {
+    console.log("clicked");
+    RNS3.put(file, options).then(response => {
+      if (response.status !== 201) throw new Error("Failed to upload image to S3");
+      console.log(response.body);
+    });
   };
 
   getIdOfEmployee = () => {
@@ -239,6 +268,9 @@ class SignUp extends React.Component {
               <Text>By Clicking Sign Up, I agree to Terms of Service and Privacy Policy</Text>
             </View>
           </View>
+          <TouchableOpacity onPress={() => this.uploadImage()}>
+            <Text>Upload</Text>
+          </TouchableOpacity>
           <ButtonGradient
             clickHandler={() => this.signUp()}
             title="Sign Up"

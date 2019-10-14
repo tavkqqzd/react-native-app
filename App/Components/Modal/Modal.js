@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
+
 import Modal from "react-native-modal";
 import RoundedButton from "../../Components/Buttons/RoundButton";
 

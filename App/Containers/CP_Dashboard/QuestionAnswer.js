@@ -62,7 +62,6 @@ class QuestionAnswer extends React.Component {
         .then(res => {
           if (res.status === 200) {
             this.props.navigation.dispatch(CorrectAnswerPage(questionIndex));
-            console.log("submitted answer");
           } else if (res.status === 404) {
             console.log("404");
           } else if (res.status === 500) {
@@ -75,7 +74,6 @@ class QuestionAnswer extends React.Component {
     } else if (this.props.questions.result[questionIndex].correctAnswer !== this.state.selectedOption) {
       sumbitAnswer(obj)
         .then(res => {
-          console.log("wrong answer", res);
           if (res.status === 401) {
             this.props.navigation.dispatch(WrongAnswerPage(questionIndex));
           }
@@ -131,201 +129,39 @@ class QuestionAnswer extends React.Component {
     });
   };
 
-  render() {
+  mediaType2 = QuestionIndex => {
     let { id } = this.props.selectedGame;
-    let QuestionIndex = this.props && this.props.questionIndex;
-
-    let renderByQuestionType = "";
-    if (this.props.questions.result[QuestionIndex].mediaType === 2) {
-      renderByQuestionType = (
-        <View>
-          <View style={{ flexDirection: "row", height: heightPercentageToDP("45%") }}>
-            <View style={{ width: widthPercentageToDP("75%"), padding: 5 }}>
-              <VideoPlayer
-                source={{ uri: "https://cpatrivia.s3.amazonaws.com/gameAssets/sampleVideo.mp4" }}
-                toggleResizeModeOnFullscreen={true}
-                navigator={this.props.navigator}
-                paused={false}
-                repeat={false}
-              />
-            </View>
-            <View
-              style={{
-                width: widthPercentageToDP("25%"),
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 20
-              }}
-            >
-              <View>
-                <ButtonGradient
-                  title="Exit"
-                  // clickHandler={() => this.getQuestions(id)}
-                  color1={Colors.commonButtonGradient1}
-                  color2={Colors.commonButtonGradient2}
-                  buttonStyle={QuestionAnswerStyle.exitButton}
-                  buttonTextStyle={QuestionAnswerStyle.exitButtonText}
-                />
-              </View>
-
-              <View style={{ marginTop: 20, marginBottom: 10 }}>
-                <ProgressCircle
-                  percent={30}
-                  radius={40}
-                  borderWidth={2}
-                  color="#1CACF4"
-                  shadowColor="#999"
-                  bgColor="#fff"
-                >
-                  <Text style={{ fontSize: 18 }}>{"30%"}</Text>
-                </ProgressCircle>
-              </View>
-              <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
-                <View>
-                  <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
-                </View>
-                <View style={QuestionAnswerStyle.score}>
-                  <Text>+5</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
-            <View>
-              <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[QuestionIndex].question}</Text>
-            </View>
-            {!!this.props.questions &&
-              this.props.questions.result[QuestionIndex].options.map((k, i) => (
-                <TouchableOpacity
-                  key={i}
-                  onPress={() => this.selectedOptionFn(k)}
-                  style={QuestionAnswerStyle.questionOptions}
-                >
-                  <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
-                </TouchableOpacity>
-              ))}
-
-            <View style={{ marginTop: 20, alignItems: "center" }}>
-              <ButtonGradient
-                title="Next"
-                clickHandler={() =>
-                  this.submitAnswer(
-                    id,
-                    this.props.questions.result[QuestionIndex].question,
-                    this.props.questions.result[QuestionIndex].queId,
-                    this.state.selectedOption
-                  )
-                }
-                color1={Colors.commonButtonGradient1}
-                color2={Colors.commonButtonGradient2}
-                buttonStyle={QuestionAnswerStyle.nextButton}
-                buttonTextStyle={QuestionAnswerStyle.exitButtonText}
-              />
-            </View>
-          </View>
-        </View>
-      );
-    } else if (this.props.questions.result[QuestionIndex].mediaType === 1) {
-      renderByQuestionType = (
-        <View>
-          <View style={QuestionAnswerStyle.AudioSection}>
-            <View style={QuestionAnswerStyle.AudioImageAlignment}>
-              <View style={QuestionAnswerStyle.AudioImageAlignment_BTM_Margin}>
-                <Image source={images.audio} style={QuestionAnswerStyle.AudioImage} />
-              </View>
-              <View style={QuestionAnswerStyle.AudioControlsAlignment}>
-                <TouchableOpacity onPress={() => this.playSound()} style={QuestionAnswerStyle.AudioControls}>
-                  <Text style={QuestionAnswerStyle.AudioControlsText}>Play</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.pauseSound()} style={QuestionAnswerStyle.AudioControls}>
-                  <Text style={QuestionAnswerStyle.AudioControlsText}>Pause</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.resetSound()} style={QuestionAnswerStyle.AudioControls}>
-                  <Text style={QuestionAnswerStyle.AudioControlsText}>Repeat</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={QuestionAnswerStyle.AudioViewRightView}>
-              <View>
-                <ButtonGradient
-                  title="Exit"
-                  // clickHandler={() => this.getQuestions(id)}
-                  color1={Colors.commonButtonGradient1}
-                  color2={Colors.commonButtonGradient2}
-                  buttonStyle={QuestionAnswerStyle.exitButton}
-                  buttonTextStyle={QuestionAnswerStyle.exitButtonText}
-                />
-              </View>
-              <View style={{ marginTop: 20, marginBottom: 10 }}>
-                <ProgressCircle
-                  percent={30}
-                  radius={40}
-                  borderWidth={2}
-                  color="#1CACF4"
-                  shadowColor="#999"
-                  bgColor="#fff"
-                >
-                  <Text style={{ fontSize: 18 }}>30%</Text>
-                </ProgressCircle>
-              </View>
-              <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
-                <View>
-                  <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
-                </View>
-                <View style={QuestionAnswerStyle.score}>
-                  <Text>+5</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
-            <View>
-              <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[QuestionIndex].question}</Text>
-            </View>
-            {!!this.props.questions &&
-              this.props.questions.result[QuestionIndex].options.map((k, i) => (
-                <TouchableOpacity
-                  key={i}
-                  onPress={() => this.selectedOptionFn(k)}
-                  style={QuestionAnswerStyle.questionOptions}
-                >
-                  <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
-                </TouchableOpacity>
-              ))}
-            <View style={{ marginTop: 20, alignItems: "center" }}>
-              <ButtonGradient
-                title="Next"
-                clickHandler={() =>
-                  this.submitAnswer(
-                    id,
-                    this.props.questions.result[QuestionIndex].question,
-                    this.props.questions.result[QuestionIndex].queId,
-                    this.state.selectedOption
-                  )
-                }
-                color1={Colors.commonButtonGradient1}
-                color2={Colors.commonButtonGradient2}
-                buttonStyle={QuestionAnswerStyle.nextButton}
-                buttonTextStyle={QuestionAnswerStyle.exitButtonText}
-              />
-            </View>
-          </View>
-        </View>
-      );
-    } else if (this.props.questions.result[QuestionIndex].mediaType === 0) {
-      renderByQuestionType = (
-        <View>
-          <View style={{ justifyContent: "flex-end", alignItems: "flex-end", margin: 20 }}>
-            <ButtonGradient
-              title="Exit"
-              // clickHandler={() => this.getQuestions(id)}
-              color1={Colors.commonButtonGradient1}
-              color2={Colors.commonButtonGradient2}
-              buttonStyle={QuestionAnswerStyle.exitButton}
-              buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+    return (
+      <View>
+        <View style={{ flexDirection: "row", height: heightPercentageToDP("45%") }}>
+          <View style={{ width: widthPercentageToDP("75%"), padding: 5 }}>
+            <VideoPlayer
+              source={{ uri: "https://cpatrivia.s3.amazonaws.com/gameAssets/sampleVideo.mp4" }}
+              toggleResizeModeOnFullscreen={true}
+              navigator={this.props.navigator}
+              paused={false}
+              repeat={false}
             />
           </View>
-          <View style={InstructionStyle.instructionIntent}>
+          <View
+            style={{
+              width: widthPercentageToDP("25%"),
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 20
+            }}
+          >
+            <View>
+              <ButtonGradient
+                title="Exit"
+                // clickHandler={() => this.getQuestions(id)}
+                color1={Colors.commonButtonGradient1}
+                color2={Colors.commonButtonGradient2}
+                buttonStyle={QuestionAnswerStyle.exitButton}
+                buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+              />
+            </View>
+
             <View style={{ marginTop: 20, marginBottom: 10 }}>
               <ProgressCircle
                 percent={30}
@@ -338,7 +174,7 @@ class QuestionAnswer extends React.Component {
                 <Text style={{ fontSize: 18 }}>{"30%"}</Text>
               </ProgressCircle>
             </View>
-            <View style={QuestionAnswerStyle.coinAlignment}>
+            <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
               <View>
                 <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
               </View>
@@ -346,21 +182,24 @@ class QuestionAnswer extends React.Component {
                 <Text>+5</Text>
               </View>
             </View>
-            <View>
-              <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[QuestionIndex].question}</Text>
-            </View>
-            {!!this.props.questions &&
-              this.props.questions.result[QuestionIndex].options.map((k, i) => (
-                <TouchableOpacity
-                  key={i}
-                  onPress={() => this.selectedOptionFn(k)}
-                  style={QuestionAnswerStyle.questionOptions}
-                >
-                  <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
-                </TouchableOpacity>
-              ))}
           </View>
-          <View style={{ bottom: 200, alignItems: "center" }}>
+        </View>
+        <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
+          <View>
+            <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[QuestionIndex].question}</Text>
+          </View>
+          {!!this.props.questions &&
+            this.props.questions.result[QuestionIndex].options.map((k, i) => (
+              <TouchableOpacity
+                key={i}
+                onPress={() => this.selectedOptionFn(k)}
+                style={QuestionAnswerStyle.questionOptions}
+              >
+                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+              </TouchableOpacity>
+            ))}
+
+          <View style={{ marginTop: 20, alignItems: "center" }}>
             <ButtonGradient
               title="Next"
               clickHandler={() =>
@@ -378,116 +217,383 @@ class QuestionAnswer extends React.Component {
             />
           </View>
         </View>
-      );
-      return renderByQuestionType;
-    } else if (this.props.questions.result[QuestionIndex].mediaType === 4) {
-      renderByQuestionType = (
-        <View>
-          <View style={QuestionAnswerStyle.AudioSection}>
-            <View style={QuestionAnswerStyle.AudioImageAlignment}>
-              <View style={QuestionAnswerStyle.AudioImageAlignment_BTM_Margin}>
-                <Image source={images.pdf} style={QuestionAnswerStyle.AudioImage} />
-              </View>
-              <View style={QuestionAnswerStyle.AudioControlsAlignment}>
-                <TouchableOpacity onPress={() => this.openPdf()} style={QuestionAnswerStyle.AudioControls}>
-                  <Text style={QuestionAnswerStyle.AudioControlsText}>Open PDF</Text>
-                </TouchableOpacity>
-              </View>
+      </View>
+    );
+  };
+
+  mediaType1 = QuestionIndex => {
+    let { id } = this.props.selectedGame;
+    return (
+      <View>
+        <View style={QuestionAnswerStyle.AudioSection}>
+          <View style={QuestionAnswerStyle.AudioImageAlignment}>
+            <View style={QuestionAnswerStyle.AudioImageAlignment_BTM_Margin}>
+              <Image source={images.audio} style={QuestionAnswerStyle.AudioImage} />
             </View>
-            <View style={QuestionAnswerStyle.AudioViewRightView}>
-              <View>
-                <ButtonGradient
-                  title="Exit"
-                  // clickHandler={() => this.getQuestions(id)}
-                  color1={Colors.commonButtonGradient1}
-                  color2={Colors.commonButtonGradient2}
-                  buttonStyle={QuestionAnswerStyle.exitButton}
-                  buttonTextStyle={QuestionAnswerStyle.exitButtonText}
-                />
-              </View>
-              <View style={{ marginTop: 20, marginBottom: 10 }}>
-                <ProgressCircle
-                  percent={30}
-                  radius={40}
-                  borderWidth={2}
-                  color="#1CACF4"
-                  shadowColor="#999"
-                  bgColor="#fff"
-                >
-                  <Text style={{ fontSize: 18 }}>30%</Text>
-                </ProgressCircle>
-              </View>
-              <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
-                <View>
-                  <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
-                </View>
-                <View style={QuestionAnswerStyle.score}>
-                  <Text>+5</Text>
-                </View>
-              </View>
+            <View style={QuestionAnswerStyle.AudioControlsAlignment}>
+              <TouchableOpacity onPress={() => this.playSound()} style={QuestionAnswerStyle.AudioControls}>
+                <Text style={QuestionAnswerStyle.AudioControlsText}>Play</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.pauseSound()} style={QuestionAnswerStyle.AudioControls}>
+                <Text style={QuestionAnswerStyle.AudioControlsText}>Pause</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.resetSound()} style={QuestionAnswerStyle.AudioControls}>
+                <Text style={QuestionAnswerStyle.AudioControlsText}>Repeat</Text>
+              </TouchableOpacity>
             </View>
           </View>
-          <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
+          <View style={QuestionAnswerStyle.AudioViewRightView}>
             <View>
-              <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[QuestionIndex].question}</Text>
-            </View>
-            {!!this.props.questions &&
-              this.props.questions.result[QuestionIndex].options.map((k, i) => (
-                <TouchableOpacity
-                  key={i}
-                  onPress={() => this.selectedOptionFn(k)}
-                  style={QuestionAnswerStyle.questionOptions}
-                >
-                  <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
-                </TouchableOpacity>
-              ))}
-            <View style={{ marginTop: 20, alignItems: "center" }}>
               <ButtonGradient
-                title="Next"
-                clickHandler={() =>
-                  this.submitAnswer(
-                    id,
-                    this.props.questions.result[QuestionIndex].question,
-                    this.props.questions.result[QuestionIndex].queId,
-                    this.state.selectedOption
-                  )
-                }
+                title="Exit"
+                // clickHandler={() => this.getQuestions(id)}
                 color1={Colors.commonButtonGradient1}
                 color2={Colors.commonButtonGradient2}
-                buttonStyle={QuestionAnswerStyle.nextButton}
+                buttonStyle={QuestionAnswerStyle.exitButton}
                 buttonTextStyle={QuestionAnswerStyle.exitButtonText}
               />
             </View>
+            <View style={{ marginTop: 20, marginBottom: 10 }}>
+              <ProgressCircle
+                percent={30}
+                radius={40}
+                borderWidth={2}
+                color="#1CACF4"
+                shadowColor="#999"
+                bgColor="#fff"
+              >
+                <Text style={{ fontSize: 18 }}>30%</Text>
+              </ProgressCircle>
+            </View>
+            <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
+              <View>
+                <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
+              </View>
+              <View style={QuestionAnswerStyle.score}>
+                <Text>+5</Text>
+              </View>
+            </View>
           </View>
-
-          <Modal
-            isVisible={this.state.pdf}
-            onBackdropPress={this.openPdf}
-            modalType="pdfModal"
-            style={{ backgroundColor: "#fff", width: "100%", height: "100%" }}
-          >
-            <TouchableOpacity onPress={() => this.openPdf()} style={QuestionAnswerStyle.AudioControls}>
-              <Text style={QuestionAnswerStyle.AudioControlsText}>Close</Text>
-            </TouchableOpacity>
-            <Pdf
-              source={{ uri: "https://cpatrivia.s3.amazonaws.com/gameAssets/samplePDF.pdf", cache: true }}
-              onLoadComplete={(numberOfPages, filePath) => {
-                console.log(`number of pages: ${numberOfPages}`);
-              }}
-              onPageChanged={(page, numberOfPages) => {
-                console.log(`current page: ${page}`);
-              }}
-              onError={error => {
-                console.log(error);
-              }}
-              style={styles.pdf}
-            />
-          </Modal>
         </View>
-      );
-    }
+        <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
+          <View>
+            <Text style={QuestionAnswerStyle.question}>{this.props.questions.result[QuestionIndex].question}</Text>
+          </View>
+          {!!this.props.questions &&
+            this.props.questions.result[QuestionIndex].options.map((k, i) => (
+              <TouchableOpacity
+                key={i}
+                onPress={() => this.selectedOptionFn(k)}
+                style={QuestionAnswerStyle.questionOptions}
+              >
+                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+              </TouchableOpacity>
+            ))}
+          <View style={{ marginTop: 20, alignItems: "center" }}>
+            <ButtonGradient
+              title="Next"
+              clickHandler={() =>
+                this.submitAnswer(
+                  id,
+                  this.props.questions.result[QuestionIndex].question,
+                  this.props.questions.result[QuestionIndex].queId,
+                  this.state.selectedOption
+                )
+              }
+              color1={Colors.commonButtonGradient1}
+              color2={Colors.commonButtonGradient2}
+              buttonStyle={QuestionAnswerStyle.nextButton}
+              buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  };
 
-    return renderByQuestionType;
+  mediaType3 = QuestionIndex => {
+    let { id } = this.props.selectedGame;
+    return (
+      <View>
+        <View style={QuestionAnswerStyle.AudioSection}>
+          <View style={QuestionAnswerStyle.AudioImageAlignment}>
+            <View style={QuestionAnswerStyle.AudioImageAlignment_BTM_Margin}>
+              <Image source={images.pdf} style={QuestionAnswerStyle.AudioImage} />
+            </View>
+            <View style={QuestionAnswerStyle.AudioControlsAlignment}>
+              <TouchableOpacity onPress={() => this.openPdf()} style={QuestionAnswerStyle.AudioControls}>
+                <Text style={QuestionAnswerStyle.AudioControlsText}>Open PDF</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={QuestionAnswerStyle.AudioViewRightView}>
+            <View>
+              <ButtonGradient
+                title="Exit"
+                // clickHandler={() => this.getQuestions(id)}
+                color1={Colors.commonButtonGradient1}
+                color2={Colors.commonButtonGradient2}
+                buttonStyle={QuestionAnswerStyle.exitButton}
+                buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+              />
+            </View>
+            <View style={{ marginTop: 20, marginBottom: 10 }}>
+              <ProgressCircle
+                percent={30}
+                radius={40}
+                borderWidth={2}
+                color="#1CACF4"
+                shadowColor="#999"
+                bgColor="#fff"
+              >
+                <Text style={{ fontSize: 18 }}>30%</Text>
+              </ProgressCircle>
+            </View>
+            <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
+              <View>
+                <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
+              </View>
+              <View style={QuestionAnswerStyle.score}>
+                <Text>+5</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
+          <View>
+            <Text style={QuestionAnswerStyle.question}>
+              {this.props.questions && this.props.questions.result[QuestionIndex].question}
+            </Text>
+          </View>
+          {!!this.props.questions &&
+            this.props.questions.result[QuestionIndex].options.map((k, i) => (
+              <TouchableOpacity
+                key={i}
+                onPress={() => this.selectedOptionFn(k)}
+                style={QuestionAnswerStyle.questionOptions}
+              >
+                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+              </TouchableOpacity>
+            ))}
+          <View style={{ marginTop: 20, alignItems: "center" }}>
+            <ButtonGradient
+              title="Next"
+              clickHandler={() =>
+                this.submitAnswer(
+                  id,
+                  this.props.questions.result[QuestionIndex].question,
+                  this.props.questions.result[QuestionIndex].queId,
+                  this.state.selectedOption
+                )
+              }
+              color1={Colors.commonButtonGradient1}
+              color2={Colors.commonButtonGradient2}
+              buttonStyle={QuestionAnswerStyle.nextButton}
+              buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+            />
+          </View>
+        </View>
+
+        <Modal
+          isVisible={this.state.pdf}
+          onBackdropPress={this.openPdf}
+          modalType="pdfModal"
+          style={{ backgroundColor: "#fff", width: "100%", height: "100%" }}
+        >
+          <TouchableOpacity onPress={() => this.openPdf()} style={QuestionAnswerStyle.AudioControls}>
+            <Text style={QuestionAnswerStyle.AudioControlsText}>Close</Text>
+          </TouchableOpacity>
+          <Pdf
+            source={{ uri: "https://cpatrivia.s3.amazonaws.com/gameAssets/samplePDF.pdf", cache: true }}
+            onLoadComplete={(numberOfPages, filePath) => {
+              console.log(`number of pages: ${numberOfPages}`);
+            }}
+            onPageChanged={(page, numberOfPages) => {
+              console.log(`current page: ${page}`);
+            }}
+            onError={error => {
+              console.log(error);
+            }}
+            style={styles.pdf}
+          />
+        </Modal>
+      </View>
+    );
+  };
+
+  mediaWithImage = QuestionIndex => {
+    let { id } = this.props.selectedGame;
+    return (
+      <View>
+        <View style={QuestionAnswerStyle.AudioSection}>
+          <View style={QuestionAnswerStyle.AudioImageAlignment}>
+            <View style={QuestionAnswerStyle.AudioImageAlignment_BTM_Margin}>
+              <Image
+                source={{ uri: this.props.questions && this.props.questions.result[QuestionIndex].image }}
+                style={{ height: 250, width: 250 }}
+              />
+            </View>
+            <View style={QuestionAnswerStyle.AudioControlsAlignment}></View>
+          </View>
+          <View style={QuestionAnswerStyle.AudioViewRightView}>
+            <View>
+              <ButtonGradient
+                title="Exit"
+                // clickHandler={() => this.getQuestions(id)}
+                color1={Colors.commonButtonGradient1}
+                color2={Colors.commonButtonGradient2}
+                buttonStyle={QuestionAnswerStyle.exitButton}
+                buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+              />
+            </View>
+            <View style={{ marginTop: 20, marginBottom: 10 }}>
+              <ProgressCircle
+                percent={30}
+                radius={40}
+                borderWidth={2}
+                color="#1CACF4"
+                shadowColor="#999"
+                bgColor="#fff"
+              >
+                <Text style={{ fontSize: 18 }}>30%</Text>
+              </ProgressCircle>
+            </View>
+            <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
+              <View>
+                <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
+              </View>
+              <View style={QuestionAnswerStyle.score}>
+                <Text>+5</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
+          <View>
+            <Text style={QuestionAnswerStyle.question}>
+              {this.props.questions && this.props.questions.result[QuestionIndex].question}
+            </Text>
+          </View>
+          {!!this.props.questions &&
+            this.props.questions.result[QuestionIndex].options.map((k, i) => (
+              <TouchableOpacity
+                key={i}
+                onPress={() => this.selectedOptionFn(k)}
+                style={QuestionAnswerStyle.questionOptions}
+              >
+                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+              </TouchableOpacity>
+            ))}
+          <View style={{ marginTop: 20, alignItems: "center" }}>
+            <ButtonGradient
+              title="Next"
+              clickHandler={() =>
+                this.submitAnswer(
+                  id,
+                  this.props.questions.result[QuestionIndex].question,
+                  this.props.questions.result[QuestionIndex].queId,
+                  this.state.selectedOption
+                )
+              }
+              color1={Colors.commonButtonGradient1}
+              color2={Colors.commonButtonGradient2}
+              buttonStyle={QuestionAnswerStyle.nextButton}
+              buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  regularQuestionAnswer = QuestionIndex => {
+    let { id } = this.props.selectedGame;
+    return (
+      <View>
+        <View style={{ justifyContent: "flex-end", alignItems: "flex-end", margin: 20 }}>
+          <ButtonGradient
+            title="Exit"
+            // clickHandler={() => this.getQuestions(id)}
+            color1={Colors.commonButtonGradient1}
+            color2={Colors.commonButtonGradient2}
+            buttonStyle={QuestionAnswerStyle.exitButton}
+            buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+          />
+        </View>
+        <View style={InstructionStyle.instructionIntent}>
+          <View style={{ marginTop: 20, marginBottom: 10 }}>
+            <ProgressCircle percent={30} radius={40} borderWidth={2} color="#1CACF4" shadowColor="#999" bgColor="#fff">
+              <Text style={{ fontSize: 18 }}>{"30%"}</Text>
+            </ProgressCircle>
+          </View>
+          <View style={QuestionAnswerStyle.coinAlignment}>
+            <View>
+              <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
+            </View>
+            <View style={QuestionAnswerStyle.score}>
+              <Text>+5</Text>
+            </View>
+          </View>
+          <View>
+            <Text style={QuestionAnswerStyle.question}>
+              {this.props.questions && this.props.questions.result[QuestionIndex].question}
+            </Text>
+          </View>
+          {!!this.props.questions &&
+            this.props.questions.result[QuestionIndex].options.map((k, i) => (
+              <TouchableOpacity
+                key={i}
+                onPress={() => this.selectedOptionFn(k)}
+                style={QuestionAnswerStyle.questionOptions}
+              >
+                <Text style={QuestionAnswerStyle.optionsText}>{k}</Text>
+              </TouchableOpacity>
+            ))}
+        </View>
+        <View style={{ bottom: 200, alignItems: "center" }}>
+          <ButtonGradient
+            title="Next"
+            clickHandler={() =>
+              this.submitAnswer(
+                id,
+                this.props.questions.result[QuestionIndex].question,
+                this.props.questions.result[QuestionIndex].queId,
+                this.state.selectedOption
+              )
+            }
+            color1={Colors.commonButtonGradient1}
+            color2={Colors.commonButtonGradient2}
+            buttonStyle={QuestionAnswerStyle.nextButton}
+            buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+          />
+        </View>
+      </View>
+    );
+  };
+
+  renderTypeOfQuestion = QuestionIndex => {
+    let display = "";
+    if (this.props.questions && this.props.questions.result[QuestionIndex].mediaType === 2) {
+      display = this.mediaType2(QuestionIndex);
+    } else if (this.props.questions && this.props.questions.result[QuestionIndex].mediaType === 1) {
+      display = this.mediaType1(QuestionIndex);
+    } else if (this.props.questions && this.props.questions.result[QuestionIndex].mediaType === 3) {
+      display = this.mediaType3(QuestionIndex);
+    } else if (
+      this.props.questions.result[QuestionIndex].questionType === 2 &&
+      this.props.questions.result[QuestionIndex].mediaType === 0
+    ) {
+      display = this.regularQuestionAnswer(QuestionIndex);
+    } else if (this.props.questions && this.props.questions.result[QuestionIndex].mediaType === 0) {
+      display = this.mediaWithImage(QuestionIndex);
+    }
+    return display;
+  };
+
+  render() {
+    let QuestionIndex = this.props && this.props.questionIndex;
+    console.log("render index", this.props.questionIndex);
+    return this.renderTypeOfQuestion(QuestionIndex);
   }
 }
 

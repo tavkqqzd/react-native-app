@@ -71,8 +71,8 @@ const InGameNavigators = createStackNavigator(
     Testing: { screen: Testing }
   },
   {
-    headerMode: "Instructions",
-    initialRouteName: "Testing"
+    headerMode: "none",
+    initialRouteName: "Instructions"
   }
 );
 

@@ -5,6 +5,7 @@ import { NavigationActions } from "react-navigation";
 import image from "../../Themes/Images";
 import { connect } from "react-redux";
 import * as actions from "../../Store/Actions/ClubData";
+import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
 
 // updated data
 const navigateToQuestionAnswerPage = NavigationActions.navigate({
@@ -32,7 +33,6 @@ class CorrectAnswerPage extends React.Component {
     if (this.state.countDown < 0) {
       let index = this.props.questionIndex;
       let updatedIndex = index + 1;
-      console.log("wrong updatedIndex", updatedIndex);
       if (updatedIndex > totalQuestions - 1) {
         this.props.getIndexOfQuestion(0);
         this.props.navigation.dispatch(navigateScoreScreen);
@@ -65,11 +65,15 @@ class CorrectAnswerPage extends React.Component {
         <Image source={image.correctCircleWithStars} style={marginForIcon} />
         <Text style={Styles.textBelowLogo}>Awesome</Text>
         <Text style={Styles.suggestion}>Congrats</Text>
-        <View style={[Styles.score, { marginBottom: 8, marginTop: 8 }]}>
-          <View style={Styles.coin}>{/* <svg.dollar width="20" height="20" /> */}</View>
-          <Text>X Points</Text>
+        <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
+          <View>
+            <Image source={image.dollar} style={QuestionAnswerStyle.coin} />
+          </View>
+          <View style={QuestionAnswerStyle.score}>
+            <Text>+5</Text>
+          </View>
         </View>
-        <Text style={Styles.totalPoints}>Your Total Points: Total Points</Text>
+        <Text style={Styles.totalPoints}>Your Total Points: 5</Text>
       </View>
     );
   }

@@ -72,7 +72,7 @@ const InGameNavigators = createStackNavigator(
   },
   {
     headerMode: "none",
-    initialRouteName: "Instructions"
+    initialRouteName: "Instruction"
   }
 );
 

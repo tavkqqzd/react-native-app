@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, TextInput, Image, TouchableOpacity, Switch, ScrollView, Button } from "react-native";
+import ImagePicker from "react-native-image-picker";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
@@ -19,26 +20,35 @@ import * as actions from "../../Store/Actions/ClubData";
 
 import { RNS3 } from "react-native-s3-upload";
 
+const options = {
+  title: "Select Avatar",
+  customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
+  storageOptions: {
+    skipBackup: true,
+    path: "images"
+  }
+};
+
 // AWS_ACCESSKEY_ID="AKIAJZ5F3ACPRUYRU2AQ"
 // AWS_SECRET_ACCESS_KEY="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"
 // AWS_S3_BUCKET_NAME="cpatrivia"
 // AWS_S3_REGION="us-east-1"
 
-const file = {
-  // `uri` can also be a file system path (i.e. file://)
-  uri: "https://upload.wikimedia.org/wikipedia/commons/5/5d/401_Gridlock.jpg",
-  name: "image.png",
-  type: "image/png"
-};
+// const file = {
+//   // `uri` can also be a file system path (i.e. file://)
+//   uri: "https://upload.wikimedia.org/wikipedia/commons/5/5d/401_Gridlock.jpg",
+//   name: "image.png",
+//   type: "image/png"
+// };
 
-const options = {
-  keyPrefix: "players/",
-  bucket: "cpatrivia",
-  region: "us-east-1",
-  accessKey: "AKIAJZ5F3ACPRUYRU2AQ",
-  secretKey: "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",
-  successActionStatus: 201
-};
+// const options = {
+//   keyPrefix: "players/",
+//   bucket: "cpatrivia",
+//   region: "us-east-1",
+//   accessKey: "AKIAJZ5F3ACPRUYRU2AQ",
+//   secretKey: "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",
+//   successActionStatus: 201
+// };
 
 class SignUp extends React.Component {
   static navigationOptions = {
@@ -150,10 +160,30 @@ class SignUp extends React.Component {
   };
 
   uploadImage = () => {
-    console.log("clicked");
-    RNS3.put(file, options).then(response => {
-      if (response.status !== 201) throw new Error("Failed to upload image to S3");
-      console.log(response.body);
+    // console.log("clicked");
+    // RNS3.put(file, options).then(response => {
+    //   if (response.status !== 201) throw new Error("Failed to upload image to S3");
+    //   console.log(response.body);
+    // });
+    ImagePicker.launchImageLibrary(options, response => {
+      console.log("Response = ", response);
+
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        const source = { uri: response.uri };
+
+        // You can also display the image using data:
+        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          avatarSource: source
+        });
+      }
     });
   };
 
@@ -171,7 +201,12 @@ class SignUp extends React.Component {
         <View style={centerAlignment.contentAlignInCenter}>
           <Image source={{ uri: clubLogo }} style={{ width: 120, height: 120 }} />
         </View>
-        <View>
+
+        <View style={{ position: "relative" }}>
+          <TouchableOpacity style={{ position: "absolute", right: 10, top: -10 }} onPress={() => this.uploadImage()}>
+            <Image source={images.ic_camera} style={{ width: 70, height: 60 }} />
+          </TouchableOpacity>
+
           <TextField
             label="Name*"
             value={name}

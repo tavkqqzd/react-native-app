@@ -31,13 +31,11 @@ createNewArrayToRender = arr => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_CLUB_DATA:
-      console.log("GET_CLUB_DATA", action.data);
       return {
         ...state,
         clubData: action.data
       };
     case actionTypes.GET_USER_DATA:
-      console.log("GET_USER_DATA", action.data);
       return {
         ...state,
         userData: action.data

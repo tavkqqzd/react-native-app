@@ -44,7 +44,7 @@ const PostLoginNavigators = createStackNavigator(
     Instructions: { screen: Instruction }
   },
   {
-    initialRouteName: "SignUp",
+    initialRouteName: "EnterClubId",
     headerLayoutPreset: "center"
   }
 );
@@ -78,10 +78,10 @@ const InGameNavigators = createStackNavigator(
 
 const RootNav = createSwitchNavigator(
   {
-    // PreLogin: PreLoginNavigator,
-    Post_Login_SignUp: PostLoginNavigators
-    // ResetPassword: ResetPasswordNavigattor,
-    // InGame: InGameNavigators
+    PreLogin: PreLoginNavigator,
+    Post_Login_SignUp: PostLoginNavigators,
+    ResetPassword: ResetPasswordNavigattor,
+    InGame: InGameNavigators
   },
   {
     headerMode: "none"

@@ -20,35 +20,28 @@ import * as actions from "../../Store/Actions/ClubData";
 
 import { RNS3 } from "react-native-s3-upload";
 
-const options = {
-  title: "Select Avatar",
-  customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
-  storageOptions: {
-    skipBackup: true,
-    path: "images"
-  }
-};
-
-// AWS_ACCESSKEY_ID="AKIAJZ5F3ACPRUYRU2AQ"
-// AWS_SECRET_ACCESS_KEY="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"
-// AWS_S3_BUCKET_NAME="cpatrivia"
-// AWS_S3_REGION="us-east-1"
-
-// const file = {
-//   // `uri` can also be a file system path (i.e. file://)
-//   uri: "https://upload.wikimedia.org/wikipedia/commons/5/5d/401_Gridlock.jpg",
-//   name: "image.png",
-//   type: "image/png"
-// };
-
 // const options = {
-//   keyPrefix: "players/",
-//   bucket: "cpatrivia",
-//   region: "us-east-1",
-//   accessKey: "AKIAJZ5F3ACPRUYRU2AQ",
-//   secretKey: "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",
-//   successActionStatus: 201
+//   title: "Select Avatar",
+//   customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
+//   storageOptions: {
+//     skipBackup: true,
+//     path: "images"
+//   }
 // };
+
+AWS_ACCESSKEY_ID = "AKIAJZ5F3ACPRUYRU2AQ";
+AWS_SECRET_ACCESS_KEY = "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";
+AWS_S3_BUCKET_NAME = "cpatrivia";
+AWS_S3_REGION = "us-east-1";
+
+const options = {
+  keyPrefix: "players/",
+  bucket: "cpatrivia",
+  region: "us-east-1",
+  accessKey: "AKIAJZ5F3ACPRUYRU2AQ",
+  secretKey: "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",
+  successActionStatus: 201
+};
 
 class SignUp extends React.Component {
   static navigationOptions = {
@@ -65,6 +58,7 @@ class SignUp extends React.Component {
     headerLeft: <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
   };
   state = {
+    list: "",
     name: "",
     optionalName: "",
     email: "",
@@ -85,7 +79,9 @@ class SignUp extends React.Component {
     password: "",
     clubId: "",
     switchButton: false,
-    radioBtn: false
+    radioBtn: false,
+    imageCaptured: "",
+    fileData: ""
   };
   onPhoneChange = e => {
     this.setState({
@@ -99,14 +95,23 @@ class SignUp extends React.Component {
     this.countryPicker.openModal();
   };
 
+  file = (response, name) => {
+    return {
+      uri: response.uri,
+      name: name,
+      type: response.type
+    };
+    // `uri` can also be a file system path (i.e. file://)
+  };
+
   selectCountry = country => {
     this.phone.selectCountry(country.cca2.toLowerCase());
     this.setState({ cca2: country.cca2, countryDetails: country });
   };
 
-  switchToggler = () => {
-    this.setState({ switchButton: !this.state.switchButton });
-  };
+  // switchToggler = () => {
+  //   this.setState({ switchButton: !this.state.switchButton });
+  // };
 
   onSelect = (index, value) => {
     this.setState({
@@ -130,11 +135,13 @@ class SignUp extends React.Component {
   };
 
   componentDidMount() {
-    getEmployeeType(this.props.clubData.clubId).then(res => {
+    let { params } = this.props.navigation.state;
+    getEmployeeType(params).then(res => {
       if (res.status === 200) {
         let arr = this.createNewArrayToRender(res.data.result);
-        console.log("res.data.result", res.data.result);
+
         this.props.setListOfEmployeeTypes(arr);
+        this.setState({ list: arr });
       } else if (res.status === 404) {
         // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
       } else if (res.status === 500) {
@@ -149,7 +156,11 @@ class SignUp extends React.Component {
     let optionalName = this.state.optionalName.length > 0 ? this.state.optionalName : "User";
     let empCode = this.getIdOfEmployee() ? this.getIdOfEmployee() : 0;
     let { clubId } = this.props.clubData;
-    let { name, email, password } = this.state;
+    let { name, email, password, fileData } = this.state;
+    RNS3.put(fileData, options).then(response => {
+      if (response.status !== 201) throw new Error("Failed to upload image to S3");
+      console.log("uploaded", response.body);
+    });
     signUp(name, email, optionalName, password, clubId, memId, callingCode, this.state.phNumber, empCode)
       .then(res => {
         console.log("sign up successfull", res);
@@ -160,13 +171,11 @@ class SignUp extends React.Component {
   };
 
   uploadImage = () => {
-    // console.log("clicked");
-    // RNS3.put(file, options).then(response => {
-    //   if (response.status !== 201) throw new Error("Failed to upload image to S3");
-    //   console.log(response.body);
-    // });
     ImagePicker.launchImageLibrary(options, response => {
-      console.log("Response = ", response);
+      let id = this.props.clubData.clubId;
+      let newName = id.concat(`-${this.state.name}`);
+      let file = this.file(response, newName);
+      this.setState({ fileData: file });
 
       if (response.didCancel) {
         console.log("User cancelled image picker");
@@ -174,15 +183,6 @@ class SignUp extends React.Component {
         console.log("ImagePicker Error: ", response.error);
       } else if (response.customButton) {
         console.log("User tapped custom button: ", response.customButton);
-      } else {
-        const source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.setState({
-          avatarSource: source
-        });
       }
     });
   };
@@ -203,7 +203,7 @@ class SignUp extends React.Component {
         </View>
 
         <View style={{ position: "relative" }}>
-          <TouchableOpacity style={{ position: "absolute", right: 10, top: -10 }} onPress={() => this.uploadImage()}>
+          <TouchableOpacity style={{ position: "absolute", right: 10, top: -30 }} onPress={() => this.uploadImage()}>
             <Image source={images.ic_camera} style={{ width: 70, height: 60 }} />
           </TouchableOpacity>
 
@@ -275,19 +275,12 @@ class SignUp extends React.Component {
             onChangeText={clubMemberId => this.setState({ clubMemberId })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />
-          <View style={[LoginStyles.MatUI_Text_Field, SignUpStyles.isEmployee]}>
-            <View style={{ position: "absolute", bottom: 15 }}>
-              <Text>Employee</Text>
-            </View>
-            <View style={{ marginBottom: 10 }}>
-              <Switch value={switchButton} onValueChange={this.switchToggler} />
-            </View>
-          </View>
-          {this.state.switchButton ? (
+
+          {this.props.listOfEmployeeTypes && this.props.listOfEmployeeTypes.length > 0 ? (
             <View>
               <Dropdown
                 label="Employee Type"
-                data={this.props.listOfEmployeeTypes}
+                data={this.props && this.props.listOfEmployeeTypes}
                 onChangeText={(v, i) => this.props.setEmployeeType(v)}
               />
             </View>
@@ -303,9 +296,6 @@ class SignUp extends React.Component {
               <Text>By Clicking Sign Up, I agree to Terms of Service and Privacy Policy</Text>
             </View>
           </View>
-          <TouchableOpacity onPress={() => this.uploadImage()}>
-            <Text>Upload</Text>
-          </TouchableOpacity>
           <ButtonGradient
             clickHandler={() => this.signUp()}
             title="Sign Up"

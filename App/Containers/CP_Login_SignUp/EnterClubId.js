@@ -10,10 +10,12 @@ import Toast from "react-native-toast-native";
 import * as actions from "../../Store/Actions/ClubData";
 import { connect } from "react-redux";
 
-const navigateToSignUpPage = NavigationActions.navigate({
-  routeName: "SignUp",
-  action: NavigationActions.navigate({ routeName: "SignUp" })
-});
+const navigateToSignUpPage = cid =>
+  NavigationActions.navigate({
+    routeName: "SignUp",
+    action: NavigationActions.navigate({ routeName: "SignUp" }),
+    params: cid
+  });
 
 class EnterClubId extends React.Component {
   static navigationOptions = {
@@ -36,9 +38,10 @@ class EnterClubId extends React.Component {
   validateClubID = clubId => {
     validateClubID(clubId)
       .then(res => {
+        console.log("validateClubId", res);
         if (res.status === 200) {
           this.props.getClubData(res.data.result[0]);
-          this.props.navigation.dispatch(navigateToSignUpPage);
+          this.props.navigation.dispatch(navigateToSignUpPage(this.state.clubId));
         } else if (res.status === 404) {
           Toast.show("Enter Valid Club ID", Toast.LONG, Toast.BOTTOM, errorToast);
         } else if (res.status === 400) {

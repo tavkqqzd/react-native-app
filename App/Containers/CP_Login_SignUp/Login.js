@@ -19,8 +19,8 @@ const navigateToDashboardPage = NavigationActions.navigate({
 });
 
 const navigateToSignUpPage = NavigationActions.navigate({
-  routeName: "SignUp",
-  action: NavigationActions.navigate({ routeName: "SignUp" })
+  routeName: "EnterClubId",
+  action: NavigationActions.navigate({ routeName: "EnterClubId" })
 });
 
 const navigateToHelpWithPasswordPage = number =>

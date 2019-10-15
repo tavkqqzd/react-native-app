@@ -19,6 +19,7 @@ import { Dropdown } from "react-native-material-dropdown";
 import * as actions from "../../Store/Actions/ClubData";
 
 import { RNS3 } from "react-native-s3-upload";
+import Fonts from "../../Themes/Fonts";
 
 const OTPVerificationScreen = number =>
   NavigationActions.navigate({
@@ -212,6 +213,8 @@ class SignUp extends React.Component {
           </TouchableOpacity>
 
           <TextField
+            labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
+            titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Name*"
             value={name}
             tintColor="#000"
@@ -219,6 +222,8 @@ class SignUp extends React.Component {
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />
           <TextField
+            labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
+            titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="User Name(Optional)"
             value={optionalName}
             tintColor="#000"
@@ -259,6 +264,8 @@ class SignUp extends React.Component {
             </CountryPicker>
           </View>
           <TextField
+            labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
+            titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Email Address*"
             value={email}
             tintColor="#000"
@@ -266,6 +273,8 @@ class SignUp extends React.Component {
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />
           <TextField
+            labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
+            titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Password*"
             value={password}
             tintColor="#000"
@@ -273,6 +282,8 @@ class SignUp extends React.Component {
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />
           <TextField
+            labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
+            titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Club Membership ID(Optional)"
             value={clubMemberId}
             tintColor="#000"
@@ -283,6 +294,7 @@ class SignUp extends React.Component {
           {this.props.listOfEmployeeTypes && this.props.listOfEmployeeTypes.length > 0 ? (
             <View>
               <Dropdown
+                itemTextStyle={LoginStyles.MAT_UI_LabelStyles}
                 label="Employee Type"
                 data={this.props && this.props.listOfEmployeeTypes}
                 onChangeText={(v, i) => this.setEmployee(v)}
@@ -297,7 +309,9 @@ class SignUp extends React.Component {
               <RadioButton value={radioBtn}></RadioButton>
             </RadioGroup>
             <View>
-              <Text>By Clicking Sign Up, I agree to Terms of Service and Privacy Policy</Text>
+              <Text style={LoginStyles.accept}>
+                By Clicking Sign Up, I agree to Terms of Service and Privacy Policy
+              </Text>
             </View>
           </View>
           <ButtonGradient

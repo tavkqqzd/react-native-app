@@ -2,11 +2,13 @@ import { StyleSheet } from "react-native";
 import metrics from "../../../Themes/Metrics";
 import Colors from "../../../Themes/Colors";
 import { widthPercentageToDP } from "../../../Components/Utils/PercentageToPixels";
+import Fonts from "../../../Themes/Fonts";
 
 export const SignUpStyles = StyleSheet.create({
   enterClubId: {
     fontSize: 24,
-    color: Colors.gradientViolet
+    color: Colors.gradientViolet,
+    fontFamily: Fonts.Fonts.CA_book
   },
   clubIdInput: {
     marginTop: 20,

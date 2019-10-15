@@ -9,6 +9,7 @@ import { validateClubID } from "../../Services/API";
 import Toast from "react-native-toast-native";
 import * as actions from "../../Store/Actions/ClubData";
 import { connect } from "react-redux";
+import Fonts from "../../Themes/Fonts";
 
 const navigateToSignUpPage = cid =>
   NavigationActions.navigate({
@@ -19,14 +20,14 @@ const navigateToSignUpPage = cid =>
 
 class EnterClubId extends React.Component {
   static navigationOptions = {
-    title: "ClubID",
+    title: "Club ID",
     headerStyle: {
       backgroundColor: "#fff"
     },
     headerBackImage: images.back,
     headerTintColor: "#fff",
     headerTitleStyle: {
-      fontWeight: "bold",
+      fontFamily: Fonts.Fonts.CA_bold,
       color: Colors.gradientViolet
     },
     headerLeft: <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />

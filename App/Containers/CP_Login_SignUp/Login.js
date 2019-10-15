@@ -151,6 +151,8 @@ class Login extends React.Component {
             </CountryPicker>
           </View>
           <TextField
+            labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
+            titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Password*"
             value={password}
             tintColor="#000"
@@ -158,6 +160,8 @@ class Login extends React.Component {
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />
           <TextField
+            labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
+            titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Club ID*"
             value={clubId}
             tintColor="#000"

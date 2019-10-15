@@ -36,8 +36,12 @@ export const LoginStyles = StyleSheet.create({
   },
   MatUI_Text_Field: {
     borderBottomColor: "#cfcfcf",
-    borderBottomWidth: 2,
-    fontFamily: Fonts.Fonts.CA_book
+    borderBottomWidth: 2
+  },
+  MAT_UI_LabelStyles: {
+    fontFamily: Fonts.Fonts.CA_book,
+    color: Colors.black,
+    fontSize: 16
   },
   loginButton: {
     height: 50,
@@ -65,5 +69,9 @@ export const LoginStyles = StyleSheet.create({
     fontFamily: Fonts.Fonts.CA_book,
     fontSize: 15,
     color: Colors.black
+  },
+  accept: {
+    fontFamily: Fonts.Fonts.CA_book,
+    fontSize: 15
   }
 });

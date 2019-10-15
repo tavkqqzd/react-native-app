@@ -62,7 +62,7 @@ export const login = (mobileNumber, password, clubId) => {
       });
   });
 };
-// https://cpatrivia.s3.amazonaws.com/players/userDefault.jpeg
+
 export const signUp = (
   name,
   emailId,
@@ -72,6 +72,7 @@ export const signUp = (
   clubMembershipId,
   mobileNumberCode,
   mobileNumber,
+  profileImageUrl,
   employeeTypeCode
 ) => {
   return new Promise((resolve, reject) => {
@@ -92,10 +93,10 @@ export const signUp = (
             clubMembershipId: clubMembershipId,
             mobileNumberCode: mobileNumberCode,
             mobileNumber: mobileNumber,
-            profileImage: "https://cpatrivia.s3.amazonaws.com/players/userDefault.jpeg",
+            profileImage: profileImageUrl,
             deviceName: DeviceInfo.getModel(),
             deviceOs: DeviceInfo.getSystemName(),
-            modelNumber: DeviceInfo.getUniqueID(),
+            deviceId: DeviceInfo.getUniqueID(),
             deviceType: DeviceInfo.getManufacturer(),
             appVersion: DeviceInfo.getVersion(),
             employeeTypeCode: employeeTypeCode

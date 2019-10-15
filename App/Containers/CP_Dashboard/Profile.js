@@ -90,13 +90,13 @@ class ProfilePage extends React.Component {
       <View style={ProfileStyle.profileActivity}>
         <View style={ProfileStyle.basicProfileInfo}>
           <View style={[ProfileStyle.col6, { paddingLeft: 5 }]}>
-            <View>
+            <View style={{ paddingLeft: 5 }}>
               <Text style={ProfileStyle.userName}>{playerName}</Text>
             </View>
-            <View>
+            <View style={{ paddingLeft: 5 }}>
               <Text style={ProfileStyle.clubId}>{clubId}</Text>
             </View>
-            <View>
+            <View style={{ paddingLeft: 5 }}>
               <Text style={ProfileStyle.changeClub}>Change Club</Text>
             </View>
           </View>
@@ -115,6 +115,7 @@ class ProfilePage extends React.Component {
               <Image source={{ uri: clubLogo }} style={ProfileStyle.clubLogo} />
             </View>
           </View>
+
           <View style={ProfileStyle.totalScoreSection}>
             <View>
               <Text style={ProfileStyle.violetBoxText}>Total Score</Text>
@@ -135,10 +136,10 @@ class ProfilePage extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        <View>
+        <View style={{ marginTop: 10 }}>
           <Text style={ProfileStyle.scoreBoard}>Score Board</Text>
         </View>
-        <ScrollView>
+        <ScrollView contentContainerStyle={{ marginTop: 10 }}>
           {!!this.props.leaderBoardForLoggedUser &&
             this.props.leaderBoardForLoggedUser.result.map((k, i) => (
               <View key={i} style={ProfileStyle.card}>
@@ -153,15 +154,15 @@ class ProfilePage extends React.Component {
                         onPress={() => this.getLeaderBoardForGameIdOfLoggedInUser(clubId, k.gameId)}
                         style={ProfileStyle.leaderBoard_clickButton}
                       >
-                        <Text>Leader Board</Text>
+                        <Text style={ProfileStyle.leaderBoardText}>Leader Board</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
                 </View>
                 <View style={ProfileStyle.leaderBoardBookAlignment}>
-                  <View style={ProfileStyle.book}>
+                  {/* <View style={ProfileStyle.book}>
                     <Text>BOOK</Text>
-                  </View>
+                  </View> */}
                 </View>
                 <View style={ProfileStyle.leaderBoardCoinsAlignment}>
                   <View style={LeaderBoardStyle.userScore}>

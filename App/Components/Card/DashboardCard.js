@@ -4,6 +4,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { randomColorGenerator } from "../Utils/RandomColorGenerator";
 import colors from "../../Themes/Colors";
 import { widthPercentageToDP } from "../Utils/PercentageToPixels";
+import Fonts from "../../Themes/Fonts";
 
 class DashboardCard extends React.Component {
   gameStatusDisplay = () => {
@@ -67,8 +68,8 @@ const css = StyleSheet.create({
     width: 90
   },
   gameName: { height: 60, padding: 10 },
-  gameNameText: { fontWeight: "bold", fontSize: 24, color: colors.white },
-  questionsText: { fontWeight: "bold", fontSize: 18, color: colors.white },
+  gameNameText: { fontSize: 24, color: colors.white, fontFamily: Fonts.Fonts.CA_bold },
+  questionsText: { fontSize: 18, color: colors.white, fontFamily: Fonts.Fonts.CA_bold },
   cardBottomRow: { height: 60, flexDirection: "row", padding: 10 },
   questionSection: { width: widthPercentageToDP("40%"), justifyContent: "flex-end" },
   bottomButtonSection: { width: widthPercentageToDP("50%"), flexDirection: "row", justifyContent: "flex-end" },

@@ -2,13 +2,14 @@ import { StyleSheet } from "react-native";
 import metrics from "../../../Themes/Metrics";
 import Colors from "../../../Themes/Colors";
 import { widthPercentageToDP } from "../../../Components/Utils/PercentageToPixels";
+import Fonts from "../../../Themes/Fonts";
 
 export const LeaderBoardStyle = StyleSheet.create({
-  userName: { width: "50%", justifyContent: "center", alignItems: "flex-start", flexDirection: "row" },
+  userName: { width: "50%", justifyContent: "center", alignItems: "center", flexDirection: "row" },
   userScore: {
     width: "50%",
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
     paddingRight: 10,
     flexDirection: "row"
   },
@@ -34,9 +35,15 @@ export const LeaderBoardStyle = StyleSheet.create({
     height: 80
   },
   playerName: { width: "95%" },
-  playerNameText: { padding: 10, fontSize: 17, color: "#282828", opacity: 0.8 },
+  playerNameText: {
+    padding: 10,
+    marginLeft: 10,
+    fontSize: 17,
+    color: "#282828",
+    opacity: 0.8,
+    fontFamily: Fonts.Fonts.CA_book
+  },
   coins: { height: 15, width: 15, marginRight: 5 },
-  coinAlignment: { paddingBottom: 8 },
-  scoreAlignment: { paddingBottom: 5 },
-  score: { color: Colors.black }
+  coinAlignment: { paddingBottom: 0 },
+  score: { color: Colors.black, fontFamily: Fonts.Fonts.CA_book, fontSize: 16 }
 });

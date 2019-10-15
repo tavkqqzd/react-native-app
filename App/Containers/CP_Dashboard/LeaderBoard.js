@@ -77,7 +77,7 @@ class LeaderBoard extends React.Component {
                   <View style={LeaderBoardStyle.coinAlignment}>
                     <Image source={Images.coins} style={LeaderBoardStyle.coins} />
                   </View>
-                  <View style={LeaderBoardStyle.scoreAlignment}>
+                  <View>
                     <Text style={LeaderBoardStyle.score}>+{k.score}</Text>
                   </View>
                 </View>

@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import metrics from "../../../Themes/Metrics";
 import Colors from "../../../Themes/Colors";
 import { widthPercentageToDP } from "../../../Components/Utils/PercentageToPixels";
+import Fonts from "../../../Themes/Fonts";
 
 export const ProfileStyle = StyleSheet.create({
   profileActivity: { margin: 3 },
@@ -9,15 +10,16 @@ export const ProfileStyle = StyleSheet.create({
   col6: {
     width: widthPercentageToDP("50%")
   },
+  leaderBoardText: { fontFamily: Fonts.Fonts.CA_bold, color: Colors.black, fontSize: 16 },
   headerText: { textAlign: "center" },
   profileImage: { alignItems: "flex-end", marginRight: 20 },
   userImage: { position: "absolute", right: 20 },
   userImagePic: { width: 80, height: 80 },
-  userName: { fontSize: 17, color: Colors.black },
-  clubId: { color: "#282828", opacity: 0.8, fontSize: 15 },
-  changeClub: { color: "#15ABED", fontSize: 20, marginTop: 10 },
+  userName: { fontSize: 17, color: Colors.black, fontFamily: Fonts.Fonts.CA_book },
+  clubId: { color: "#282828", opacity: 0.8, fontSize: 15, fontFamily: Fonts.Fonts.CA_book },
+  changeClub: { color: "#15ABED", fontSize: 20, marginTop: 10, fontFamily: Fonts.Fonts.CA_bold },
   clubNameBox: {
-    width: widthPercentageToDP("47%"),
+    width: widthPercentageToDP("45%"),
     flexDirection: "row",
     backgroundColor: "#66C8EF",
     borderRadius: 10,
@@ -25,7 +27,7 @@ export const ProfileStyle = StyleSheet.create({
     marginRight: 5
   },
   totalScoreSection: {
-    width: widthPercentageToDP("47%"),
+    width: widthPercentageToDP("45%"),
     backgroundColor: "#717CFB",
     borderRadius: 10,
     alignItems: "center",
@@ -39,16 +41,18 @@ export const ProfileStyle = StyleSheet.create({
   },
   clubName: {
     color: Colors.white,
-    fontSize: 20
+    fontSize: 20,
+    fontFamily: Fonts.Fonts.CA_book
   },
   violetBoxText: {
     color: Colors.white,
-    fontSize: 17
+    fontSize: 17,
+    fontFamily: Fonts.Fonts.CA_book
   },
   leaderBoard: {
     color: Colors.white,
     fontSize: 17,
-    fontWeight: "bold"
+    fontFamily: Fonts.Fonts.CA_bold
   },
   leaderBoardButton: {
     borderColor: Colors.black,
@@ -65,7 +69,7 @@ export const ProfileStyle = StyleSheet.create({
   row: { flexDirection: "row" },
   clubLogoImage: { width: "40%", justifyContent: "center" },
   clubNameText: { width: "60%" },
-  scoreBoard: { color: Colors.black, fontSize: 20 },
+  scoreBoard: { color: Colors.black, fontSize: 20, fontFamily: Fonts.Fonts.CA_book, paddingLeft: 5 },
   leaderBoardBookAlignment: {
     width: "35%",
     alignItems: "center",
@@ -103,19 +107,19 @@ export const ProfileStyle = StyleSheet.create({
     margin: 10,
     marginBottom: 5
   },
-  leaderBoardCoinsAlignment: { width: "15%", justifyContent: "center" },
+  leaderBoardCoinsAlignment: { width: "18%", justifyContent: "center" },
   leaderBoard_clickButton: {
-    alignItems: "center",
     borderColor: "#000",
     borderWidth: 1,
-    width: "55%",
+    width: "60%",
     paddingRight: 5,
     paddingLeft: 5,
     paddingTop: 3,
     paddingBottom: 3,
+    marginLeft: 10,
     position: "relative"
   },
-  leaderBoardBUttonAlignment: { width: "100%", alignItems: "flex-end" },
+  leaderBoardBUttonAlignment: { width: "100%" },
   w_100: { width: "100%" },
   leaderBoardGameNameAlignment: { flexDirection: "column", width: "100%", position: "relative" },
   leaderBoardGameName_Color: { width: "50%", flexDirection: "row" }

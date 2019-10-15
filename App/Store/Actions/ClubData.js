@@ -11,7 +11,8 @@ import {
   INDEX_OF_QUESTION,
   PROFILE_IMG_S3_LOCATION,
   CORRECT_ANSWER,
-  SCORE_OF_PLAYER
+  SCORE_OF_PLAYER,
+  RESET_SCORE
 } from "./actionTypes";
 
 export const getClubData = data => {
@@ -102,5 +103,11 @@ export const correctAnswer = data => {
   return {
     type: CORRECT_ANSWER,
     data: data
+  };
+};
+
+export const resetScore = () => {
+  return {
+    type: RESET_SCORE
   };
 };

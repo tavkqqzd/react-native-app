@@ -16,6 +16,11 @@ const NavigateToDashboard = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "DashboardPage" })
 });
 
+const navigateToLeaderBoardPage = NavigationActions.navigate({
+  routeName: "LeaderBoard",
+  action: NavigationActions.navigate({ routeName: "LeaderBoard" })
+});
+
 class ScoreScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
   state = {};
@@ -66,6 +71,7 @@ class ScoreScreen extends React.Component {
             color2={Colors.commonButtonGradient2}
             buttonStyle={ScoreStyles.LeaderBoard}
             buttonTextStyle={ScoreStyles.LeaderBoardButtonText}
+            clickHandler={() => this.props.navigation.dispatch(navigateToLeaderBoardPage)}
           />
           <TouchableOpacity
             style={ScoreStyles.MoreGames}

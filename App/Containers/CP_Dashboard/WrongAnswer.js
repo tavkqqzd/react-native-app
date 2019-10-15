@@ -6,6 +6,8 @@ import Styles from "./Styles/CorrectAnswer-Style";
 import { connect } from "react-redux";
 import * as actions from "../../Store/Actions/ClubData";
 import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
+import Colors from "../../Themes/Colors";
+import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 
 const navigateToQuestionAnswerPage = NavigationActions.navigate({
   routeName: "QuestionAnswer",
@@ -25,23 +27,17 @@ class WrongAnswer extends React.Component {
 
   timer = () => {
     let { totalQuestions } = this.props.selectedGame;
-    this.setState({
-      countDown: this.state.countDown - 1
-    });
-
-    if (this.state.countDown < 0) {
-      let index = this.props.questionIndex;
-      let updatedIndex = index + 1;
-      if (updatedIndex > totalQuestions - 1) {
-        this.props.getIndexOfQuestion(0);
-        this.props.addScore(0);
-        this.props.navigation.dispatch(navigateScoreScreen);
-        clearInterval(this.intervalId);
-      } else if (updatedIndex <= totalQuestions - 1) {
-        this.props.getIndexOfQuestion(updatedIndex);
-        this.props.navigation.dispatch(navigateToQuestionAnswerPage);
-        clearInterval(this.intervalId);
-      }
+    let index = this.props.questionIndex;
+    let updatedIndex = index + 1;
+    if (updatedIndex > totalQuestions - 1) {
+      this.props.getIndexOfQuestion(0);
+      this.props.resetScore();
+      this.props.navigation.dispatch(navigateScoreScreen);
+      // clearInterval(this.intervalId);
+    } else if (updatedIndex <= totalQuestions - 1) {
+      this.props.getIndexOfQuestion(updatedIndex);
+      this.props.navigation.dispatch(navigateToQuestionAnswerPage);
+      // clearInterval(this.intervalId);
     }
   };
 
@@ -50,11 +46,9 @@ class WrongAnswer extends React.Component {
       BackHandler.exitApp();
       return true;
     });
-    this.intervalId = setInterval(this.timer.bind(this), 1000);
   }
   componentWillUnmount() {
     this.backHandler.remove();
-    clearInterval(this.intervalId);
   }
   render() {
     console.log("score of player", this.props.scoreOfPlayer);
@@ -82,6 +76,14 @@ class WrongAnswer extends React.Component {
           </View>
         </View>
         <Text style={Styles.totalPoints}>Your Total Points: {this.props.scoreOfPlayer}</Text>
+        <ButtonGradient
+          title="Next"
+          clickHandler={() => this.timer()}
+          color1={Colors.commonButtonGradient1}
+          color2={Colors.commonButtonGradient2}
+          buttonStyle={QuestionAnswerStyle.nextWrongCorrectButton}
+          buttonTextStyle={QuestionAnswerStyle.exitButtonText}
+        />
       </View>
     );
   }
@@ -89,7 +91,8 @@ class WrongAnswer extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getIndexOfQuestion: index => dispatch(actions.indexOfQuestion(index))
+    getIndexOfQuestion: index => dispatch(actions.indexOfQuestion(index)),
+    resetScore: () => dispatch(actions.resetScore())
   };
 };
 

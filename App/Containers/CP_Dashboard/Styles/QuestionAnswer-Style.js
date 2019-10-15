@@ -71,7 +71,14 @@ export const QuestionAnswerStyle = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-
+  nextWrongCorrectButton: {
+    height: 50,
+    width: widthPercentageToDP("80%"),
+    marginTop: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center"
+  },
   // audio component
   AudioImageAlignment: {
     width: widthPercentageToDP("75%"),

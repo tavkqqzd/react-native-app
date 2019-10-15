@@ -98,6 +98,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         correctAnswer: action.data
       };
+    case actionTypes.RESET_SCORE:
+      return {
+        ...state,
+        scoreOfPlayer: 0
+      };
     default:
       return state;
   }

@@ -5,9 +5,11 @@ import LinearGradient from "react-native-linear-gradient";
 import colors from "../../Themes/Colors";
 import image from "../../Themes/Images";
 import Metrics from "../../Themes/Metrics";
+import Fonts from "../../Themes/Fonts";
 import * as ActivityStyles from "../../Themes/ActivityStyles";
 import Modal from "../../Components/Modal/Modal";
 import { widthPercentageToDP, heightPercentageToDP } from "../../Components/Utils/PercentageToPixels";
+import { forInStatement } from "@babel/types";
 
 const navigateToSignUpPage = NavigationActions.navigate({
   routeName: "EnterClubId",
@@ -37,8 +39,8 @@ class CP_Login_SignUp extends React.Component {
           <Image source={image.blueLogo} />
         </View>
         <View style={css.margin}>
-          <Text>Welcome to Club Passport</Text>
-          <Text>Enjoy your Club in new ways...</Text>
+          <Text style={css.clubPassportInfo}>Welcome to Club Passport</Text>
+          <Text style={css.clubPassportInfo}>Enjoy your Club in new ways...</Text>
         </View>
         <View style={{ marginTop: 140 }}>
           <TouchableWithoutFeedback
@@ -65,6 +67,12 @@ class CP_Login_SignUp extends React.Component {
 const css = StyleSheet.create({
   margin: {
     marginTop: Metrics.section
+  },
+  clubPassportInfo: {
+    fontFamily: Fonts.Fonts.CA_book,
+    fontSize: 18,
+    textAlign: "center",
+    color: colors.black
   },
   logoStyle: {
     width: widthPercentageToDP("22%"),

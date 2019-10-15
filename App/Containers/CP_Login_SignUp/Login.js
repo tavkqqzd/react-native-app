@@ -12,6 +12,7 @@ import Toast from "react-native-toast-native";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { connect } from "react-redux";
 import * as actions from "../../Store/Actions/ClubData";
+import Fonts from "../../Themes/Fonts";
 
 const navigateToDashboardPage = NavigationActions.navigate({
   routeName: "DashboardPage",
@@ -39,7 +40,8 @@ class Login extends React.Component {
     headerBackImage: images.back,
     headerTintColor: "#fff",
     headerTitleStyle: {
-      fontWeight: "bold",
+      fontSize: 17,
+      fontFamily: Fonts.Fonts.CA_bold,
       color: colors.gradientViolet
     },
 
@@ -175,7 +177,7 @@ class Login extends React.Component {
           />
 
           <View style={LoginStyles.signUpText}>
-            <Text>Dont't Have an account?</Text>
+            <Text style={LoginStyles.dontHaveAccount}>Dont't Have an account?</Text>
             <TouchableNativeFeedback onPress={() => this.props.navigation.dispatch(navigateToSignUpPage)}>
               <Text style={LoginStyles.signUp}> Sign Up</Text>
             </TouchableNativeFeedback>

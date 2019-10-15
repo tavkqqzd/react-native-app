@@ -6,6 +6,7 @@ import image from "../../Themes/Images";
 import Metrics from "../../Themes/Metrics";
 import * as ActivityStyles from "../../Themes/ActivityStyles";
 import { widthPercentageToDP, heightPercentageToDP } from "../../Components/Utils/PercentageToPixels";
+import Fonts from "../../Themes/Fonts";
 
 class RoundedButton extends React.Component {
   state = {};
@@ -37,7 +38,7 @@ const css = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontFamily: Fonts.Fonts.CA_book,
     textAlign: "center",
     color: colors.gradientViolet
   }

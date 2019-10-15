@@ -1,11 +1,13 @@
 import { StyleSheet } from "react-native";
 import metrics from "../../../Themes/Metrics";
 import Colors from "../../../Themes/Colors";
+import Fonts from "../../../Themes/Fonts";
 
 export const LoginStyles = StyleSheet.create({
   header: {
     fontSize: 30,
     textAlign: "center",
+    fontFamily: Fonts.Fonts.CA_bold,
     marginBottom: metrics.section
   },
   signInContent: {
@@ -17,7 +19,9 @@ export const LoginStyles = StyleSheet.create({
   forgotPassword: {
     textAlign: "right",
     marginTop: 5,
-    marginBottom: 5
+    marginBottom: 5,
+    fontSize: 15,
+    fontFamily: Fonts.Fonts.CA_book
   },
   inputPhoneNumber: {
     borderBottomColor: "#cfcfcf",
@@ -32,7 +36,8 @@ export const LoginStyles = StyleSheet.create({
   },
   MatUI_Text_Field: {
     borderBottomColor: "#cfcfcf",
-    borderBottomWidth: 2
+    borderBottomWidth: 2,
+    fontFamily: Fonts.Fonts.CA_book
   },
   loginButton: {
     height: 50,
@@ -43,7 +48,7 @@ export const LoginStyles = StyleSheet.create({
   loginButtonText: {
     fontSize: 17,
     color: Colors.white,
-    fontWeight: "bold"
+    fontFamily: Fonts.Fonts.CA_bold
   },
   signUpText: {
     flexDirection: "row",
@@ -52,6 +57,13 @@ export const LoginStyles = StyleSheet.create({
     justifyContent: "center"
   },
   signUp: {
-    color: Colors.gradientViolet
+    fontFamily: Fonts.Fonts.CA_book,
+    color: Colors.gradientViolet,
+    fontSize: 15
+  },
+  dontHaveAccount: {
+    fontFamily: Fonts.Fonts.CA_book,
+    fontSize: 15,
+    color: Colors.black
   }
 });

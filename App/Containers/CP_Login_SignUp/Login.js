@@ -130,9 +130,9 @@ class Login extends React.Component {
                 initialCountry="in"
                 value={this.state.phNumber}
                 onFocus={this.state.applyFocus}
-                textStyle={{ paddingLeft: 40 }}
+                textStyle={{ paddingLeft: 40, fontSize: 17, fontFamily: Fonts.Fonts.CA_book }}
               />
-              <Text style={{ position: "absolute", left: 40 }}>
+              <Text style={{ position: "absolute", left: 40, fontSize: 17, fontFamily: Fonts.Fonts.CA_book }}>
                 {this.state.countryDetails.callingCode ? "+".concat(this.state.countryDetails.callingCode) : "+91"}
               </Text>
             </View>

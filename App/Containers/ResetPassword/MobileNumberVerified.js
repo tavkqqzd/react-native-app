@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Image } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
+import Fonts from "../../Themes/Fonts";
 import Toast from "react-native-toast-native";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
 import { setNewPassword } from "../../Services/API";
@@ -65,6 +66,8 @@ class HelpWithPassword extends React.Component {
           <Text style={css.headerText}>Mobile number verified. Enter your new password</Text>
         </View>
         <TextField
+          labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
+          titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
           label="Your new Passowrd"
           value={password1}
           tintColor="#000"
@@ -72,6 +75,8 @@ class HelpWithPassword extends React.Component {
           inputContainerStyle={LoginStyles.MatUI_Text_Field}
         />
         <TextField
+          labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
+          titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
           label="Re-enter Password"
           value={password2}
           tintColor="#000"
@@ -104,7 +109,7 @@ const css = StyleSheet.create({
   header: {
     margin: 15
   },
-  headerText: { textAlign: "center" }
+  headerText: { textAlign: "center", fontFamily: Fonts.Fonts.CA_book, fontSize: 17 }
 });
 
 export default HelpWithPassword;

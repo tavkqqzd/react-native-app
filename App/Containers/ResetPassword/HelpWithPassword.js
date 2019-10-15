@@ -11,6 +11,7 @@ import CountryPicker from "react-native-country-picker-modal";
 import { connect } from "react-redux";
 import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
+import Fonts from "../../Themes/Fonts";
 
 const enterVerificationCode = number =>
   NavigationActions.navigate({
@@ -100,9 +101,9 @@ class HelpWithPassword extends React.Component {
               initialCountry="in"
               value={this.state.phNumber || params}
               onFocus={this.state.applyFocus}
-              textStyle={{ paddingLeft: 40 }}
+              textStyle={{ paddingLeft: 40, fontSize: 17, fontFamily: Fonts.Fonts.CA_book }}
             />
-            <Text style={{ position: "absolute", left: 40 }}>
+            <Text style={{ position: "absolute", left: 40, fontSize: 17, fontFamily: Fonts.Fonts.CA_book }}>
               {this.state.countryDetails.callingCode ? "+".concat(this.state.countryDetails.callingCode) : "+91"}
             </Text>
           </View>
@@ -147,7 +148,7 @@ const css = StyleSheet.create({
   header: {
     margin: 15
   },
-  headerText: { textAlign: "center" }
+  headerText: { textAlign: "center", fontSize: 17, fontFamily: Fonts.Fonts.CA_book }
 });
 
 export default HelpWithPassword;

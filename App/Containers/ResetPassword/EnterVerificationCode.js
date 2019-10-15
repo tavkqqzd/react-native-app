@@ -10,6 +10,7 @@ import Toast from "react-native-toast-native";
 import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import OtpInputs from "react-native-otp-inputs";
+import Fonts from "../../Themes/Fonts";
 
 const navigateToMobileNumberVerified = number =>
   NavigationActions.navigate({
@@ -60,16 +61,16 @@ class EnterVerificationCode extends React.Component {
       <View style={[SignUpStyles.signUpPageActivity]}>
         <View style={centerAlignment.contentAlignInCenter}>
           <View>
-            <Text>OTP has been sent to your mobile number please enter it below.</Text>
+            <Text style={css.headerText2}>OTP has been sent to your mobile number please enter it below.</Text>
           </View>
           <View style={{ height: 80 }}>
-            <OtpInputs handleChange={code => this.setState({ code })} numberOfInputs={4} />
+            <OtpInputs inputStyles={css.otp} handleChange={code => this.setState({ code })} numberOfInputs={4} />
           </View>
           <View style={{ margin: 10 }}>
-            <Text>Resend code?</Text>
+            <Text style={css.helpText}>Resend code?</Text>
           </View>
           <View style={{ margin: 10 }}>
-            <Text>Haven't received the code?</Text>
+            <Text style={css.helpText}>Haven't received the code?</Text>
           </View>
         </View>
         <ButtonGradient
@@ -98,7 +99,10 @@ const css = StyleSheet.create({
   header: {
     margin: 15
   },
-  headerText: { textAlign: "center" }
+  otp: { fontFamily: Fonts.Fonts.CA_bold, fontSize: 20, color: Colors.commonButtonGradient2 },
+  headerText2: { fontFamily: Fonts.Fonts.CA_book, fontSize: 17, textAlign: "center" },
+  headerText: { textAlign: "center" },
+  helpText: { fontFamily: Fonts.Fonts.CA_book, fontSize: 15, textAlign: "center" }
 });
 
 export default EnterVerificationCode;

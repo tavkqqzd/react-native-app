@@ -20,14 +20,12 @@ import * as actions from "../../Store/Actions/ClubData";
 
 import { RNS3 } from "react-native-s3-upload";
 
-// const options = {
-//   title: "Select Avatar",
-//   customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
-//   storageOptions: {
-//     skipBackup: true,
-//     path: "images"
-//   }
-// };
+const OTPVerificationScreen = number =>
+  NavigationActions.navigate({
+    routeName: "EnterVerificationCode",
+    action: NavigationActions.navigate({ routeName: "EnterVerificationCode" }),
+    params: number
+  });
 
 AWS_ACCESSKEY_ID = "AKIAJZ5F3ACPRUYRU2AQ";
 AWS_SECRET_ACCESS_KEY = "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";
@@ -58,6 +56,7 @@ class SignUp extends React.Component {
     headerLeft: <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
   };
   state = {
+    profileImage: "",
     list: "",
     name: "",
     optionalName: "",
@@ -81,7 +80,8 @@ class SignUp extends React.Component {
     switchButton: false,
     radioBtn: false,
     imageCaptured: "",
-    fileData: ""
+    fileData: "",
+    EmployeeId: ""
   };
   onPhoneChange = e => {
     this.setState({
@@ -101,17 +101,12 @@ class SignUp extends React.Component {
       name: name,
       type: response.type
     };
-    // `uri` can also be a file system path (i.e. file://)
   };
 
   selectCountry = country => {
     this.phone.selectCountry(country.cca2.toLowerCase());
     this.setState({ cca2: country.cca2, countryDetails: country });
   };
-
-  // switchToggler = () => {
-  //   this.setState({ switchButton: !this.state.switchButton });
-  // };
 
   onSelect = (index, value) => {
     this.setState({
@@ -149,20 +144,28 @@ class SignUp extends React.Component {
       }
     });
   }
-  //
+
   signUp = () => {
     let callingCode = this.state.countryDetails.callingCode ? "+".concat(this.state.countryDetails.callingCode) : "+91";
     let memId = this.state.clubMemberId.length > 0 ? this.state.clubMemberId : 0;
     let optionalName = this.state.optionalName.length > 0 ? this.state.optionalName : "User";
-    let empCode = this.getIdOfEmployee() ? this.getIdOfEmployee() : 0;
     let { clubId } = this.props.clubData;
-    let { name, email, password, fileData } = this.state;
-    RNS3.put(fileData, options).then(response => {
-      if (response.status !== 201) throw new Error("Failed to upload image to S3");
-      console.log("uploaded", response.body);
-    });
-    signUp(name, email, optionalName, password, clubId, memId, callingCode, this.state.phNumber, empCode)
+    let { name, email, password } = this.state;
+    signUp(
+      name,
+      email,
+      optionalName,
+      password,
+      clubId,
+      memId,
+      callingCode,
+      this.state.phNumber,
+      this.props.S3UploadUrl,
+      this.state.EmployeeId
+    )
       .then(res => {
+        let number = callingCode + this.state.phNumber;
+        this.props.navigation.dispatch(OTPVerificationScreen(number));
         console.log("sign up successfull", res);
       })
       .catch(err => {
@@ -175,8 +178,10 @@ class SignUp extends React.Component {
       let id = this.props.clubData.clubId;
       let newName = id.concat(`-${this.state.name}`);
       let file = this.file(response, newName);
-      this.setState({ fileData: file });
-
+      RNS3.put(file, options).then(response => {
+        if (response.status !== 201) throw new Error("Failed to upload image to S3");
+        this.props.profileImageS3UploadLocation(response.body.postResponse.location);
+      });
       if (response.didCancel) {
         console.log("User cancelled image picker");
       } else if (response.error) {
@@ -187,15 +192,14 @@ class SignUp extends React.Component {
     });
   };
 
-  getIdOfEmployee = () => {
-    let el = this.props.listOfEmployeeTypes.filter(k => k.value === this.props.employeeType);
-    console.log("getIdOfEmployee", el);
-    return el.id;
+  setEmployee = v => {
+    let el = this.props.listOfEmployeeTypes.filter(k => k.value === v);
+    this.setState({ EmployeeId: el[0].id });
   };
 
   render() {
     const { clubLogo } = this.props.clubData;
-    const { name, email, optionalName, password, clubMemberId, switchButton, radioBtn } = this.state;
+    const { name, email, optionalName, password, clubMemberId, radioBtn } = this.state;
     return (
       <ScrollView style={SignUpStyles.signUpPageActivity}>
         <View style={centerAlignment.contentAlignInCenter}>
@@ -281,7 +285,7 @@ class SignUp extends React.Component {
               <Dropdown
                 label="Employee Type"
                 data={this.props && this.props.listOfEmployeeTypes}
-                onChangeText={(v, i) => this.props.setEmployeeType(v)}
+                onChangeText={(v, i) => this.setEmployee(v)}
               />
             </View>
           ) : (
@@ -314,14 +318,16 @@ const mapStateToProps = state => {
   return {
     clubData: state.ClubReducer.clubData,
     listOfEmployeeTypes: state.ClubReducer.listOfEmployeeTypes,
-    employeeType: state.ClubReducer.employeeType
+    employeeType: state.ClubReducer.employeeType,
+    S3UploadUrl: state.ClubReducer.S3UploadUrl
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setEmployeeType: data => dispatch(actions.setEmployeeType(data)),
-    setListOfEmployeeTypes: data => dispatch(actions.listOfEmployeeTypes(data))
+    setListOfEmployeeTypes: data => dispatch(actions.listOfEmployeeTypes(data)),
+    profileImageS3UploadLocation: data => dispatch(actions.profileImageS3UploadLocation(data))
   };
 };
 

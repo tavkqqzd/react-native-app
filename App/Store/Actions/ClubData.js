@@ -8,7 +8,8 @@ import {
   GET_LEADERBOARD_FOR_LOGGED_USER,
   GET_QUESTIONS,
   SELECTED_GAME,
-  INDEX_OF_QUESTION
+  INDEX_OF_QUESTION,
+  PROFILE_IMG_S3_LOCATION
 } from "./actionTypes";
 
 export const getClubData = data => {
@@ -77,6 +78,13 @@ export const selectedGame = data => {
 export const indexOfQuestion = data => {
   return {
     type: INDEX_OF_QUESTION,
+    data: data
+  };
+};
+
+export const profileImageS3UploadLocation = data => {
+  return {
+    type: PROFILE_IMG_S3_LOCATION,
     data: data
   };
 };

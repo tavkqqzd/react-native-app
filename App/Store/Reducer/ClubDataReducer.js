@@ -10,7 +10,8 @@ export const initialState = {
   leaderBoardForLoggedUser: "",
   questions: "",
   selectedGame: "",
-  indexOfQuestion: ""
+  indexOfQuestion: "",
+  S3UploadUrl: ""
 };
 
 createNewArrayToRender = arr => {
@@ -79,6 +80,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         indexOfQuestion: action.data
+      };
+    case actionTypes.PROFILE_IMG_S3_LOCATION:
+      return {
+        ...state,
+        S3UploadUrl: action.data
       };
     default:
       return state;

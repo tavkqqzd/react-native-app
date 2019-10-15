@@ -34,6 +34,7 @@ class WrongAnswer extends React.Component {
       let updatedIndex = index + 1;
       if (updatedIndex > totalQuestions - 1) {
         this.props.getIndexOfQuestion(0);
+        this.props.addScore(0);
         this.props.navigation.dispatch(navigateScoreScreen);
         clearInterval(this.intervalId);
       } else if (updatedIndex <= totalQuestions - 1) {
@@ -56,6 +57,8 @@ class WrongAnswer extends React.Component {
     clearInterval(this.intervalId);
   }
   render() {
+    console.log("score of player", this.props.scoreOfPlayer);
+    let index = this.props.questionIndex;
     let mobileIcon = { marginRight: "20%" };
     let tabletIcon = { marginRight: "10%" };
     let marginForIcon = Math.round(Dimensions.get("window").width) > 550 ? tabletIcon : mobileIcon;
@@ -67,7 +70,7 @@ class WrongAnswer extends React.Component {
         <View style={Styles.answerSection}>
           <View style={Styles.correctAnswer}>
             <Text style={Styles.correctAnswerText}>Correct Ans is:</Text>
-            <Text style={Styles.correctAnswerSubText}>Correct Answer</Text>
+            <Text style={Styles.correctAnswerSubText}>{this.props.correctAnswer}</Text>
           </View>
         </View>
         <View style={QuestionAnswerStyle.coinAlignmentVideoScreen}>
@@ -75,10 +78,10 @@ class WrongAnswer extends React.Component {
             <Image source={image.dollar} style={QuestionAnswerStyle.coin} />
           </View>
           <View style={QuestionAnswerStyle.score}>
-            <Text>+5</Text>
+            <Text>+{this.props.questions.result[index].score}</Text>
           </View>
         </View>
-        <Text style={Styles.totalPoints}>Your Total Points: 5</Text>
+        <Text style={Styles.totalPoints}>Your Total Points: {this.props.scoreOfPlayer}</Text>
       </View>
     );
   }
@@ -93,7 +96,10 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     questionIndex: state.ClubReducer.indexOfQuestion,
-    selectedGame: state.ClubReducer.selectedGame
+    selectedGame: state.ClubReducer.selectedGame,
+    questions: state.ClubReducer.questions,
+    correctAnswer: state.ClubReducer.correctAnswer,
+    scoreOfPlayer: state.ClubReducer.scoreOfPlayer
   };
 };
 

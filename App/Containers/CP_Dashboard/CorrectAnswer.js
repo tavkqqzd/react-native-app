@@ -35,6 +35,7 @@ class CorrectAnswerPage extends React.Component {
       let updatedIndex = index + 1;
       if (updatedIndex > totalQuestions - 1) {
         this.props.getIndexOfQuestion(0);
+        this.props.addScore(0);
         this.props.navigation.dispatch(navigateScoreScreen);
         clearInterval(this.intervalId);
       } else if (updatedIndex <= totalQuestions - 1) {
@@ -57,6 +58,7 @@ class CorrectAnswerPage extends React.Component {
     clearInterval(this.intervalId);
   }
   render() {
+    let index = this.props.questionIndex;
     let mobileIcon = { marginRight: "14%" };
     let tabletIcon = { marginRight: "7%" };
     let marginForIcon = Math.round(Dimensions.get("window").width) > 550 ? tabletIcon : mobileIcon;
@@ -70,10 +72,10 @@ class CorrectAnswerPage extends React.Component {
             <Image source={image.dollar} style={QuestionAnswerStyle.coin} />
           </View>
           <View style={QuestionAnswerStyle.score}>
-            <Text>+5</Text>
+            <Text>+{this.props.questions.result[index].score}</Text>
           </View>
         </View>
-        <Text style={Styles.totalPoints}>Your Total Points: 5</Text>
+        <Text style={Styles.totalPoints}>Your Total Points: {this.props.scoreOfPlayer}</Text>
       </View>
     );
   }
@@ -81,14 +83,17 @@ class CorrectAnswerPage extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getIndexOfQuestion: index => dispatch(actions.indexOfQuestion(index))
+    getIndexOfQuestion: index => dispatch(actions.indexOfQuestion(index)),
+    addScore: score => dispatch(actions.scoreOfPlayer(score))
   };
 };
 
 const mapStateToProps = state => {
   return {
     questionIndex: state.ClubReducer.indexOfQuestion,
-    selectedGame: state.ClubReducer.selectedGame
+    selectedGame: state.ClubReducer.selectedGame,
+    questions: state.ClubReducer.questions,
+    scoreOfPlayer: state.ClubReducer.scoreOfPlayer
   };
 };
 

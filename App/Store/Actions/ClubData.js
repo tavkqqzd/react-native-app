@@ -9,7 +9,9 @@ import {
   GET_QUESTIONS,
   SELECTED_GAME,
   INDEX_OF_QUESTION,
-  PROFILE_IMG_S3_LOCATION
+  PROFILE_IMG_S3_LOCATION,
+  CORRECT_ANSWER,
+  SCORE_OF_PLAYER
 } from "./actionTypes";
 
 export const getClubData = data => {
@@ -85,6 +87,20 @@ export const indexOfQuestion = data => {
 export const profileImageS3UploadLocation = data => {
   return {
     type: PROFILE_IMG_S3_LOCATION,
+    data: data
+  };
+};
+
+export const scoreOfPlayer = data => {
+  return {
+    type: SCORE_OF_PLAYER,
+    data: data
+  };
+};
+
+export const correctAnswer = data => {
+  return {
+    type: CORRECT_ANSWER,
     data: data
   };
 };

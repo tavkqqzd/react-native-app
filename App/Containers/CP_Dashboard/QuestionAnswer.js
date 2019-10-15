@@ -46,6 +46,10 @@ class QuestionAnswer extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
   state = { selectedOption: "", pdf: false };
 
+  componentDidMount() {
+    console.log("all questions", this.props.questions);
+  }
+
   submitAnswer = (id, question, qId, selectedAnswer) => {
     let { questionIndex } = this.props;
     let { remainingQuestions, totalQuestions } = this.props.selectedGame;
@@ -59,6 +63,7 @@ class QuestionAnswer extends React.Component {
       }
     ];
     if (this.props.questions.result[questionIndex].correctAnswer === this.state.selectedOption) {
+      this.props.addScore(this.props.questions.result[questionIndex].score);
       sumbitAnswer(obj)
         .then(res => {
           if (res.status === 200) {
@@ -73,6 +78,7 @@ class QuestionAnswer extends React.Component {
           console.log("catch err", err);
         });
     } else if (this.props.questions.result[questionIndex].correctAnswer !== this.state.selectedOption) {
+      this.props.correctAnswer(this.props.questions.result[questionIndex].correctAnswer);
       sumbitAnswer(obj)
         .then(res => {
           if (res.status === 401) {
@@ -182,7 +188,9 @@ class QuestionAnswer extends React.Component {
                 <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
               </View>
               <View style={QuestionAnswerStyle.score}>
-                <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>+5</Text>
+                <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>
+                  +{this.props.questions.result[QuestionIndex].score}
+                </Text>
               </View>
             </View>
           </View>
@@ -287,7 +295,9 @@ class QuestionAnswer extends React.Component {
                 <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
               </View>
               <View style={QuestionAnswerStyle.score}>
-                <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>+5</Text>
+                <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>
+                  +{this.props.questions.result[QuestionIndex].score}
+                </Text>
               </View>
             </View>
           </View>
@@ -385,7 +395,9 @@ class QuestionAnswer extends React.Component {
                 <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
               </View>
               <View style={QuestionAnswerStyle.score}>
-                <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>+5</Text>
+                <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>
+                  +{this.props.questions.result[QuestionIndex].score}
+                </Text>
               </View>
             </View>
           </View>
@@ -508,7 +520,7 @@ class QuestionAnswer extends React.Component {
                 <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
               </View>
               <View style={QuestionAnswerStyle.score}>
-                <Text>+5</Text>
+                <Text>+{this.props.questions.result[QuestionIndex].score}</Text>
               </View>
             </View>
           </View>
@@ -590,7 +602,9 @@ class QuestionAnswer extends React.Component {
               <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
             </View>
             <View style={QuestionAnswerStyle.score}>
-              <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>+5</Text>
+              <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>
+                +{this.props.questions.result[QuestionIndex].score}
+              </Text>
             </View>
           </View>
           <View>
@@ -663,14 +677,15 @@ class QuestionAnswer extends React.Component {
 
   render() {
     let QuestionIndex = this.props && this.props.questionIndex;
-    console.log("render index", this.props.questionIndex);
     return this.renderTypeOfQuestion(QuestionIndex);
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    getIndexOfQuestion: index => dispatch(actions.indexOfQuestion(index))
+    getIndexOfQuestion: index => dispatch(actions.indexOfQuestion(index)),
+    correctAnswer: ans => dispatch(actions.correctAnswer(ans)),
+    addScore: score => dispatch(actions.scoreOfPlayer(score))
   };
 };
 

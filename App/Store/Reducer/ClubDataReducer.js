@@ -11,7 +11,9 @@ export const initialState = {
   questions: "",
   selectedGame: "",
   indexOfQuestion: "",
-  S3UploadUrl: ""
+  S3UploadUrl: "",
+  correctAnswer: "",
+  scoreOfPlayer: 0
 };
 
 createNewArrayToRender = arr => {
@@ -85,6 +87,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         S3UploadUrl: action.data
+      };
+    case actionTypes.SCORE_OF_PLAYER:
+      return {
+        ...state,
+        scoreOfPlayer: state.scoreOfPlayer + action.data
+      };
+    case actionTypes.CORRECT_ANSWER:
+      return {
+        ...state,
+        correctAnswer: action.data
       };
     default:
       return state;

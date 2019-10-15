@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import metrics from "../../../Themes/Metrics";
 import Colors from "../../../Themes/Colors";
 import { widthPercentageToDP, heightPercentageToDP } from "../../../Components/Utils/PercentageToPixels";
+import Fonts from "../../../Themes/Fonts";
 
 export const QuestionAnswerStyle = StyleSheet.create({
   coinAlignment: {
@@ -29,7 +30,7 @@ export const QuestionAnswerStyle = StyleSheet.create({
   },
   coin: { width: 15, height: 15 },
   score: { marginLeft: 5 },
-  question: { textAlign: "center", margin: 20 },
+  question: { textAlign: "center", margin: 20, fontFamily: Fonts.Fonts.CA_book },
   questionOptions: {
     height: 40,
     width: widthPercentageToDP("80%"),
@@ -49,8 +50,8 @@ export const QuestionAnswerStyle = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  optionsText: { color: "black" },
-  optionsTextSelected: { color: "white", fontWeight: "bold" },
+  optionsText: { color: "black", fontFamily: Fonts.Fonts.CA_book },
+  optionsTextSelected: { color: "white", fontFamily: Fonts.Fonts.CA_bold },
   exitButton: {
     height: 50,
     width: 90,
@@ -59,7 +60,8 @@ export const QuestionAnswerStyle = StyleSheet.create({
   exitButtonText: {
     textAlign: "center",
     fontSize: 17,
-    color: Colors.white
+    color: Colors.white,
+    fontFamily: Fonts.Fonts.CA_bold
   },
   nextButton: {
     height: 50,

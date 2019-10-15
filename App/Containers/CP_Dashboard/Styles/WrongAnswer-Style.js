@@ -13,29 +13,29 @@ export default StyleSheet.create({
   textBelowLogo: {
     paddingTop: spacingBetweenEl,
     paddingBottom: spacingBetweenEl,
-    color: colors.red
-    // fontFamily: Fonts.CA_book
+    color: colors.red,
+    fontFamily: Fonts.Fonts.CA_book
   },
   suggestion: {
     color: colors.red,
-    fontSize: 16
-    // fontFamily: Fonts.CA_book
+    fontSize: 16,
+    fontFamily: Fonts.Fonts.CA_book
   },
   correctAnswer: {
     flexDirection: "row",
-    fontSize: 15
-    // fontFamily: Fonts.CA_book
+    fontSize: 15,
+    fontFamily: Fonts.Fonts.CA_book
   },
   correctAnswerSubText: {
     paddingLeft: 4,
     fontSize: 15,
-    color: colors.red
-    // fontFamily: Fonts.CA_book
+    color: colors.red,
+    fontFamily: Fonts.Fonts.CA_book
   },
   correctAnswerText: {
     fontSize: 15,
-    color: colors.black
-    // fontFamily: Fonts.CA_book
+    color: colors.black,
+    fontFamily: Fonts.Fonts.CA_book
   },
   score: {
     fontSize: 16,
@@ -53,8 +53,8 @@ export default StyleSheet.create({
   totalPoints: {
     paddingTop: 20,
     fontSize: 20,
-    color: colors.darkBlue
-    // fontFamily: Fonts.CA_book
+    color: colors.darkBlue,
+    fontFamily: Fonts.Fonts.CA_book
   },
   answerSection: {
     paddingTop: 16,

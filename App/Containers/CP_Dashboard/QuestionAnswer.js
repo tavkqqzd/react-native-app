@@ -4,6 +4,7 @@ import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
+import Fonts from "../../Themes/Fonts";
 import * as actions from "../../Store/Actions/ClubData";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
@@ -171,7 +172,7 @@ class QuestionAnswer extends React.Component {
                 shadowColor="#999"
                 bgColor="#fff"
               >
-                <Text style={{ fontSize: 18 }}>
+                <Text style={{ fontSize: 18, fontFamily: Fonts.Fonts.CA_book }}>
                   {QuestionIndex + 1} of {totalQuestions}
                 </Text>
               </ProgressCircle>
@@ -181,7 +182,7 @@ class QuestionAnswer extends React.Component {
                 <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
               </View>
               <View style={QuestionAnswerStyle.score}>
-                <Text>+5</Text>
+                <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>+5</Text>
               </View>
             </View>
           </View>
@@ -276,7 +277,7 @@ class QuestionAnswer extends React.Component {
                 shadowColor="#999"
                 bgColor="#fff"
               >
-                <Text style={{ fontSize: 18 }}>
+                <Text style={{ fontSize: 18, fontFamily: Fonts.Fonts.CA_book }}>
                   {QuestionIndex + 1} of {totalQuestions}
                 </Text>
               </ProgressCircle>
@@ -286,7 +287,7 @@ class QuestionAnswer extends React.Component {
                 <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
               </View>
               <View style={QuestionAnswerStyle.score}>
-                <Text>+5</Text>
+                <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>+5</Text>
               </View>
             </View>
           </View>
@@ -374,7 +375,7 @@ class QuestionAnswer extends React.Component {
                 shadowColor="#999"
                 bgColor="#fff"
               >
-                <Text style={{ fontSize: 18 }}>
+                <Text style={{ fontSize: 18, fontFamily: Fonts.Fonts.CA_book }}>
                   {QuestionIndex + 1} of {totalQuestions}
                 </Text>
               </ProgressCircle>
@@ -384,7 +385,7 @@ class QuestionAnswer extends React.Component {
                 <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
               </View>
               <View style={QuestionAnswerStyle.score}>
-                <Text>+5</Text>
+                <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>+5</Text>
               </View>
             </View>
           </View>
@@ -497,7 +498,7 @@ class QuestionAnswer extends React.Component {
                 shadowColor="#999"
                 bgColor="#fff"
               >
-                <Text style={{ fontSize: 18 }}>
+                <Text style={{ fontSize: 18, fontFamily: Fonts.Fonts.CA_book }}>
                   {QuestionIndex + 1} of {totalQuestions}
                 </Text>
               </ProgressCircle>
@@ -579,7 +580,7 @@ class QuestionAnswer extends React.Component {
         <View style={InstructionStyle.instructionIntent}>
           <View style={{ marginTop: 20, marginBottom: 10 }}>
             <ProgressCircle percent={30} radius={40} borderWidth={2} color="#1CACF4" shadowColor="#999" bgColor="#fff">
-              <Text style={{ fontSize: 18 }}>
+              <Text style={{ fontSize: 18, fontFamily: Fonts.Fonts.CA_book }}>
                 {QuestionIndex + 1} of {totalQuestions}
               </Text>
             </ProgressCircle>
@@ -589,7 +590,7 @@ class QuestionAnswer extends React.Component {
               <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
             </View>
             <View style={QuestionAnswerStyle.score}>
-              <Text>+5</Text>
+              <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>+5</Text>
             </View>
           </View>
           <View>

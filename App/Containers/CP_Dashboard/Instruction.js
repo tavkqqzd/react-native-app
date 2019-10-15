@@ -4,6 +4,7 @@ import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
+import Fonts from "../../Themes/Fonts";
 import * as actions from "../../Store/Actions/ClubData";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
@@ -85,7 +86,8 @@ const css = StyleSheet.create({
   buttonTextStyle: {
     fontSize: 17,
     color: Colors.white,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontFamily: Fonts.Fonts.CA_book
   },
   startButton: {
     height: 50,

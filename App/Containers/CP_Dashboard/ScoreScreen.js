@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
+import Fonts from "../../Themes/Fonts";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { NavigationActions } from "react-navigation";
 import LinearGradient from "react-native-linear-gradient";
@@ -56,7 +57,7 @@ class ScoreScreen extends React.Component {
               <Image source={Images.dollar} style={QuestionAnswerStyle.coin} />
             </View>
             <View style={QuestionAnswerStyle.score}>
-              <Text>+5</Text>
+              <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>+5</Text>
             </View>
           </View>
           <ButtonGradient

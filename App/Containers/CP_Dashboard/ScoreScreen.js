@@ -10,6 +10,7 @@ import LinearGradient from "react-native-linear-gradient";
 import * as ActivityStyles from "../../Themes/ActivityStyles";
 import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
 import { ScoreStyles } from "./Styles/ScoreScreen-Style";
+import * as actions from "../../Store/Actions/ClubData";
 
 const NavigateToDashboard = NavigationActions.navigate({
   routeName: "DashboardPage",
@@ -24,6 +25,11 @@ const navigateToLeaderBoardPage = NavigationActions.navigate({
 class ScoreScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
   state = {};
+
+  backToDashboardPage = () => {
+    this.props.resetScore();
+    this.props.navigation.dispatch(NavigateToDashboard);
+  };
 
   render() {
     let { playerName } = this.props.userLoginData;
@@ -62,7 +68,7 @@ class ScoreScreen extends React.Component {
               <Image source={Images.dollar} style={QuestionAnswerStyle.coin} />
             </View>
             <View style={QuestionAnswerStyle.score}>
-              <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>+5</Text>
+              <Text style={{ fontFamily: Fonts.Fonts.CA_book }}>{this.props.scoreOfPlayer}</Text>
             </View>
           </View>
           <ButtonGradient
@@ -73,10 +79,7 @@ class ScoreScreen extends React.Component {
             buttonTextStyle={ScoreStyles.LeaderBoardButtonText}
             clickHandler={() => this.props.navigation.dispatch(navigateToLeaderBoardPage)}
           />
-          <TouchableOpacity
-            style={ScoreStyles.MoreGames}
-            onPress={() => this.props.navigation.dispatch(NavigateToDashboard)}
-          >
+          <TouchableOpacity style={ScoreStyles.MoreGames} onPress={() => this.backToDashboardPage()}>
             <Text style={ScoreStyles.LeaderBoardButtonText}>More games</Text>
           </TouchableOpacity>
         </View>
@@ -90,7 +93,14 @@ const mapStateToProps = state => {
     userLoginData: state.ClubReducer.userData,
     gameData: state.ClubReducer.gameData,
     clubData: state.ClubReducer.clubData,
-    selectedGame: state.ClubReducer.selectedGame
+    selectedGame: state.ClubReducer.selectedGame,
+    scoreOfPlayer: state.ClubReducer.scoreOfPlayer
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    resetScore: () => dispatch(actions.resetScore())
   };
 };
 
@@ -98,5 +108,5 @@ const css = StyleSheet.create({});
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(ScoreScreen);

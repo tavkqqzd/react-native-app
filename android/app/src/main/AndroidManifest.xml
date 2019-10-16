@@ -21,6 +21,7 @@ xmlns:tools="http://schemas.android.com/tools"
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
+        android:usesCleartextTraffic="true"
       android:theme="@style/AppTheme">
       <activity
         android:name=".MainActivity"
@@ -29,6 +30,7 @@ xmlns:tools="http://schemas.android.com/tools"
         android:windowSoftInputMode="adjustResize">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.LAUNCHER" />
      <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
      <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>

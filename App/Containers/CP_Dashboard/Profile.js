@@ -90,13 +90,13 @@ class ProfilePage extends React.Component {
       <View style={ProfileStyle.profileActivity}>
         <View style={ProfileStyle.basicProfileInfo}>
           <View style={[ProfileStyle.col6, { paddingLeft: 5 }]}>
-            <View style={{ paddingLeft: 5 }}>
+            <View style={{ paddingLeft: 10 }}>
               <Text style={ProfileStyle.userName}>{playerName}</Text>
             </View>
-            <View style={{ paddingLeft: 5 }}>
+            <View style={{ paddingLeft: 10 }}>
               <Text style={ProfileStyle.clubId}>{clubId}</Text>
             </View>
-            <View style={{ paddingLeft: 5 }}>
+            <View style={{ paddingLeft: 10 }}>
               <Text style={ProfileStyle.changeClub}>Change Club</Text>
             </View>
           </View>
@@ -117,23 +117,27 @@ class ProfilePage extends React.Component {
           </View>
 
           <View style={ProfileStyle.totalScoreSection}>
+            <View style={[ProfileStyle.row]}>
+              <View style={{ width: "70%" }}>
+                <Text style={ProfileStyle.violetBoxText}>Total Score</Text>
+              </View>
+              <View style={[ProfileStyle.row, { width: "30%" }]}>
+                <View style={ProfileStyle.dollarImageAlignment}>
+                  <Image source={Images.coins} style={ProfileStyle.dollarImage} />
+                </View>
+                <View>
+                  <Text style={ProfileStyle.violetBoxText}>+0</Text>
+                </View>
+              </View>
+            </View>
             <View>
-              <Text style={ProfileStyle.violetBoxText}>Total Score</Text>
+              <TouchableOpacity
+                style={ProfileStyle.leaderBoardButton}
+                onPress={() => this.props.navigation.dispatch(navigateToLeaderBoardPage)}
+              >
+                <Text style={ProfileStyle.leaderBoard}>LEADERBOARD</Text>
+              </TouchableOpacity>
             </View>
-            <View style={ProfileStyle.row}>
-              <View style={ProfileStyle.dollarImageAlignment}>
-                <Image source={Images.dollar} style={ProfileStyle.dollarImage} />
-              </View>
-              <View>
-                <Text style={ProfileStyle.violetBoxText}>+0</Text>
-              </View>
-            </View>
-            <TouchableOpacity
-              style={ProfileStyle.leaderBoardButton}
-              onPress={() => this.props.navigation.dispatch(navigateToLeaderBoardPage)}
-            >
-              <Text style={ProfileStyle.leaderBoard}>Leader Board</Text>
-            </TouchableOpacity>
           </View>
         </View>
         <View style={{ marginTop: 10 }}>

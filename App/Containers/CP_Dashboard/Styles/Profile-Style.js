@@ -51,25 +51,22 @@ export const ProfileStyle = StyleSheet.create({
   },
   leaderBoard: {
     color: Colors.white,
-    fontSize: 17,
+    fontSize: 20,
     fontFamily: Fonts.Fonts.CA_bold
   },
   leaderBoardButton: {
-    borderColor: Colors.black,
-    borderRadius: 1,
     padding: 2,
-    borderWidth: 1,
     paddingRight: 5,
     paddingLeft: 5,
-    paddingTop: 3,
+    paddingTop: 25,
     paddingBottom: 3
   },
   dollarImage: { height: 15, width: 15 },
   dollarImageAlignment: { marginRight: 5, paddingTop: 4 },
   row: { flexDirection: "row" },
   clubLogoImage: { width: "40%", justifyContent: "center" },
-  clubNameText: { width: "60%" },
-  scoreBoard: { color: Colors.black, fontSize: 20, fontFamily: Fonts.Fonts.CA_book, paddingLeft: 5 },
+  clubNameText: { width: "60%", justifyContent: "center" },
+  scoreBoard: { color: Colors.black, fontSize: 20, fontFamily: Fonts.Fonts.CA_book, paddingLeft: 10 },
   leaderBoardBookAlignment: {
     width: "35%",
     alignItems: "center",

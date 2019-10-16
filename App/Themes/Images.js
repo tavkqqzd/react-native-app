@@ -16,7 +16,8 @@ const images = {
   pdf: require("../Images/app_docs/pdf.png"),
   correctCircleWithStars: require("../Images/app_docs/correctCircleWithStars.png"),
   wrongCircle: require("../Images/app_docs/wrongCircle.png"),
-  ic_camera: require("../Images/app_docs/ic_camera.png")
+  ic_camera: require("../Images/app_docs/ic_camera.png"),
+  ic_info: require("../Images/app_docs/ic_info.png")
 };
 
 export default images;

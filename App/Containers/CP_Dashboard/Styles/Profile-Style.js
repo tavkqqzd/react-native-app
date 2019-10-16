@@ -14,7 +14,7 @@ export const ProfileStyle = StyleSheet.create({
   headerText: { textAlign: "center" },
   profileImage: { alignItems: "flex-end", marginRight: 20 },
   userImage: { position: "absolute", right: 20 },
-  userImagePic: { width: 60, height: 60 },
+  userImagePic: { width: 60, height: 60, borderRadius: 50 },
   userName: { fontSize: 17, color: Colors.black, fontFamily: Fonts.Fonts.CA_bold },
   clubId: { color: "#282828", opacity: 0.8, fontSize: 15, fontFamily: Fonts.Fonts.CA_book },
   changeClub: { color: "#15ABED", fontSize: 20, marginTop: 10, fontFamily: Fonts.Fonts.CA_bold },
@@ -92,15 +92,20 @@ export const ProfileStyle = StyleSheet.create({
   card: {
     flexDirection: "row",
     height: 80,
+
+    shadowRadius: 5,
+    margin: 10,
+    shadowOpacity: 1.0,
+
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 2
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 2.22,
-    elevation: 3,
-    borderRadius: 10,
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    borderRadius: 2,
     margin: 10,
     marginBottom: 5
   },

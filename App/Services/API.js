@@ -412,3 +412,30 @@ export const editProfile = obj => {
       });
   });
 };
+
+export const restartGame = (gameId, userId) => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        data: [{ gameId: gameId, userId: userId }]
+      })
+    };
+    let status = undefined;
+    fetch(`${IP_ADDRESS}/resetGameAPI/`, data)
+      .then(res => {
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};

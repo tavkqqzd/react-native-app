@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
 import Modal from "react-native-modal";
 import RoundedButton from "../../Components/Buttons/RoundButton";
@@ -52,6 +52,21 @@ class ModalC extends React.Component {
         </View>
       </Modal>
     );
+    let regularModal = (
+      <Modal
+        isVisible={this.props.modalState}
+        useNativeDriver={true}
+        onBackdropPress={this.props.toggleModal}
+        height="50%"
+        backdropOpacity={0.5}
+      >
+        <View style={{ justifyContent: "center", alignItems: "center", marginTop: 20 }}>
+          <Text>Do you want to restart the game ?</Text>
+          <RoundedButton title="Cancel" styleProps={css.b_margin} toggleModal={this.props.toggleModal} />
+          <RoundedButton title="Restart" styleProps={css.b_margin} toggleModal={this.props.restartGameHandler} />
+        </View>
+      </Modal>
+    );
     let modal = undefined;
     switch (this.props.modalType) {
       case "loginModal":
@@ -59,6 +74,9 @@ class ModalC extends React.Component {
         break;
       case "pdfModal":
         modal = pdfModal;
+        break;
+      case "regularModal":
+        modal = regularModal;
         break;
       default:
         modal = LoginModal;

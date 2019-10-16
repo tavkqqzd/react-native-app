@@ -14,6 +14,7 @@ import { randomColorGenerator } from "../../Components/Utils/RandomColorGenerato
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { widthPercentageToDP } from "../../Components/Utils/PercentageToPixels";
 import Fonts from "../../Themes/Fonts";
+import CardView from "react-native-cardview";
 
 const navigateToLeaderBoardPage = NavigationActions.navigate({
   routeName: "LeaderBoard",
@@ -158,6 +159,7 @@ class ProfilePage extends React.Component {
         <ScrollView contentContainerStyle={{ marginTop: 10 }}>
           {!!this.props.leaderBoardForLoggedUser &&
             this.props.leaderBoardForLoggedUser.result.map((k, i) => (
+              // <CardView cardElevation={5} cardMaxElevation={5} cornerRadius={5} key={i}>
               <View key={i} style={ProfileStyle.card}>
                 <View style={ProfileStyle.leaderBoardGameName_Color}>
                   <View style={[LeaderBoardStyle.randomColor, { backgroundColor: randomColorGenerator() }]}></View>
@@ -177,11 +179,7 @@ class ProfilePage extends React.Component {
                     </View>
                   </View>
                 </View>
-                <View style={ProfileStyle.leaderBoardBookAlignment}>
-                  {/* <View style={ProfileStyle.book}>
-                    <Text>BOOK</Text>
-                  </View> */}
-                </View>
+                <View style={ProfileStyle.leaderBoardBookAlignment}></View>
                 <View style={ProfileStyle.leaderBoardCoinsAlignment}>
                   <View style={LeaderBoardStyle.userScore}>
                     <View style={LeaderBoardStyle.coinAlignment}>
@@ -193,6 +191,7 @@ class ProfilePage extends React.Component {
                   </View>
                 </View>
               </View>
+              // </CardView>
             ))}
         </ScrollView>
       </View>

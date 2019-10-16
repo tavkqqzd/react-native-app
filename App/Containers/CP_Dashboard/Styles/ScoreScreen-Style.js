@@ -20,6 +20,15 @@ export const ScoreStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
+  editButton: {
+    height: 50,
+    width: widthPercentageToDP("30%"),
+    marginTop: 50,
+    borderRadius: 25,
+    borderColor: "#282828",
+    justifyContent: "center",
+    alignItems: "center"
+  },
   LeaderBoardButtonText: {
     textAlign: "center",
     fontSize: 17,

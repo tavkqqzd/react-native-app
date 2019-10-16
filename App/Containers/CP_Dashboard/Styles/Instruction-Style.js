@@ -20,6 +20,7 @@ export const InstructionStyle = StyleSheet.create({
   CP_banner2: { fontSize: 17, color: "#282828", textAlign: "center", fontFamily: Fonts.Fonts.CA_book, opacity: 0.5 },
   gameInstructionAlignment: { marginBottom: 20 },
   gameInstructionText: { fontSize: 16, color: "#000", fontFamily: Fonts.Fonts.CA_book },
+  DashboardCardModalText: { fontSize: 20, color: "#000", fontFamily: Fonts.Fonts.CA_bold, textAlign: "center" },
   gameInstruction: {
     fontSize: 17,
     color: "#282828",
@@ -34,5 +35,31 @@ export const InstructionStyle = StyleSheet.create({
     position: "relative",
     height: heightPercentageToDP("100%")
     // width: widthPercentageToDP("100%")
+  },
+  ModalButtons: {
+    backgroundColor: Colors.white,
+    borderRadius: 15,
+    height: 40,
+    width: 80,
+    margin: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6
+    },
+    justifyContent: "center",
+    shadowOpacity: 0.39,
+    shadowRadius: 8.3,
+    elevation: 13
+  },
+  ModalButtonText: {
+    fontFamily: Fonts.CA_book,
+    fontSize: 18,
+    textAlign: "center",
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 5,
+    paddingBottom: 5,
+    color: Colors.black
   }
 });

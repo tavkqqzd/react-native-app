@@ -1,6 +1,8 @@
 import React from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions, Button, ScrollView } from "react-native";
 import PhoneInput from "react-native-phone-input";
+import ImagePicker from "react-native-image-picker";
+import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import CountryPicker from "react-native-country-picker-modal";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
@@ -13,14 +15,29 @@ import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
 import { editProfile } from "../../Services/API";
 import { TextField } from "react-native-material-textfield";
 import { widthPercentageToDP, heightPercentageToDP } from "../../Components/Utils/PercentageToPixels";
-import { InstructionStyle } from "./Styles/Instruction-Style";
+import { ScoreStyles } from "./Styles/ScoreScreen-Style";
 import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
 import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
+import { RNS3 } from "react-native-s3-upload";
 
 const ProfilePage = NavigationActions.navigate({
   routeName: "Profile",
   action: NavigationActions.navigate({ routeName: "Profile" })
 });
+
+AWS_ACCESSKEY_ID = "AKIAJZ5F3ACPRUYRU2AQ";
+AWS_SECRET_ACCESS_KEY = "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";
+AWS_S3_BUCKET_NAME = "cpatrivia";
+AWS_S3_REGION = "us-east-1";
+
+const options = {
+  keyPrefix: "players/",
+  bucket: "cpatrivia",
+  region: "us-east-1",
+  accessKey: "AKIAJZ5F3ACPRUYRU2AQ",
+  secretKey: "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",
+  successActionStatus: 201
+};
 
 class UpdateProfile extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -35,6 +52,7 @@ class UpdateProfile extends React.Component {
         fontWeight: "bold",
         color: Colors.gradientViolet
       },
+      headerRight: <View />,
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.dispatch(ProfilePage)}>
           <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
@@ -42,6 +60,7 @@ class UpdateProfile extends React.Component {
       )
     };
   };
+
   state = {
     profileImage: "",
     list: "",
@@ -99,6 +118,7 @@ class UpdateProfile extends React.Component {
       let file = this.file(response, newName);
       RNS3.put(file, options).then(response => {
         if (response.status !== 201) throw new Error("Failed to upload image to S3");
+        console.log("response.body.postResponse.location)", response.body.postResponse.location);
         this.props.profileImageS3UploadLocation(response.body.postResponse.location);
       });
       if (response.didCancel) {
@@ -112,8 +132,14 @@ class UpdateProfile extends React.Component {
   };
 
   editProfile = () => {
+    console.log(
+      "this.props.userLoginData.profilePic",
+      this.props.userLoginData.profilePic,
+      "this.props.S3UploadUrl",
+      this.props.S3UploadUrl
+    );
     let callingCode = this.state.countryDetails.callingCode ? "+".concat(this.state.countryDetails.callingCode) : "+91";
-    let PhoneNumber = this.state.phNumber ? this.state.phNumber : this.props.phoneNumber;
+    let PhoneNumber = this.state.phNumber ? callingCode + this.state.phNumber : callingCode + this.props.phoneNumber;
     let clubMembershipId = this.state.clubMemberId ? this.state.clubMemberId : 0;
     let profileImage = this.props.S3UploadUrl ? this.props.S3UploadUrl : this.props.userLoginData.profilePic;
     let playerName = this.state.name ? this.state.name : this.props.userLoginData.playerName;
@@ -150,14 +176,13 @@ class UpdateProfile extends React.Component {
   };
 
   render() {
-    console.log("phoneNumber", this.props.phoneNumber);
     const { name, email, optionalName, password, clubMemberId, radioBtn } = this.state;
-    let { playerName, clubId, profilePic } = this.props.userLoginData;
+    let { playerName, clubId, profilePic, userName, emailId, clubMembershipId } = this.props.userLoginData;
     return (
       <View style={SignUpStyles.signUpPageActivity}>
         <TouchableOpacity style={centerAlignment.contentAlignInCenter} onPress={() => this.uploadImage()}>
           {profilePic ? (
-            <Image source={{ uri: profilePic }} style={profilePic} />
+            <Image source={{ uri: profilePic }} style={css.profilePic} />
           ) : (
             <Image source={images.ic_passport} style={css.profilePic} />
           )}
@@ -168,7 +193,7 @@ class UpdateProfile extends React.Component {
             labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
             titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Name*"
-            value={this.props.userLoginData.playerName}
+            value={this.state.name ? this.state.name : this.props.userLoginData.playerName}
             tintColor="#000"
             onChangeText={name => this.setState({ name })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
@@ -177,7 +202,7 @@ class UpdateProfile extends React.Component {
             labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
             titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="User Name(Optional)"
-            value={optionalName}
+            value={this.state.optionalName ? this.state.optionalName : userName}
             tintColor="#000"
             onChangeText={optionalName => this.setState({ optionalName })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
@@ -193,7 +218,7 @@ class UpdateProfile extends React.Component {
                 onChangePhoneNumber={this.onPhoneChange}
                 onPressFlag={this.onPressFlag}
                 initialCountry="in"
-                value={this.state.phNumber}
+                value={this.state.phNumber ? this.state.phNumber : this.props.phoneNumber}
                 onFocus={this.state.applyFocus}
                 textStyle={{ paddingLeft: 40, fontSize: 17, fontFamily: Fonts.Fonts.CA_book }}
               />
@@ -219,7 +244,7 @@ class UpdateProfile extends React.Component {
             labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
             titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Email Address*"
-            value={email}
+            value={this.state.email ? this.state.email : emailId}
             tintColor="#000"
             onChangeText={email => this.setState({ email })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
@@ -228,13 +253,22 @@ class UpdateProfile extends React.Component {
             labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
             titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Club Membership ID(Optional)"
-            value={clubMemberId}
+            value={this.state.clubMemberId ? this.state.clubMemberId : clubMembershipId}
             tintColor="#000"
             onChangeText={clubMemberId => this.setState({ clubMemberId })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />
+          <View style={{ alignItems: "center" }}>
+            <ButtonGradient
+              title="Save"
+              color1={Colors.commonButtonGradient1}
+              color2={Colors.commonButtonGradient2}
+              buttonStyle={ScoreStyles.editButton}
+              buttonTextStyle={ScoreStyles.LeaderBoardButtonText}
+              clickHandler={() => this.editProfile()}
+            />
+          </View>
         </View>
-        <Button onPress={() => this.editProfile()} title="Save" />
       </View>
     );
   }
@@ -261,7 +295,8 @@ const mapStateToProps = state => {
     clubData: state.ClubReducer.clubData,
     selectedGame: state.ClubReducer.selectedGame,
     phoneNumber: state.ClubReducer.phoneNumber,
-    S3UploadUrl: state.ClubReducer.S3UploadUrl
+    S3UploadUrl: state.ClubReducer.S3UploadUrl,
+    userData: state.ClubReducer.userData
   };
 };
 

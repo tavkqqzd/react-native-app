@@ -17,6 +17,7 @@ import VideoPlayer from "react-native-video-controls";
 var Sound = require("react-native-sound");
 import Modal from "react-native-modal";
 import Pdf from "react-native-pdf";
+import { ScrollView } from "react-native-gesture-handler";
 
 Sound.setCategory("Playback");
 
@@ -35,6 +36,11 @@ const CorrectAnswerPage = index =>
     params: index
   });
 
+const NavigateToDashboard = NavigationActions.navigate({
+  routeName: "DashboardPage",
+  action: NavigationActions.navigate({ routeName: "DashboardPage" })
+});
+
 const WrongAnswerPage = index =>
   NavigationActions.navigate({
     routeName: "WrongAnswer",
@@ -44,7 +50,7 @@ const WrongAnswerPage = index =>
 
 class QuestionAnswer extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
-  state = { selectedOption: "", pdf: false };
+  state = { selectedOption: "", pdf: false, modal: false };
 
   componentDidMount() {
     console.log("all questions", this.props.questions);
@@ -95,6 +101,10 @@ class QuestionAnswer extends React.Component {
     this.setState({ pdf: !this.state.pdf });
   };
 
+  openModal = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
   selectedOptionFn = ans => {
     this.setState({ selectedOption: ans });
   };
@@ -137,9 +147,9 @@ class QuestionAnswer extends React.Component {
   };
 
   mediaType2 = QuestionIndex => {
-    let { id, totalQuestions } = this.props.selectedGame;
+    let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
-      <View>
+      <ScrollView>
         <View style={{ flexDirection: "row", height: heightPercentageToDP("45%") }}>
           <View style={{ width: widthPercentageToDP("75%"), padding: 5 }}>
             <VideoPlayer
@@ -193,6 +203,11 @@ class QuestionAnswer extends React.Component {
                 </Text>
               </View>
             </View>
+            <View style={{ justifyContent: "flex-end", alignItems: "flex-end", marginRight: 0, marginTop: 25 }}>
+              <TouchableOpacity onPress={() => this.openModal()}>
+                <Image source={images.ic_info} style={{ height: 25, width: 25 }} />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
@@ -240,14 +255,33 @@ class QuestionAnswer extends React.Component {
             />
           </View>
         </View>
-      </View>
+        <Modal
+          isVisible={this.state.modal}
+          onBackdropPress={this.openModal}
+          style={{ backgroundColor: "#fff", width: "100%", height: "100%" }}
+        >
+          <ScrollView>
+            <TouchableOpacity onPress={() => this.openModal()} style={QuestionAnswerStyle.AudioControls}>
+              <Text style={QuestionAnswerStyle.AudioControlsText}>Close</Text>
+            </TouchableOpacity>
+            <View style={{ alignItems: "center" }}>
+              <View style={InstructionStyle.gameInstructionAlignment}>
+                <Text style={InstructionStyle.gameInstructionText}>Instruction for game</Text>
+              </View>
+              <View>
+                <Text>{instruction}</Text>
+              </View>
+            </View>
+          </ScrollView>
+        </Modal>
+      </ScrollView>
     );
   };
 
   mediaType1 = QuestionIndex => {
-    let { id, totalQuestions } = this.props.selectedGame;
+    let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
-      <View>
+      <ScrollView>
         <View style={QuestionAnswerStyle.AudioSection}>
           <View style={QuestionAnswerStyle.AudioImageAlignment}>
             <View style={QuestionAnswerStyle.AudioImageAlignment_BTM_Margin}>
@@ -300,6 +334,11 @@ class QuestionAnswer extends React.Component {
                 </Text>
               </View>
             </View>
+            <View style={{ justifyContent: "flex-end", alignItems: "flex-end", marginRight: 0, marginTop: 25 }}>
+              <TouchableOpacity onPress={() => this.openModal()}>
+                <Image source={images.ic_info} style={{ height: 25, width: 25 }} />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
         <View style={{ alignItems: "center", height: heightPercentageToDP("55%") }}>
@@ -346,14 +385,33 @@ class QuestionAnswer extends React.Component {
             />
           </View>
         </View>
-      </View>
+        <Modal
+          isVisible={this.state.modal}
+          onBackdropPress={this.openModal}
+          style={{ backgroundColor: "#fff", width: "100%", height: "100%" }}
+        >
+          <ScrollView>
+            <TouchableOpacity onPress={() => this.openModal()} style={QuestionAnswerStyle.AudioControls}>
+              <Text style={QuestionAnswerStyle.AudioControlsText}>Close</Text>
+            </TouchableOpacity>
+            <View style={{ alignItems: "center" }}>
+              <View style={InstructionStyle.gameInstructionAlignment}>
+                <Text style={InstructionStyle.gameInstructionText}>Instruction for game</Text>
+              </View>
+              <View>
+                <Text>{instruction}</Text>
+              </View>
+            </View>
+          </ScrollView>
+        </Modal>
+      </ScrollView>
     );
   };
 
   mediaType3 = QuestionIndex => {
-    let { id, totalQuestions } = this.props.selectedGame;
+    let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
-      <View>
+      <ScrollView>
         <View style={QuestionAnswerStyle.AudioSection}>
           <View style={QuestionAnswerStyle.AudioImageAlignment}>
             <View style={QuestionAnswerStyle.AudioImageAlignment_BTM_Margin}>
@@ -369,7 +427,7 @@ class QuestionAnswer extends React.Component {
             <View>
               <ButtonGradient
                 title="Exit"
-                // clickHandler={() => this.getQuestions(id)}
+                clickHandler={() => this.props.navigation.dispatch(NavigateToDashboard)}
                 color1={Colors.commonButtonGradient1}
                 color2={Colors.commonButtonGradient2}
                 buttonStyle={QuestionAnswerStyle.exitButton}
@@ -399,6 +457,11 @@ class QuestionAnswer extends React.Component {
                   +{this.props.questions.result[QuestionIndex].score}
                 </Text>
               </View>
+            </View>
+            <View style={{ justifyContent: "flex-end", alignItems: "flex-end", marginRight: 0, marginTop: 25 }}>
+              <TouchableOpacity onPress={() => this.openModal()}>
+                <Image source={images.ic_info} style={{ height: 25, width: 25 }} />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -472,14 +535,33 @@ class QuestionAnswer extends React.Component {
             style={styles.pdf}
           />
         </Modal>
-      </View>
+        <Modal
+          isVisible={this.state.modal}
+          onBackdropPress={this.openModal}
+          style={{ backgroundColor: "#fff", width: "100%", height: "100%" }}
+        >
+          <ScrollView>
+            <TouchableOpacity onPress={() => this.openModal()} style={QuestionAnswerStyle.AudioControls}>
+              <Text style={QuestionAnswerStyle.AudioControlsText}>Close</Text>
+            </TouchableOpacity>
+            <View style={{ alignItems: "center" }}>
+              <View style={InstructionStyle.gameInstructionAlignment}>
+                <Text style={InstructionStyle.gameInstructionText}>Instruction for game</Text>
+              </View>
+              <View>
+                <Text>{instruction}</Text>
+              </View>
+            </View>
+          </ScrollView>
+        </Modal>
+      </ScrollView>
     );
   };
 
   mediaWithImage = QuestionIndex => {
-    let { id, totalQuestions } = this.props.selectedGame;
+    let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
-      <View>
+      <ScrollView>
         <View style={QuestionAnswerStyle.AudioSection}>
           <View style={QuestionAnswerStyle.AudioImageAlignment}>
             <View style={QuestionAnswerStyle.AudioImageAlignment_BTM_Margin}>
@@ -494,7 +576,7 @@ class QuestionAnswer extends React.Component {
             <View>
               <ButtonGradient
                 title="Exit"
-                // clickHandler={() => this.getQuestions(id)}
+                clickHandler={() => this.props.navigation.dispatch(NavigateToDashboard)}
                 color1={Colors.commonButtonGradient1}
                 color2={Colors.commonButtonGradient2}
                 buttonStyle={QuestionAnswerStyle.exitButton}
@@ -522,6 +604,11 @@ class QuestionAnswer extends React.Component {
               <View style={QuestionAnswerStyle.score}>
                 <Text>+{this.props.questions.result[QuestionIndex].score}</Text>
               </View>
+            </View>
+            <View style={{ justifyContent: "flex-end", alignItems: "flex-end", marginRight: 0, marginTop: 25 }}>
+              <TouchableOpacity onPress={() => this.openModal()}>
+                <Image source={images.ic_info} style={{ height: 25, width: 25 }} />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -570,24 +657,48 @@ class QuestionAnswer extends React.Component {
               buttonTextStyle={QuestionAnswerStyle.exitButtonText}
             />
           </View>
+          <Modal
+            isVisible={this.state.modal}
+            onBackdropPress={this.openModal}
+            style={{ backgroundColor: "#fff", width: "100%", height: "100%" }}
+          >
+            <ScrollView>
+              <TouchableOpacity onPress={() => this.openModal()} style={QuestionAnswerStyle.AudioControls}>
+                <Text style={QuestionAnswerStyle.AudioControlsText}>Close</Text>
+              </TouchableOpacity>
+              <View style={{ alignItems: "center" }}>
+                <View style={InstructionStyle.gameInstructionAlignment}>
+                  <Text style={InstructionStyle.gameInstructionText}>Instruction for game</Text>
+                </View>
+                <View>
+                  <Text>{instruction}</Text>
+                </View>
+              </View>
+            </ScrollView>
+          </Modal>
         </View>
-      </View>
+      </ScrollView>
     );
   };
 
   regularQuestionAnswer = QuestionIndex => {
-    let { id, totalQuestions } = this.props.selectedGame;
+    let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
-      <View>
+      <ScrollView>
         <View style={{ justifyContent: "flex-end", alignItems: "flex-end", margin: 20 }}>
           <ButtonGradient
             title="Exit"
-            // clickHandler={() => this.getQuestions(id)}
+            clickHandler={() => this.props.navigation.dispatch(NavigateToDashboard)}
             color1={Colors.commonButtonGradient1}
             color2={Colors.commonButtonGradient2}
             buttonStyle={QuestionAnswerStyle.exitButton}
             buttonTextStyle={QuestionAnswerStyle.exitButtonText}
           />
+        </View>
+        <View style={{ justifyContent: "flex-end", alignItems: "flex-end", marginRight: 50 }}>
+          <TouchableOpacity onPress={() => this.openModal()}>
+            <Image source={images.ic_info} style={{ height: 25, width: 25 }} />
+          </TouchableOpacity>
         </View>
         <View style={InstructionStyle.instructionIntent}>
           <View style={{ marginTop: 20, marginBottom: 10 }}>
@@ -652,7 +763,26 @@ class QuestionAnswer extends React.Component {
             buttonTextStyle={QuestionAnswerStyle.exitButtonText}
           />
         </View>
-      </View>
+        <Modal
+          isVisible={this.state.modal}
+          onBackdropPress={this.openModal}
+          style={{ backgroundColor: "#fff", width: "100%", height: "100%" }}
+        >
+          <ScrollView>
+            <TouchableOpacity onPress={() => this.openModal()} style={QuestionAnswerStyle.AudioControls}>
+              <Text style={QuestionAnswerStyle.AudioControlsText}>Close</Text>
+            </TouchableOpacity>
+            <View style={{ alignItems: "center" }}>
+              <View style={InstructionStyle.gameInstructionAlignment}>
+                <Text style={InstructionStyle.gameInstructionText}>Instruction for game</Text>
+              </View>
+              <View>
+                <Text>{instruction}</Text>
+              </View>
+            </View>
+          </ScrollView>
+        </Modal>
+      </ScrollView>
     );
   };
 

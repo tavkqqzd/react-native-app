@@ -5,16 +5,25 @@ import { randomColorGenerator } from "../Utils/RandomColorGenerator";
 import colors from "../../Themes/Colors";
 import { widthPercentageToDP } from "../Utils/PercentageToPixels";
 import Fonts from "../../Themes/Fonts";
+import Modal from "../Modal/Modal";
+import { restartGame } from "../../Services/API";
 
 class DashboardCard extends React.Component {
   gameStatusDisplay = () => {
-    let { totalQuestions, totalQuestionsAnswered, remainingQuestions } = this.props.gameData;
-    if (totalQuestions === totalQuestionsAnswered) {
+    let { isGamePlayed } = this.props.gameData;
+    if (isGamePlayed === 2) {
       return "Restart";
-    } else if (totalQuestions === remainingQuestions) {
+    } else if (isGamePlayed === 0) {
       return "Start Now";
-    } else if (remainingQuestions < totalQuestions) {
+    } else if (isGamePlayed === 1) {
       return "Resume";
+    }
+  };
+
+  clikHandler = () => {
+    let { isGamePlayed } = this.props.gameData;
+    let { onClickHandler } = this.props;
+    if (isGamePlayed === 2) {
     }
   };
 
@@ -27,7 +36,6 @@ class DashboardCard extends React.Component {
         colors={[randomColorGenerator(), randomColorGenerator()]}
         style={css.card}
       >
-        {/* <View> */}
         <View style={css.gameName}>
           <Text style={css.gameNameText}>{gameName}</Text>
         </View>
@@ -36,12 +44,11 @@ class DashboardCard extends React.Component {
             <Text style={css.questionsText}>{totalQuestions} Questions</Text>
           </View>
           <View style={css.bottomButtonSection}>
-            <TouchableOpacity style={css.button} onPress={onClickHandler}>
+            <TouchableOpacity style={css.button} onPress={this.clikHandler}>
               <Text style={css.questionsText}>{this.gameStatusDisplay()}</Text>
             </TouchableOpacity>
           </View>
         </View>
-        {/* </View> */}
       </LinearGradient>
     );
   }

@@ -16,15 +16,20 @@ export const LeaderBoardStyle = StyleSheet.create({
   row: {
     flexDirection: "row",
     height: 80,
+
+    shadowRadius: 5,
+    margin: 10,
+    shadowOpacity: 1.0,
+
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 2
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 2.22,
-    elevation: 3,
-    borderRadius: 10,
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    borderRadius: 2,
     margin: 10,
     marginBottom: 5
   },

@@ -8,7 +8,7 @@ import Colors from "../../Themes/Colors";
 import Images from "../../Themes/Images";
 import * as actions from "../../Store/Actions/ClubData";
 import { LeaderBoardStyle } from "./Styles/LeaderBoard-Style";
-
+import CardView from "react-native-cardview";
 import DashboardCard from "../../Components/Card/DashboardCard";
 import { ScrollView } from "react-native-gesture-handler";
 import { widthPercentageToDP } from "../../Components/Utils/PercentageToPixels";
@@ -66,6 +66,7 @@ class LeaderBoard extends React.Component {
         <ScrollView contentContainerStyle={{ margin: 4 }}>
           {!!this.props.leaderBoard &&
             this.props.leaderBoard.result.map((k, i) => (
+              // <CardView cardElevation={5} cardMaxElevation={5} cornerRadius={5} key={i}>
               <View key={i} style={LeaderBoardStyle.row}>
                 <View style={LeaderBoardStyle.userName}>
                   <View style={[LeaderBoardStyle.randomColor, { backgroundColor: randomColorGenerator() }]}></View>
@@ -82,6 +83,7 @@ class LeaderBoard extends React.Component {
                   </View>
                 </View>
               </View>
+              // </CardView>
             ))}
         </ScrollView>
       </View>

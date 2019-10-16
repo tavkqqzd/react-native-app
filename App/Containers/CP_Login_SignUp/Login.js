@@ -81,6 +81,7 @@ class Login extends React.Component {
   }
 
   APILogin = (phoneNumber, password, clubId) => {
+    this.props.getPhoneNumber(this.state.phNumber);
     login(phoneNumber, password, clubId)
       .then(res => {
         if (res.status === 200) {
@@ -221,7 +222,8 @@ const phoneNumberError = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    userLoginDetails: data => dispatch(actions.getUserData(data))
+    userLoginDetails: data => dispatch(actions.getUserData(data)),
+    getPhoneNumber: data => dispatch(actions.getPhoneNumber(data))
   };
 };
 

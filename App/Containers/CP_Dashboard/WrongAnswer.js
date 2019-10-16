@@ -31,7 +31,6 @@ class WrongAnswer extends React.Component {
     let updatedIndex = index + 1;
     if (updatedIndex > totalQuestions - 1) {
       this.props.getIndexOfQuestion(0);
-      this.props.resetScore();
       this.props.navigation.dispatch(navigateScoreScreen);
       // clearInterval(this.intervalId);
     } else if (updatedIndex <= totalQuestions - 1) {

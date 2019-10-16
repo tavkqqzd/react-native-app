@@ -13,7 +13,8 @@ export const initialState = {
   indexOfQuestion: "",
   S3UploadUrl: "",
   correctAnswer: "",
-  scoreOfPlayer: 0
+  scoreOfPlayer: 0,
+  phoneNumber: ""
 };
 
 createNewArrayToRender = arr => {
@@ -103,6 +104,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         scoreOfPlayer: 0
       };
+    case actionTypes.GET_PHONE_NUMBER:
+      return {
+        ...state,
+        phoneNumber: action.data
+      };
+
     default:
       return state;
   }

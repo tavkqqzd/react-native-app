@@ -12,7 +12,8 @@ import {
   PROFILE_IMG_S3_LOCATION,
   CORRECT_ANSWER,
   SCORE_OF_PLAYER,
-  RESET_SCORE
+  RESET_SCORE,
+  GET_PHONE_NUMBER
 } from "./actionTypes";
 
 export const getClubData = data => {
@@ -109,5 +110,12 @@ export const correctAnswer = data => {
 export const resetScore = () => {
   return {
     type: RESET_SCORE
+  };
+};
+
+export const getPhoneNumber = data => {
+  return {
+    type: GET_PHONE_NUMBER,
+    data: data
   };
 };

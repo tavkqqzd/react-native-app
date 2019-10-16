@@ -19,8 +19,8 @@ import QuestionAnswer from "../Containers/CP_Dashboard/QuestionAnswer";
 import CorrectAnswer from "../Containers/CP_Dashboard/CorrectAnswer";
 import WrongAnswer from "../Containers/CP_Dashboard/WrongAnswer";
 import ScoreScreen from "../Containers/CP_Dashboard/ScoreScreen";
+import UpdateProfile from "../Containers/CP_Dashboard/UpdateProfile";
 import Testing from "../Containers/CP_Dashboard/Testing";
-import Pdf from "react-native-pdf";
 
 const PreLoginNavigator = createStackNavigator(
   {
@@ -68,6 +68,7 @@ const InGameNavigators = createStackNavigator(
     CorrectAnswer: { screen: CorrectAnswer },
     WrongAnswer: { screen: WrongAnswer },
     ScoreScreen: { screen: ScoreScreen },
+    UpdateProfile: { screen: UpdateProfile },
     Testing: { screen: Testing }
   },
   {

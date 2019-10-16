@@ -371,9 +371,35 @@ export const sumbitAnswer = obj => {
         data: obj
       })
     };
-    console.log("sending", data);
     let status = undefined;
     fetch(`${IP_ADDRESS}/cpa/game/submit_answer`, data)
+      .then(res => {
+        status = res.status;
+        return res.json();
+      })
+      .then(responseObj => {
+        return resolve({ status, data: responseObj });
+      })
+      .catch(err => {
+        return reject(err);
+      });
+  });
+};
+
+export const editProfile = obj => {
+  return new Promise((resolve, reject) => {
+    let data = {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        data: obj
+      })
+    };
+    let status = undefined;
+    fetch(`${IP_ADDRESS}/cpa/player_details_update/`, data)
       .then(res => {
         status = res.status;
         return res.json();

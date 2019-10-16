@@ -14,8 +14,8 @@ export const ProfileStyle = StyleSheet.create({
   headerText: { textAlign: "center" },
   profileImage: { alignItems: "flex-end", marginRight: 20 },
   userImage: { position: "absolute", right: 20 },
-  userImagePic: { width: 80, height: 80 },
-  userName: { fontSize: 17, color: Colors.black, fontFamily: Fonts.Fonts.CA_book },
+  userImagePic: { width: 60, height: 60 },
+  userName: { fontSize: 17, color: Colors.black, fontFamily: Fonts.Fonts.CA_bold },
   clubId: { color: "#282828", opacity: 0.8, fontSize: 15, fontFamily: Fonts.Fonts.CA_book },
   changeClub: { color: "#15ABED", fontSize: 20, marginTop: 10, fontFamily: Fonts.Fonts.CA_bold },
   clubNameBox: {
@@ -64,7 +64,7 @@ export const ProfileStyle = StyleSheet.create({
   dollarImage: { height: 15, width: 15 },
   dollarImageAlignment: { marginRight: 5, paddingTop: 4 },
   row: { flexDirection: "row" },
-  clubLogoImage: { width: "40%", justifyContent: "center" },
+  clubLogoImage: { width: "40%", justifyContent: "center", alignItems: "center" },
   clubNameText: { width: "60%", justifyContent: "center" },
   scoreBoard: { color: Colors.black, fontSize: 20, fontFamily: Fonts.Fonts.CA_book, paddingLeft: 10 },
   leaderBoardBookAlignment: {
@@ -119,5 +119,22 @@ export const ProfileStyle = StyleSheet.create({
   leaderBoardBUttonAlignment: { width: "100%" },
   w_100: { width: "100%" },
   leaderBoardGameNameAlignment: { flexDirection: "column", width: "100%", position: "relative" },
-  leaderBoardGameName_Color: { width: "50%", flexDirection: "row" }
+  leaderBoardGameName_Color: { width: "50%", flexDirection: "row" },
+  leaderBoardCardScrollView: {
+    paddingTop: 4,
+    paddingBottom: 4,
+    paddingLeft: 6,
+    paddingRight: 6,
+    color: Colors.white,
+    fontFamily: Fonts.Fonts.CA_bold,
+    fontSize: 17
+  },
+  leaderBoardCardScrollViewButton: {
+    marginLeft: 15,
+    height: 30,
+    width: 160,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });

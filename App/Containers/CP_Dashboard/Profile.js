@@ -1,17 +1,19 @@
 import React from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { NavigationActions } from "react-navigation";
-import images from "../../Themes/Images";
+// import images from "../../Themes/Images";
+import Images from "../../Themes/Images";
 import { connect } from "react-redux";
 import Colors from "../../Themes/Colors";
-import Images from "../../Themes/Images";
 import * as actions from "../../Store/Actions/ClubData";
 import { ProfileStyle } from "./Styles/Profile-Style";
 import { getLeaderBoardForLoggedInUser, getLeaderBoardForGameIdOfLoggedInUser } from "../../Services/API";
 import { ScrollView } from "react-native-gesture-handler";
 import { LeaderBoardStyle } from "./Styles/LeaderBoard-Style";
 import { randomColorGenerator } from "../../Components/Utils/RandomColorGenerator";
+import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { widthPercentageToDP } from "../../Components/Utils/PercentageToPixels";
+import Fonts from "../../Themes/Fonts";
 
 const navigateToLeaderBoardPage = NavigationActions.navigate({
   routeName: "LeaderBoard",
@@ -23,6 +25,11 @@ const navigateBackToDashboard = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "DashboardPage" })
 });
 
+const UpdateProfile = NavigationActions.navigate({
+  routeName: "UpdateProfile",
+  action: NavigationActions.navigate({ routeName: "UpdateProfile" })
+});
+
 class ProfilePage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -30,7 +37,7 @@ class ProfilePage extends React.Component {
       headerStyle: {
         backgroundColor: "#fff"
       },
-      headerBackImage: images.back,
+      // headerBackImage: images.back,
       headerTintColor: "#fff",
       headerTitleStyle: {
         fontWeight: "bold",
@@ -38,12 +45,12 @@ class ProfilePage extends React.Component {
       },
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.dispatch(navigateBackToDashboard)}>
-          <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
+          <Image source={Images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
         </TouchableOpacity>
       ),
       headerRight: (
-        <TouchableOpacity>
-          <Image source={images.setting} style={{ height: 24, width: 25, marginRight: 20 }} resizeMode="cover" />
+        <TouchableOpacity onPress={() => navigation.dispatch(UpdateProfile)}>
+          <Image source={Images.setting} style={{ height: 24, width: 25, marginRight: 20 }} resizeMode="cover" />
         </TouchableOpacity>
       )
     };
@@ -84,8 +91,9 @@ class ProfilePage extends React.Component {
 
   render() {
     console.log("userLoginData", this.props.userLoginData);
-    let { playerName, clubId } = this.props.userLoginData;
+    let { playerName, clubId, profilePic } = this.props.userLoginData;
     let { clubName, clubLogo } = this.props.clubData;
+
     return (
       <View style={ProfileStyle.profileActivity}>
         <View style={ProfileStyle.basicProfileInfo}>
@@ -102,7 +110,11 @@ class ProfilePage extends React.Component {
           </View>
           <View style={[ProfileStyle.col6, { position: "relative" }]}>
             <View style={ProfileStyle.userImage}>
-              <Image source={images.ic_passport} style={ProfileStyle.userImagePic} />
+              {profilePic ? (
+                <Image source={{ uri: profilePic }} style={ProfileStyle.userImagePic} />
+              ) : (
+                <Image source={Images.ic_passport} style={ProfileStyle.userImagePic} />
+              )}
             </View>
           </View>
         </View>
@@ -154,12 +166,14 @@ class ProfilePage extends React.Component {
                       <Text style={LeaderBoardStyle.playerNameText}>{k.gameName}</Text>
                     </View>
                     <View style={ProfileStyle.leaderBoardBUttonAlignment}>
-                      <TouchableOpacity
-                        onPress={() => this.getLeaderBoardForGameIdOfLoggedInUser(clubId, k.gameId)}
-                        style={ProfileStyle.leaderBoard_clickButton}
-                      >
-                        <Text style={ProfileStyle.leaderBoardText}>Leader Board</Text>
-                      </TouchableOpacity>
+                      <ButtonGradient
+                        title="LEADERBOARD"
+                        clickHandler={() => this.getLeaderBoardForGameIdOfLoggedInUser(clubId, k.gameId)}
+                        color1={Colors.commonButtonGradient1}
+                        color2={Colors.commonButtonGradient2}
+                        buttonStyle={ProfileStyle.leaderBoardCardScrollViewButton}
+                        buttonTextStyle={ProfileStyle.leaderBoardCardScrollView}
+                      />
                     </View>
                   </View>
                 </View>

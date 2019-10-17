@@ -14,20 +14,14 @@ import { InstructionStyle } from "./Styles/Instruction-Style";
 import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
 import ProgressCircle from "react-native-progress-circle";
 import VideoPlayer from "react-native-video-controls";
+
 var Sound = require("react-native-sound");
 import Modal from "react-native-modal";
 import Pdf from "react-native-pdf";
 import { ScrollView } from "react-native-gesture-handler";
+import { NavigationEvents } from "react-navigation";
 
 Sound.setCategory("Playback");
-
-var whoosh = new Sound("https://cpatrivia.s3.amazonaws.com/gameAssets/WhatsApp+Audio.mp3", Sound.MAIN_BUNDLE, error => {
-  if (error) {
-    console.log("failed to load the sound", error);
-    return;
-  }
-  console.log("duration in seconds: " + whoosh.getDuration() + "number of channels: " + whoosh.getNumberOfChannels());
-});
 
 const CorrectAnswerPage = index =>
   NavigationActions.navigate({
@@ -50,7 +44,20 @@ const WrongAnswerPage = index =>
 
 class QuestionAnswer extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
-  state = { selectedOption: "", pdf: false, modal: false };
+  state = { selectedOption: "", pdf: false, modal: false, audioToRender: "", whoosh: "" };
+
+  audioToRenderFn = index => {
+    if (this.props.questions && this.props.questions.result[index].mediaType === 1) {
+      var whoosh = new Sound(this.props.questions.result[index].image, Sound.MAIN_BUNDLE, error => {
+        if (error) {
+          console.log("failed to load the sound", error);
+          return;
+        }
+      });
+
+      this.setState({ whoosh: whoosh });
+    }
+  };
 
   submitAnswer = (id, question, qId, selectedAnswer) => {
     let { questionIndex } = this.props;
@@ -70,6 +77,7 @@ class QuestionAnswer extends React.Component {
         .then(res => {
           if (res.status === 200) {
             this.props.navigation.dispatch(CorrectAnswerPage(questionIndex));
+            this.setState({ selectedOption: null });
           } else if (res.status === 404) {
             console.log("404");
           } else if (res.status === 500) {
@@ -84,6 +92,7 @@ class QuestionAnswer extends React.Component {
       sumbitAnswer(obj)
         .then(res => {
           if (res.status === 401) {
+            this.setState({ selectedOption: null });
             this.props.navigation.dispatch(WrongAnswerPage(questionIndex));
           }
         })
@@ -106,40 +115,44 @@ class QuestionAnswer extends React.Component {
   };
 
   playSound = () => {
-    whoosh.play(success => {
-      if (success) {
-        console.log("successfully finished playing");
-      } else {
-        console.log("playback failed due to audio decoding errors");
-      }
-    });
+    this.state.whoosh &&
+      this.state.whoosh.play(success => {
+        if (success) {
+          console.log("successfully finished playing");
+        } else {
+          console.log("playback failed due to audio decoding errors");
+        }
+      });
   };
 
   pauseSound = () => {
-    whoosh.pause(success => {
-      if (success) {
-        console.log("successfully finished playing");
-      } else {
-        console.log("playback failed due to audio decoding errors");
-      }
-    });
+    this.state.whoosh &&
+      this.state.whoosh.pause(success => {
+        if (success) {
+          console.log("successfully finished playing");
+        } else {
+          console.log("playback failed due to audio decoding errors");
+        }
+      });
   };
 
   resetSound = () => {
-    whoosh.stop(success => {
-      if (success) {
-        console.log("successfully finished playing");
-      } else {
-        console.log("playback failed due to audio decoding errors");
-      }
-    });
-    whoosh.play(success => {
-      if (success) {
-        console.log("successfully finished playing");
-      } else {
-        console.log("playback failed due to audio decoding errors");
-      }
-    });
+    this.state.whoosh &&
+      this.state.whoosh.stop(success => {
+        if (success) {
+          console.log("successfully finished playing");
+        } else {
+          console.log("playback failed due to audio decoding errors");
+        }
+      });
+    this.state.whoosh &&
+      this.state.whoosh.play(success => {
+        if (success) {
+          console.log("successfully finished playing");
+        } else {
+          console.log("playback failed due to audio decoding errors");
+        }
+      });
   };
 
   // media type for video
@@ -402,6 +415,11 @@ class QuestionAnswer extends React.Component {
             </View>
           </ScrollView>
         </Modal>
+        <NavigationEvents
+          onWillFocus={payload => {
+            this.audioToRenderFn(this.props.questionIndex);
+          }}
+        />
       </ScrollView>
     );
   };

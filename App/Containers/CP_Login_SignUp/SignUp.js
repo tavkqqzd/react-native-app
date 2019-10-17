@@ -1,12 +1,22 @@
 import React from "react";
-import { Text, View, TextInput, Image, TouchableOpacity, Switch, ScrollView, Button } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Switch,
+  ScrollView,
+  Button
+} from "react-native";
 import ImagePicker from "react-native-image-picker";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
 import { centerAlignment } from "../../Themes/ActivityStyles";
 import { SignUpStyles } from "./Styles/SingUp-Styles";
-import { getEmployeeType, signUp } from "../../Services/API";
+import { getEmployeeType, generateOTP } from "../../Services/API";
 import Toast from "react-native-toast-native";
 import PhoneInput from "react-native-phone-input";
 import CountryPicker from "react-native-country-picker-modal";
@@ -21,11 +31,16 @@ import * as actions from "../../Store/Actions/ClubData";
 import { RNS3 } from "react-native-s3-upload";
 import Fonts from "../../Themes/Fonts";
 
-const OTPVerificationScreen = number =>
+const NavigateTo_CP_Login_SignUpPage = NavigationActions.navigate({
+  routeName: "CP_Login_SignUp",
+  action: NavigationActions.navigate({ routeName: "CP_Login_SignUp" })
+});
+
+const OTPVerificationScreen = data =>
   NavigationActions.navigate({
     routeName: "EnterVerificationCode",
     action: NavigationActions.navigate({ routeName: "EnterVerificationCode" }),
-    params: number
+    params: data
   });
 
 AWS_ACCESSKEY_ID = "AKIAJZ5F3ACPRUYRU2AQ";
@@ -43,18 +58,24 @@ const options = {
 };
 
 class SignUp extends React.Component {
-  static navigationOptions = {
-    title: "Sign Up",
-    headerStyle: {
-      backgroundColor: "#fff"
-    },
-    headerBackImage: images.back,
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontWeight: "bold",
-      color: Colors.gradientViolet
-    },
-    headerLeft: <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Sign Up",
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerBackImage: images.back,
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+        color: Colors.gradientViolet
+      },
+      headerLeft: (
+        <TouchableNativeFeedback onPress={() => navigation.dispatch(NavigateTo_CP_Login_SignUpPage)}>
+          <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
+        </TouchableNativeFeedback>
+      )
+    };
   };
   state = {
     profileImage: "",
@@ -146,31 +167,43 @@ class SignUp extends React.Component {
     });
   }
 
+  // this will navigate to OTP Page
   signUp = () => {
     let callingCode = this.state.countryDetails.callingCode ? "+".concat(this.state.countryDetails.callingCode) : "+91";
-    let memId = this.state.clubMemberId.length > 0 ? this.state.clubMemberId : 0;
-    let optionalName = this.state.optionalName.length > 0 ? this.state.optionalName : "User";
+    let memId = this.state.clubMemberId.length > 0 ? this.state.clubMemberId : "";
+    let optionalName = this.state.optionalName.length > 0 ? this.state.optionalName : "";
     let { clubId } = this.props.clubData;
     let { name, email, password } = this.state;
-    signUp(
-      name,
-      email,
-      optionalName,
-      password,
-      clubId,
-      memId,
-      callingCode,
-      this.state.phNumber,
-      this.props.S3UploadUrl,
-      this.state.EmployeeId
-    )
+
+    let number = callingCode + this.state.phNumber;
+    let data = {
+      completeNumber: number,
+      name: name,
+      email: email,
+      optionalName: optionalName,
+      clubId: clubId,
+      memId: memId,
+      password: password,
+      callingCode: callingCode,
+      phoneNumberWithoutPrefix: this.state.phNumber,
+      s3Url: this.props.S3UploadUrl,
+      employeeId: this.state.EmployeeId,
+      SIGNUP: true
+    };
+
+    generateOTP(number)
       .then(res => {
-        let number = callingCode + this.state.phNumber;
-        this.props.navigation.dispatch(OTPVerificationScreen(number));
-        console.log("sign up successfull", res);
+        if (res.status === 200) {
+          Toast.show("OTP Sent Successfully", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+          this.props.navigation.dispatch(OTPVerificationScreen(data));
+        } else if (res.status === 404) {
+          Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
+        } else if (res.status === 500) {
+          Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+        }
       })
       .catch(err => {
-        console.log("sign up failed", err);
+        console.log("err", err);
       });
   };
 
@@ -327,6 +360,15 @@ class SignUp extends React.Component {
     );
   }
 }
+
+const phoneNumberError = {
+  width: 300,
+  yOffset: 60,
+  height: 120,
+  backgroundColor: "#545454",
+  color: "#FFFFFF",
+  fontSize: 17
+};
 
 const mapStateToProps = state => {
   return {

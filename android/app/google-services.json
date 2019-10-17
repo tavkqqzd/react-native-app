@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "974969885584",
+    "firebase_url": "https://club-passport.firebaseio.com",
+    "project_id": "club-passport",
+    "storage_bucket": "club-passport.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974969885584:android:63b2d3784e82fbbab59915",
+        "android_client_info": {
+          "package_name": "com.clubpassport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974969885584-1g5nsbjvssmi7c75fp7vl5qu7p104mfh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.clubpassport",
+            "certificate_hash": "85472689ec08a688648a7fde2c67bdd5ebafd0b6"
+          }
+        },
+        {
+          "client_id": "974969885584-7kb7293bdotsg4ep0ggiob433j9ohu14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjEpQMU3SPPwCb9UGMSqILwM7JDGqFzC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974969885584-7kb7293bdotsg4ep0ggiob433j9ohu14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

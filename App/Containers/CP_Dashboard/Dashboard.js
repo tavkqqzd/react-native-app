@@ -146,7 +146,7 @@ class DashboardPage extends React.Component {
                   </View>
                   <View style={css.cardBottomRow}>
                     <View style={css.questionSection}>
-                      <Text style={css.questionsText}>{k.totalQuestions} Questions</Text>
+                      <Text style={css.questionsText}>{k.totalQuestions}Questions</Text>
                     </View>
                     <View style={css.bottomButtonSection}>
                       <TouchableOpacity style={css.button} onPress={() => this.selectedGame(k)}>

@@ -1,5 +1,13 @@
 import React from "react";
-import { Text, View, TextInput, Image, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  Image,
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
+  TouchableOpacity
+} from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
@@ -10,6 +18,7 @@ import Toast from "react-native-toast-native";
 import * as actions from "../../Store/Actions/ClubData";
 import { connect } from "react-redux";
 import Fonts from "../../Themes/Fonts";
+import { ScrollView } from "react-native-gesture-handler";
 
 const navigateToSignUpPage = cid =>
   NavigationActions.navigate({
@@ -18,22 +27,33 @@ const navigateToSignUpPage = cid =>
     params: cid
   });
 
+const NavigateTo_CP_Login_SignUpPage = NavigationActions.navigate({
+  routeName: "CP_Login_SignUp",
+  action: NavigationActions.navigate({ routeName: "CP_Login_SignUp" })
+});
+
 class EnterClubId extends React.Component {
-  static navigationOptions = {
-    title: "Club ID",
-    headerStyle: {
-      backgroundColor: "#fff"
-    },
-    headerBackImage: images.back,
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontFamily: Fonts.Fonts.CA_bold,
-      color: Colors.gradientViolet
-    },
-    headerLeft: <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Club ID",
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerBackImage: images.back,
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontFamily: Fonts.Fonts.CA_bold,
+        color: Colors.gradientViolet
+      },
+      headerLeft: (
+        <TouchableNativeFeedback onPress={() => navigation.dispatch(NavigateTo_CP_Login_SignUpPage)}>
+          <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
+        </TouchableNativeFeedback>
+      )
+    };
   };
   state = {
-    clubId: "CLUENV001"
+    clubId: ""
   };
 
   validateClubID = clubId => {
@@ -58,21 +78,21 @@ class EnterClubId extends React.Component {
 
   render() {
     let iconRender = "";
-    if (!this.state.clubId.length > 0) {
-      iconRender = (
-        <TouchableOpacity>
-          <Image source={images.blackEnter} />
-        </TouchableOpacity>
-      );
-    } else {
+    if (this.state.clubId.length > 4) {
       iconRender = (
         <TouchableOpacity onPress={() => this.validateClubID(this.state.clubId)}>
           <Image source={images.blueEnter} />
         </TouchableOpacity>
       );
+    } else {
+      iconRender = (
+        <TouchableWithoutFeedback>
+          <Image source={images.blackEnter} />
+        </TouchableWithoutFeedback>
+      );
     }
     return (
-      <View style={[centerAlignment.contentAlignInCenter, SignUpStyles.signUpPageActivity]}>
+      <ScrollView contentContainerStyle={[centerAlignment.contentAlignInCenter, SignUpStyles.signUpPageActivity]}>
         <View>
           <Image source={images.blueLogo} alt="Club Passport" />
         </View>
@@ -83,7 +103,7 @@ class EnterClubId extends React.Component {
           <TextInput style={SignUpStyles.inputBox} onChangeText={clubId => this.setState({ clubId })} />
           <View style={SignUpStyles.submitButton}>{iconRender}</View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

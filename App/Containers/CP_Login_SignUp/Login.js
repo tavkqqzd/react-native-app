@@ -19,6 +19,11 @@ const navigateToDashboardPage = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "DashboardPage" })
 });
 
+const NavigateTo_CP_Login_SignUpPage = NavigationActions.navigate({
+  routeName: "CP_Login_SignUp",
+  action: NavigationActions.navigate({ routeName: "CP_Login_SignUp" })
+});
+
 const navigateToSignUpPage = NavigationActions.navigate({
   routeName: "EnterClubId",
   action: NavigationActions.navigate({ routeName: "EnterClubId" })
@@ -32,20 +37,26 @@ const navigateToHelpWithPasswordPage = number =>
   });
 
 class Login extends React.Component {
-  static navigationOptions = {
-    title: "Sign In",
-    headerStyle: {
-      backgroundColor: "#fff"
-    },
-    headerBackImage: images.back,
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontSize: 17,
-      fontFamily: Fonts.Fonts.CA_bold,
-      color: colors.gradientViolet
-    },
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Sign In",
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerBackImage: images.back,
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontSize: 17,
+        fontFamily: Fonts.Fonts.CA_bold,
+        color: colors.gradientViolet
+      },
 
-    headerLeft: <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
+      headerLeft: (
+        <TouchableNativeFeedback onPress={() => navigation.dispatch(NavigateTo_CP_Login_SignUpPage)}>
+          <Image source={images.back} style={{ height: 24, width: 15, marginLeft: 20 }} resizeMode="cover" />
+        </TouchableNativeFeedback>
+      )
+    };
   };
   constructor(props) {
     super(props);

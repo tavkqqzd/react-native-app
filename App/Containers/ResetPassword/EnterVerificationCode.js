@@ -5,7 +5,7 @@ import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
 import { centerAlignment } from "../../Themes/ActivityStyles";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
-import { compareOTP } from "../../Services/API";
+import { compareOTP, signUp } from "../../Services/API";
 import Toast from "react-native-toast-native";
 import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
@@ -18,6 +18,11 @@ const navigateToMobileNumberVerified = number =>
     action: NavigationActions.navigate({ routeName: "MobileNumberVerified" }),
     params: number
   });
+
+const NavigateToLoginPage = NavigationActions.navigate({
+  routeName: "Login",
+  action: NavigationActions.navigate({ routeName: "Login" })
+});
 
 class EnterVerificationCode extends React.Component {
   static navigationOptions = {
@@ -38,11 +43,51 @@ class EnterVerificationCode extends React.Component {
     code: ""
   };
 
+  componentDidMount() {
+    console.log("EnterVerificationCode props", this.props.navigation.state.params);
+  }
+
   compareOTP = (phNumber, OTPCode) => {
+    let {
+      s3Url,
+      employeeId,
+      SIGNUP,
+      name,
+      email,
+      optionalName,
+      clubId,
+      memId,
+      password,
+      callingCode,
+      phoneNumberWithoutPrefix
+    } = this.props.navigation.state.params;
     compareOTP(phNumber, OTPCode)
       .then(res => {
         if (res.status === 200) {
-          this.props.navigation.dispatch(navigateToMobileNumberVerified(phNumber));
+          if (SIGNUP === true) {
+            signUp(
+              name,
+              email,
+              optionalName,
+              password,
+              clubId,
+              memId,
+              callingCode,
+              phoneNumberWithoutPrefix,
+              s3Url,
+              employeeId
+            )
+              .then(res => {
+                console.log("sign up successfull", res);
+                Toast.show("Sign Up Successfull", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+                this.props.navigation.dispatch(NavigateToLoginPage);
+              })
+              .catch(err => {
+                Toast.show("Sign Up Failed", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+              });
+          } else {
+            this.props.navigation.dispatch(navigateToMobileNumberVerified(phNumber));
+          }
         } else if (res.status === 404) {
           Toast.show("Invalid OTP", Toast.LONG, Toast.BOTTOM, phoneNumberError);
         } else if (res.status === 500) {

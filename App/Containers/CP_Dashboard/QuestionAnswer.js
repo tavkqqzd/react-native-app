@@ -181,7 +181,7 @@ class QuestionAnswer extends React.Component {
             <View>
               <ButtonGradient
                 title="Exit"
-                // clickHandler={() => this.getQuestions(id)}
+                clickHandler={() => this.props.navigation.dispatch(NavigateToDashboard)}
                 color1={Colors.commonButtonGradient1}
                 color2={Colors.commonButtonGradient2}
                 buttonStyle={QuestionAnswerStyle.exitButton}

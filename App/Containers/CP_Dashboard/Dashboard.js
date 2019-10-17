@@ -126,6 +126,14 @@ class DashboardPage extends React.Component {
     }
   };
 
+  questionsRemainingRender = obj => {
+    if (obj.totalQuestions === obj.remainingQuestions) {
+      return `${obj.remainingQuestions} Questions`;
+    } else if (obj.totalQuestions !== obj.remainingQuestions) {
+      return `${obj.totalQuestions - obj.remainingQuestions}` + "/" + `${obj.totalQuestions} Questions`;
+    }
+  };
+
   render() {
     let { gameData } = this.props;
     return (
@@ -134,7 +142,7 @@ class DashboardPage extends React.Component {
           {!!gameData &&
             gameData.result &&
             gameData.result.map((k, i) => (
-              <TouchableWithoutFeedback key={k.name} onPress={() => this.selectedGame(k)}>
+              <View key={k.name}>
                 <LinearGradient
                   useAngle={true}
                   angle={90}
@@ -146,7 +154,7 @@ class DashboardPage extends React.Component {
                   </View>
                   <View style={css.cardBottomRow}>
                     <View style={css.questionSection}>
-                      <Text style={css.questionsText}>{k.totalQuestions}Questions</Text>
+                      <Text style={css.questionsText}>{this.questionsRemainingRender(k)}</Text>
                     </View>
                     <View style={css.bottomButtonSection}>
                       <TouchableOpacity style={css.button} onPress={() => this.selectedGame(k)}>
@@ -155,7 +163,7 @@ class DashboardPage extends React.Component {
                     </View>
                   </View>
                 </LinearGradient>
-              </TouchableWithoutFeedback>
+              </View>
             ))}
         </View>
         <Modal

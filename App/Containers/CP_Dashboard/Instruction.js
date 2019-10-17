@@ -33,7 +33,6 @@ class InstructionPage extends React.Component {
     }
     getQuestions(gameId)
       .then(res => {
-        console.log("getQuestions", res.data);
         if (res.status === 200) {
           this.props.getQuestions(res.data);
           this.props.navigation.dispatch(QuestionAnswerPage);

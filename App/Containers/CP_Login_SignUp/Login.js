@@ -92,22 +92,24 @@ class Login extends React.Component {
   }
 
   APILogin = (phoneNumber, password, clubId) => {
-    this.props.getPhoneNumber(this.state.phNumber);
-    login(phoneNumber, password, clubId)
-      .then(res => {
-        if (res.status === 200) {
-          this.props.userLoginDetails(res.data.result[0]);
-          this.props.navigation.dispatch(navigateToDashboardPage);
-        } else if (res.status === 404) {
-          Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
-        } else if (res.status === 500) {
-          Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
-        }
-      })
-      .catch(err => {
-        console.log("err", err);
-        Toast.show("Something went wrong...", Toast.LONG, Toast.BOTTOM, invalidClub);
-      });
+    if (this.state.phNumber.length > 2 && this.state.password.length > 2 && this.state.clubId.length > 2) {
+      this.props.getPhoneNumber(this.state.phNumber);
+      login(phoneNumber, password, clubId)
+        .then(res => {
+          if (res.status === 200) {
+            this.props.userLoginDetails(res.data.result[0]);
+            this.props.navigation.dispatch(navigateToDashboardPage);
+          } else if (res.status === 404) {
+            Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+          } else if (res.status === 500) {
+            Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+          }
+        })
+        .catch(err => {
+          console.log("err", err);
+          Toast.show("Something went wrong...", Toast.LONG, Toast.BOTTOM, invalidClub);
+        });
+    }
   };
 
   checkIfNumberIsValid = number => {

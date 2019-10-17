@@ -32,7 +32,7 @@ class ScoreScreen extends React.Component {
   };
 
   render() {
-    let { playerName } = this.props.userLoginData;
+    let { playerName, profilePic } = this.props.userLoginData;
     let { clubName } = this.props.clubData;
     let { name } = this.props.selectedGame;
     return (
@@ -45,9 +45,11 @@ class ScoreScreen extends React.Component {
         >
           <View style={ScoreStyles.AlignCenter}>
             <Text style={ScoreStyles.GameName}>{name}</Text>
-            <View>
+            {profilePic ? (
+              <Image source={{ uri: profilePic }} style={ScoreStyles.UserImage} />
+            ) : (
               <Image source={Images.ic_passport} style={ScoreStyles.UserImage} />
-            </View>
+            )}
           </View>
         </LinearGradient>
 

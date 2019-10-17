@@ -120,6 +120,7 @@ class UpdateProfile extends React.Component {
         if (response.status !== 201) throw new Error("Failed to upload image to S3");
         console.log("response.body.postResponse.location)", response.body.postResponse.location);
         this.props.profileImageS3UploadLocation(response.body.postResponse.location);
+        this.props.updateImageGlobally(response.body.postResponse.location);
       });
       if (response.didCancel) {
         console.log("User cancelled image picker");
@@ -175,9 +176,18 @@ class UpdateProfile extends React.Component {
       });
   };
 
+  componentDidMount() {
+    let { playerName, userName, emailId, clubMembershipId } = this.props.userLoginData;
+    this.setState({
+      email: emailId,
+      name: playerName,
+      optionalName: userName,
+      clubMemberId: clubMembershipId
+    });
+  }
+
   render() {
-    const { name, email, optionalName, password, clubMemberId, radioBtn } = this.state;
-    let { playerName, clubId, profilePic, userName, emailId, clubMembershipId } = this.props.userLoginData;
+    let { profilePic } = this.props.userLoginData;
     return (
       <View style={SignUpStyles.signUpPageActivity}>
         <TouchableOpacity style={centerAlignment.contentAlignInCenter} onPress={() => this.uploadImage()}>
@@ -193,16 +203,16 @@ class UpdateProfile extends React.Component {
             labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
             titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Name*"
-            value={this.state.name ? this.state.name : this.props.userLoginData.playerName}
+            value={this.state.name}
             tintColor="#000"
-            onChangeText={name => this.setState({ name })}
+            onChangeText={name => this.setState({ name: name ? name : "" })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />
           <TextField
             labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
             titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="User Name(Optional)"
-            value={this.state.optionalName ? this.state.optionalName : userName}
+            value={this.state.optionalName}
             tintColor="#000"
             onChangeText={optionalName => this.setState({ optionalName })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
@@ -244,7 +254,7 @@ class UpdateProfile extends React.Component {
             labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
             titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Email Address*"
-            value={this.state.email ? this.state.email : emailId}
+            value={this.state.email}
             tintColor="#000"
             onChangeText={email => this.setState({ email })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
@@ -253,7 +263,7 @@ class UpdateProfile extends React.Component {
             labelTextStyle={LoginStyles.MAT_UI_LabelStyles}
             titleTextStyle={LoginStyles.MAT_UI_LabelStyles}
             label="Club Membership ID(Optional)"
-            value={this.state.clubMemberId ? this.state.clubMemberId : clubMembershipId}
+            value={this.state.clubMemberId}
             tintColor="#000"
             onChangeText={clubMemberId => this.setState({ clubMemberId })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
@@ -304,13 +314,14 @@ const mapDispatchToProps = dispatch => {
   return {
     storeGameData: data => dispatch(actions.storeGameData(data)),
     getQuestions: data => dispatch(actions.getQuestions(data)),
-    profileImageS3UploadLocation: data => dispatch(actions.profileImageS3UploadLocation(data))
+    profileImageS3UploadLocation: data => dispatch(actions.profileImageS3UploadLocation(data)),
+    updateImageGlobally: data => dispatch(actions.updateImageGlobally(data))
   };
 };
 
 const css = StyleSheet.create({
   profilePic: {
-    borderRadius: 50,
+    borderRadius: 60,
     height: 120,
     width: 120
   }

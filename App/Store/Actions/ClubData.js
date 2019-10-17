@@ -13,7 +13,8 @@ import {
   CORRECT_ANSWER,
   SCORE_OF_PLAYER,
   RESET_SCORE,
-  GET_PHONE_NUMBER
+  GET_PHONE_NUMBER,
+  UPDATE_IMAGE_GLOBALLY
 } from "./actionTypes";
 
 export const getClubData = data => {
@@ -116,6 +117,13 @@ export const resetScore = () => {
 export const getPhoneNumber = data => {
   return {
     type: GET_PHONE_NUMBER,
+    data: data
+  };
+};
+
+export const updateImageGlobally = data => {
+  return {
+    type: UPDATE_IMAGE_GLOBALLY,
     data: data
   };
 };

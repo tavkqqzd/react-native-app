@@ -17,21 +17,6 @@ export const initialState = {
   phoneNumber: ""
 };
 
-createNewArrayToRender = arr => {
-  let arrayToPush = [];
-  let object = {};
-  arr.map(
-    k => (
-      (object = {}),
-      (object["id"] = k.id),
-      (object["value"] = k.employeeType),
-      (object["seqId"] = k.seqId),
-      arrayToPush.push(object)
-    )
-  );
-  return arrayToPush;
-};
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_CLUB_DATA:
@@ -109,7 +94,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         phoneNumber: action.data
       };
-
+    case actionTypes.UPDATE_IMAGE_GLOBALLY:
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          profilePic: action.data
+        }
+      };
     default:
       return state;
   }

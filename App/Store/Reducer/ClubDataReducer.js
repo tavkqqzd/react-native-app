@@ -102,6 +102,18 @@ const reducer = (state = initialState, action) => {
           profilePic: action.data
         }
       };
+    case actionTypes.UPDATE_USER_PROFILE_DATA: {
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          playerName: action.name,
+          emailId: action.email,
+          clubMembershipId: action.clubMemId,
+          userName: action.optionalName
+        }
+      };
+    }
     default:
       return state;
   }

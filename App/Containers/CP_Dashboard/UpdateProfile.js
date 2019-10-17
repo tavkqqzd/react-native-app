@@ -164,6 +164,7 @@ class UpdateProfile extends React.Component {
     editProfile(obj)
       .then(res => {
         if (res.status === 200) {
+          this.props.updateUserProfileData(playerName, emailId, clubMembershipId, username);
           Toast.show("Profile Updated", Toast.LONG, Toast.BOTTOM, invalidClub);
           this.props.navigation.dispatch(ProfilePage);
         } else if (res.status === 404) {
@@ -325,7 +326,8 @@ const mapDispatchToProps = dispatch => {
     storeGameData: data => dispatch(actions.storeGameData(data)),
     getQuestions: data => dispatch(actions.getQuestions(data)),
     profileImageS3UploadLocation: data => dispatch(actions.profileImageS3UploadLocation(data)),
-    updateImageGlobally: data => dispatch(actions.updateImageGlobally(data))
+    updateImageGlobally: data => dispatch(actions.updateImageGlobally(data)),
+    updateUserProfileData: (n, e, cl_me_id, opt) => dispatch(actions.updateUserProfileData(n, e, cl_me_id, opt))
   };
 };
 

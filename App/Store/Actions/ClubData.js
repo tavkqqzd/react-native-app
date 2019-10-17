@@ -14,7 +14,8 @@ import {
   SCORE_OF_PLAYER,
   RESET_SCORE,
   GET_PHONE_NUMBER,
-  UPDATE_IMAGE_GLOBALLY
+  UPDATE_IMAGE_GLOBALLY,
+  UPDATE_USER_PROFILE_DATA
 } from "./actionTypes";
 
 export const getClubData = data => {
@@ -125,5 +126,15 @@ export const updateImageGlobally = data => {
   return {
     type: UPDATE_IMAGE_GLOBALLY,
     data: data
+  };
+};
+
+export const updateUserProfileData = (name, email, clubMemId, optionalName) => {
+  return {
+    type: UPDATE_USER_PROFILE_DATA,
+    name,
+    email,
+    clubMemId,
+    optionalName
   };
 };

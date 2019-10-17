@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions, Button, ScrollView } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions } from "react-native";
 import PhoneInput from "react-native-phone-input";
 import ImagePicker from "react-native-image-picker";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
@@ -14,11 +14,11 @@ import * as actions from "../../Store/Actions/ClubData";
 import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
 import { editProfile } from "../../Services/API";
 import { TextField } from "react-native-material-textfield";
-import { widthPercentageToDP, heightPercentageToDP } from "../../Components/Utils/PercentageToPixels";
 import { ScoreStyles } from "./Styles/ScoreScreen-Style";
 import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
-import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
+
 import { RNS3 } from "react-native-s3-upload";
+import Toast from "react-native-toast-native";
 
 const ProfilePage = NavigationActions.navigate({
   routeName: "Profile",
@@ -121,6 +121,7 @@ class UpdateProfile extends React.Component {
         console.log("response.body.postResponse.location)", response.body.postResponse.location);
         this.props.profileImageS3UploadLocation(response.body.postResponse.location);
         this.props.updateImageGlobally(response.body.postResponse.location);
+        Toast.show("Profile Picture Updated", Toast.LONG, Toast.BOTTOM, invalidClub);
       });
       if (response.didCancel) {
         console.log("User cancelled image picker");
@@ -163,7 +164,7 @@ class UpdateProfile extends React.Component {
     editProfile(obj)
       .then(res => {
         if (res.status === 200) {
-          console.log("update profile successfully");
+          Toast.show("Profile Updated", Toast.LONG, Toast.BOTTOM, invalidClub);
           this.props.navigation.dispatch(ProfilePage);
         } else if (res.status === 404) {
           console.log("404");
@@ -172,7 +173,7 @@ class UpdateProfile extends React.Component {
         }
       })
       .catch(err => {
-        console.log("catch err", err);
+        Toast.show("Something went wrong...", Toast.LONG, Toast.BOTTOM, invalidClub);
       });
   };
 
@@ -283,6 +284,15 @@ class UpdateProfile extends React.Component {
     );
   }
 }
+
+const invalidClub = {
+  width: 300,
+  yOffset: 60,
+  height: 120,
+  backgroundColor: "#545454",
+  color: "#FFFFFF",
+  fontSize: 17
+};
 
 const styles = StyleSheet.create({
   container: {

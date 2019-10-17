@@ -214,7 +214,7 @@ const css = StyleSheet.create({
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
-    width: 90
+    width: 100
   },
   gameName: { height: 60, padding: 10 },
   gameNameText: { fontSize: 24, color: Colors.white, fontFamily: Fonts.Fonts.CA_bold },

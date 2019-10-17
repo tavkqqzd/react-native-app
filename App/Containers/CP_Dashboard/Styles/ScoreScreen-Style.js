@@ -35,7 +35,7 @@ export const ScoreStyles = StyleSheet.create({
     color: Colors.white,
     fontFamily: Fonts.Fonts.CA_book
   },
-  UserImage: { height: 150, width: 150, marginTop: 15 },
+  UserImage: { height: 150, width: 150, marginTop: 15, borderRadius: 75 },
   GameName: { fontSize: 24, color: "#fff", fontFamily: Fonts.Fonts.CA_bold },
   AlignCenter: { alignItems: "center" },
   Player_ClubInfo: { alignItems: "center", height: heightPercentageToDP("15%") },

@@ -134,12 +134,6 @@ class UpdateProfile extends React.Component {
   };
 
   editProfile = () => {
-    console.log(
-      "this.props.userLoginData.profilePic",
-      this.props.userLoginData.profilePic,
-      "this.props.S3UploadUrl",
-      this.props.S3UploadUrl
-    );
     let callingCode = this.state.countryDetails.callingCode ? "+".concat(this.state.countryDetails.callingCode) : "+91";
     let PhoneNumber = this.state.phNumber ? callingCode + this.state.phNumber : callingCode + this.props.phoneNumber;
     let clubMembershipId = this.state.clubMemberId ? this.state.clubMemberId : 0;

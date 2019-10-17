@@ -52,10 +52,6 @@ class QuestionAnswer extends React.Component {
   static navigationOptions = ({ navigation }) => ({ header: null });
   state = { selectedOption: "", pdf: false, modal: false };
 
-  componentDidMount() {
-    console.log("all questions", this.props.questions);
-  }
-
   submitAnswer = (id, question, qId, selectedAnswer) => {
     let { questionIndex } = this.props;
     let { remainingQuestions, totalQuestions } = this.props.selectedGame;
@@ -146,6 +142,7 @@ class QuestionAnswer extends React.Component {
     });
   };
 
+  // media type for video
   mediaType2 = QuestionIndex => {
     let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
@@ -153,7 +150,7 @@ class QuestionAnswer extends React.Component {
         <View style={{ flexDirection: "row", height: heightPercentageToDP("45%") }}>
           <View style={{ width: widthPercentageToDP("75%"), padding: 5 }}>
             <VideoPlayer
-              source={{ uri: "https://cpatrivia.s3.amazonaws.com/gameAssets/sampleVideo.mp4" }}
+              source={{ uri: this.props.questions.result[QuestionIndex].image }}
               toggleResizeModeOnFullscreen={true}
               navigator={this.props.navigator}
               paused={false}
@@ -278,6 +275,7 @@ class QuestionAnswer extends React.Component {
     );
   };
 
+  // media type for audio
   mediaType1 = QuestionIndex => {
     let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
@@ -408,6 +406,7 @@ class QuestionAnswer extends React.Component {
     );
   };
 
+  // media type for pdf
   mediaType3 = QuestionIndex => {
     let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
@@ -522,7 +521,7 @@ class QuestionAnswer extends React.Component {
             <Text style={QuestionAnswerStyle.AudioControlsText}>Close</Text>
           </TouchableOpacity>
           <Pdf
-            source={{ uri: "https://cpatrivia.s3.amazonaws.com/gameAssets/samplePDF.pdf", cache: true }}
+            source={{ uri: this.props.questions.result[QuestionIndex].image, cache: true }}
             onLoadComplete={(numberOfPages, filePath) => {
               console.log(`number of pages: ${numberOfPages}`);
             }}
@@ -558,6 +557,7 @@ class QuestionAnswer extends React.Component {
     );
   };
 
+  // media type for image
   mediaWithImage = QuestionIndex => {
     let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
@@ -681,6 +681,7 @@ class QuestionAnswer extends React.Component {
     );
   };
 
+  // regular question answer (MCQ)
   regularQuestionAnswer = QuestionIndex => {
     let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (

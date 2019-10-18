@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Image, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity, RefreshControl, FlatList, ListView } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import { connect } from "react-redux";
@@ -52,18 +52,25 @@ class DashboardPage extends React.Component {
   state = {
     cardsData: "",
     modal: "",
-    gameId: ""
+    gameId: "",
+    refreshing: false,
+    startIndex: 0,
+    endIndex: 10,
+    scrollY: 0
   };
 
   openModal = () => {
     this.setState({ modal: !this.state.modal });
   };
 
-  getGamesOnMount = (clubId, playerId, employeeTypeCode) => {
-    getGameAndUserDetail(employeeTypeCode, clubId, 0, 10, playerId)
+  getGamesOnMount = () => {
+    let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
+    getGameAndUserDetail(employeeTypeCode, clubId, this.state.startIndex, this.state.endIndex, playerId)
       .then(res => {
+        console.log("once called");
         if (res.status === 200) {
-          this.props.storeGameData(res.data);
+          let data = [...this.props.gameData, ...res.data.result];
+          this.props.storeGameData(data);
         } else if (res.status === 404) {
           // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
         } else if (res.status === 500) {
@@ -80,9 +87,8 @@ class DashboardPage extends React.Component {
     let m = new Date().getMonth();
     let d = new Date().getDay();
     let arr = [].concat(y, m, d);
-    let newArr = arr.join("-");
-    let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
-    this.getGamesOnMount(clubId, playerId, employeeTypeCode);
+    let { clubId } = this.props.userLoginData;
+    this.getGamesOnMount();
     validateClubID(clubId)
       .then(res => {
         if (res.status === 200) {
@@ -104,10 +110,9 @@ class DashboardPage extends React.Component {
   };
 
   restartGame = (gid, uId) => {
-    let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
     restartGame(gid, uId)
       .then(res => {
-        this.getGamesOnMount(clubId, playerId, employeeTypeCode);
+        this.getGamesOnMount();
         this.setState({ modal: false });
       })
       .catch(err => {
@@ -134,38 +139,79 @@ class DashboardPage extends React.Component {
     }
   };
 
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
+    getGameAndUserDetail(employeeTypeCode, clubId, 0, 10, playerId)
+      .then(res => {
+        if (res.status === 200) {
+          this.props.storeGameData(res.data);
+          this.setState({ refreshing: false });
+        } else if (res.status === 404) {
+          this.setState({ refreshing: false });
+          // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+        } else if (res.status === 500) {
+          this.setState({ refreshing: false });
+          // Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+        }
+      })
+      .catch(err => {
+        this.setState({ refreshing: false });
+        console.log(err, err);
+      });
+  };
+
+  handleLoadMore = () => {
+    console.log("handle load more called");
+    this.setState(
+      {
+        startIndex: this.state.startIndex + 10,
+        endIndex: this.state.endIndex + 10
+      },
+      () => {
+        this.getGamesOnMount();
+      }
+    );
+  };
+
   render() {
     let { gameData } = this.props;
     return (
-      <ScrollView>
-        <View style={{ padding: 10 }}>
-          {!!gameData &&
-            gameData.result &&
-            gameData.result.map((k, i) => (
-              <View key={k.name}>
-                <LinearGradient
-                  useAngle={true}
-                  angle={90}
-                  colors={[randomColorGenerator(), randomColorGenerator()]}
-                  style={css.card}
-                >
-                  <View style={css.gameName}>
-                    <Text style={css.gameNameText}>{k.name}</Text>
+      <View>
+        <FlatList
+          contentContainerStyle={{ padding: 10 }}
+          onScroll={this.handleScroll}
+          pagingEnabled={true}
+          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />}
+          keyExtractor={item => item.name}
+          data={!!gameData && gameData}
+          onEndReached={this.handleLoadMore}
+          onEndReachedThreshold={100}
+          renderItem={({ item }) => (
+            <View key={item.name}>
+              <LinearGradient
+                useAngle={true}
+                angle={90}
+                colors={[randomColorGenerator(), randomColorGenerator()]}
+                style={css.card}
+              >
+                <View style={css.gameName}>
+                  <Text style={css.gameNameText}>{item.name}</Text>
+                </View>
+                <View style={css.cardBottomRow}>
+                  <View style={css.questionSection}>
+                    <Text style={css.questionsText}>{this.questionsRemainingRender(item)}</Text>
                   </View>
-                  <View style={css.cardBottomRow}>
-                    <View style={css.questionSection}>
-                      <Text style={css.questionsText}>{this.questionsRemainingRender(k)}</Text>
-                    </View>
-                    <View style={css.bottomButtonSection}>
-                      <TouchableOpacity style={css.button} onPress={() => this.selectedGame(k)}>
-                        <Text style={css.questionsText}>{this.gameStatusDisplay(k)}</Text>
-                      </TouchableOpacity>
-                    </View>
+                  <View style={css.bottomButtonSection}>
+                    <TouchableOpacity style={css.button} onPress={() => this.selectedGame(item)}>
+                      <Text style={css.questionsText}>{this.gameStatusDisplay(item)}</Text>
+                    </TouchableOpacity>
                   </View>
-                </LinearGradient>
-              </View>
-            ))}
-        </View>
+                </View>
+              </LinearGradient>
+            </View>
+          )}
+        />
         <Modal
           isVisible={this.state.modal}
           onBackdropPress={this.openModal}
@@ -195,7 +241,7 @@ class DashboardPage extends React.Component {
             </View>
           </View>
         </Modal>
-      </ScrollView>
+      </View>
     );
   }
 }

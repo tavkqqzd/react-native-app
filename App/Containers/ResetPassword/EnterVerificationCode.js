@@ -78,7 +78,6 @@ class EnterVerificationCode extends React.Component {
               employeeId
             )
               .then(res => {
-                console.log("sign up successfull", res);
                 Toast.show("Sign Up Successfull", Toast.LONG, Toast.BOTTOM, phoneNumberError);
                 this.props.navigation.dispatch(NavigateToLoginPage);
               })
@@ -102,6 +101,7 @@ class EnterVerificationCode extends React.Component {
   render() {
     let { code } = this.state;
     let { params } = this.props.navigation.state;
+    let { completeNumber, SIGNUP } = this.props.navigation.state.params;
     return (
       <View style={[SignUpStyles.signUpPageActivity]}>
         <View style={centerAlignment.contentAlignInCenter}>
@@ -119,7 +119,9 @@ class EnterVerificationCode extends React.Component {
           </View>
         </View>
         <ButtonGradient
-          clickHandler={() => this.compareOTP(params, code)}
+          clickHandler={
+            SIGNUP === true ? () => this.compareOTP(completeNumber, code) : () => this.compareOTP(params, code)
+          }
           title="Verify"
           color1={Colors.commonButtonGradient1}
           color2={Colors.commonButtonGradient2}

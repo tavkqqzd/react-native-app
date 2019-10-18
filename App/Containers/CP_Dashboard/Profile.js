@@ -139,7 +139,7 @@ class ProfilePage extends React.Component {
                   <Image source={Images.coins} style={ProfileStyle.dollarImage} />
                 </View>
                 <View>
-                  <Text style={ProfileStyle.violetBoxText}>+0</Text>
+                  <Text style={ProfileStyle.violetBoxText}>{this.props.leaderBoardForLoggedUser.finalScore}</Text>
                 </View>
               </View>
             </View>

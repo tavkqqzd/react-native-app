@@ -72,10 +72,12 @@ class QuestionAnswer extends React.Component {
       }
     ];
     if (this.props.questions.result[questionIndex].correctAnswer === this.state.selectedOption) {
-      this.props.addScore(this.props.questions.result[questionIndex].score);
+      // this.props.addScore(this.props.questions.result[questionIndex].score);
       sumbitAnswer(obj)
         .then(res => {
+          console.log("correct answer", res);
           if (res.status === 200) {
+            this.props.addScore(res.data.currentScore);
             this.props.navigation.dispatch(CorrectAnswerPage(questionIndex));
             this.setState({ selectedOption: null });
           } else if (res.status === 404) {
@@ -91,6 +93,7 @@ class QuestionAnswer extends React.Component {
       this.props.correctAnswer(this.props.questions.result[questionIndex].correctAnswer);
       sumbitAnswer(obj)
         .then(res => {
+          console.log("wrong answer", res);
           if (res.status === 401) {
             this.setState({ selectedOption: null });
             this.props.navigation.dispatch(WrongAnswerPage(questionIndex));
@@ -314,7 +317,7 @@ class QuestionAnswer extends React.Component {
             <View>
               <ButtonGradient
                 title="Exit"
-                // clickHandler={() => this.getQuestions(id)}
+                clickHandler={() => this.props.navigation.dispatch(NavigateToDashboard)}
                 color1={Colors.commonButtonGradient1}
                 color2={Colors.commonButtonGradient2}
                 buttonStyle={QuestionAnswerStyle.exitButton}

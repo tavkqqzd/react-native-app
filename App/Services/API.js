@@ -296,7 +296,7 @@ export const getLeaderBoardForLoggedInUser = (clubId, playerId) => {
       }
     };
     let status = undefined;
-    fetch(`${IP_ADDRESS}/cpa/player_leaderborad/?clubId=${clubId}&playerId=${playerId}}`, data)
+    fetch(`${IP_ADDRESS}/cpa/player_leaderborad/?clubId=${clubId}&playerId=${playerId}`, data)
       .then(res => {
         status = res.status;
         return res.json();

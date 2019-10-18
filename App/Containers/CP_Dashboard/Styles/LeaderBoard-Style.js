@@ -50,5 +50,6 @@ export const LeaderBoardStyle = StyleSheet.create({
   },
   coins: { height: 15, width: 15, marginRight: 5 },
   coinAlignment: { paddingBottom: 0 },
-  score: { color: Colors.black, fontFamily: Fonts.Fonts.CA_book, fontSize: 16 }
+  score: { color: Colors.black, fontFamily: Fonts.Fonts.CA_book, fontSize: 16 },
+  scoreAlignment: { width: 50 }
 });

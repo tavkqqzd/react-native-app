@@ -76,6 +76,14 @@ class EnterClubId extends React.Component {
       });
   };
 
+  ConvertTextToUpperCase = e => {
+    var A = e;
+
+    var B = A.toUpperCase();
+
+    this.setState({ clubId: B });
+  };
+
   render() {
     let iconRender = "";
     if (this.state.clubId.length > 4) {
@@ -100,7 +108,12 @@ class EnterClubId extends React.Component {
           <Text style={SignUpStyles.enterClubId}>Enter Club ID</Text>
         </View>
         <View style={SignUpStyles.inputContainer}>
-          <TextInput style={SignUpStyles.inputBox} onChangeText={clubId => this.setState({ clubId })} />
+          <TextInput
+            autoCapitalize="characters"
+            style={SignUpStyles.inputBox}
+            value={this.state.clubId}
+            onChangeText={this.ConvertTextToUpperCase}
+          />
           <View style={SignUpStyles.submitButton}>{iconRender}</View>
         </View>
       </ScrollView>

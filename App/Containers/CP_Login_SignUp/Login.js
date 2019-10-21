@@ -120,6 +120,11 @@ class Login extends React.Component {
     }
   };
 
+  clubId = e => {
+    let event = e.toUpperCase();
+    this.setState({ clubId: event });
+  };
+
   selectCountry(country) {
     this.phone.selectCountry(country.cca2.toLowerCase());
     this.setState({ cca2: country.cca2, countryDetails: country });
@@ -179,7 +184,7 @@ class Login extends React.Component {
             label="Club ID*"
             value={clubId}
             tintColor="#000"
-            onChangeText={clubId => this.setState({ clubId })}
+            onChangeText={this.clubId}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />
           <TouchableNativeFeedback onPress={() => this.checkIfNumberIsValid(this.state.phNumber)}>

@@ -3,7 +3,7 @@ import * as actionTypes from "../Actions/actionTypes";
 export const initialState = {
   clubData: "",
   userData: "",
-  gameData: "",
+  gameData: [],
   employeeType: "",
   listOfEmployeeTypes: "",
   leaderBoard: "",

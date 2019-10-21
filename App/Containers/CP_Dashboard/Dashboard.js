@@ -56,7 +56,8 @@ class DashboardPage extends React.Component {
     refreshing: false,
     startIndex: 0,
     endIndex: 10,
-    scrollY: 0
+    scrollY: 0,
+    gameData: ""
   };
 
   openModal = () => {
@@ -65,12 +66,14 @@ class DashboardPage extends React.Component {
 
   getGamesOnMount = () => {
     let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
+    console.log("********************* getGamesOnMount called");
     getGameAndUserDetail(employeeTypeCode, clubId, this.state.startIndex, this.state.endIndex, playerId)
       .then(res => {
         console.log("once called");
         if (res.status === 200) {
-          let data = [...this.props.gameData, ...res.data.result];
-          this.props.storeGameData(data);
+          this.setState({
+            gameData: [...this.state.gameData, ...res.data.result]
+          });
         } else if (res.status === 404) {
           // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
         } else if (res.status === 500) {
@@ -139,30 +142,41 @@ class DashboardPage extends React.Component {
     }
   };
 
-  _onRefresh = () => {
-    this.setState({ refreshing: true });
-    let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
-    getGameAndUserDetail(employeeTypeCode, clubId, 0, 10, playerId)
-      .then(res => {
-        if (res.status === 200) {
-          this.props.storeGameData(res.data);
-          this.setState({ refreshing: false });
-        } else if (res.status === 404) {
-          this.setState({ refreshing: false });
-          // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
-        } else if (res.status === 500) {
-          this.setState({ refreshing: false });
-          // Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
-        }
-      })
-      .catch(err => {
-        this.setState({ refreshing: false });
-        console.log(err, err);
-      });
-  };
+  // _onRefresh = () => {
+  //   this.setState({ refreshing: true });
+  //   let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
+  //   getGameAndUserDetail(employeeTypeCode, clubId, 0, 10, playerId)
+  //     .then(res => {
+  //       if (res.status === 200) {
+  //         this.props.storeGameData(res.data);
+  //         this.setState({ refreshing: false });
+  //       } else if (res.status === 404) {
+  //         this.setState({ refreshing: false });
+  //         // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+  //       } else if (res.status === 500) {
+  //         this.setState({ refreshing: false });
+  //         // Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+  //       }
+  //     })
+  //     .catch(err => {
+  //       this.setState({ refreshing: false });
+  //       console.log(err, err);
+  //     });
+  // };
 
   handleLoadMore = () => {
-    console.log("handle load more called");
+    console.log("*************************", this.state.startIndex, this.state.endIndex);
+    // this.setState(
+    //   (prevState, nextProps) => (
+    //     {
+    //       startIndex: prevState.startIndex + 10,
+    //       endIndex: prevState.startIndex + 10
+    //     },
+    //     () => {
+    //       this.getGamesOnMount();
+    //     }
+    //   )
+    // );
     this.setState(
       {
         startIndex: this.state.startIndex + 10,
@@ -175,14 +189,14 @@ class DashboardPage extends React.Component {
   };
 
   render() {
-    let { gameData } = this.props;
+    let { gameData } = this.state;
     return (
       <View>
         <FlatList
           contentContainerStyle={{ padding: 10 }}
-          onScroll={this.handleScroll}
+          // onScroll={this.handleScroll}
           pagingEnabled={true}
-          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />}
+          // refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />}
           keyExtractor={item => item.name}
           data={!!gameData && gameData}
           onEndReached={this.handleLoadMore}

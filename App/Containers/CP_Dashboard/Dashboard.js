@@ -66,30 +66,29 @@ class DashboardPage extends React.Component {
 
   getGamesOnMount = () => {
     let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
-    console.log("********************* getGamesOnMount called");
+
     getGameAndUserDetail(employeeTypeCode, clubId, this.state.startIndex, this.state.endIndex, playerId)
       .then(res => {
-        console.log("once called");
         if (res.status === 200) {
+          let lengthOFTotalGames = [...this.state.gameData, ...res.data.result];
+          // if (res.data.recordsTotal >= lengthOFTotalGames.length) {
           this.setState({
-            gameData: [...this.state.gameData, ...res.data.result]
+            gameData: [...this.state.gameData, ...res.data.result],
+            refreshing: false
           });
+          // }
         } else if (res.status === 404) {
-          // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+          this.setState({ refreshing: false });
         } else if (res.status === 500) {
-          // Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+          this.setState({ refreshing: false });
         }
       })
       .catch(err => {
-        console.log(err, err);
+        this.setState({ refreshing: false });
       });
   };
 
   componentDidMount() {
-    let y = new Date().getFullYear();
-    let m = new Date().getMonth();
-    let d = new Date().getDay();
-    let arr = [].concat(y, m, d);
     let { clubId } = this.props.userLoginData;
     this.getGamesOnMount();
     validateClubID(clubId)
@@ -142,41 +141,14 @@ class DashboardPage extends React.Component {
     }
   };
 
-  // _onRefresh = () => {
-  //   this.setState({ refreshing: true });
-  //   let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
-  //   getGameAndUserDetail(employeeTypeCode, clubId, 0, 10, playerId)
-  //     .then(res => {
-  //       if (res.status === 200) {
-  //         this.props.storeGameData(res.data);
-  //         this.setState({ refreshing: false });
-  //       } else if (res.status === 404) {
-  //         this.setState({ refreshing: false });
-  //         // Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
-  //       } else if (res.status === 500) {
-  //         this.setState({ refreshing: false });
-  //         // Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
-  //       }
-  //     })
-  //     .catch(err => {
-  //       this.setState({ refreshing: false });
-  //       console.log(err, err);
-  //     });
-  // };
+  _onRefresh = () => {
+    this.setState({ startIndex: 0, endIndex: 10, gameData: [] }, () => {
+      this.getGamesOnMount();
+    });
+  };
 
   handleLoadMore = () => {
-    console.log("*************************", this.state.startIndex, this.state.endIndex);
-    // this.setState(
-    //   (prevState, nextProps) => (
-    //     {
-    //       startIndex: prevState.startIndex + 10,
-    //       endIndex: prevState.startIndex + 10
-    //     },
-    //     () => {
-    //       this.getGamesOnMount();
-    //     }
-    //   )
-    // );
+    console.log("********** handle load more ***************", this.state.startIndex, this.state.endIndex);
     this.setState(
       {
         startIndex: this.state.startIndex + 10,
@@ -196,19 +168,15 @@ class DashboardPage extends React.Component {
           contentContainerStyle={{ padding: 10 }}
           // onScroll={this.handleScroll}
           pagingEnabled={true}
-          // refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />}
+          refreshing={this.state.refreshing}
+          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh.bind(this)} />}
           keyExtractor={item => item.name}
           data={!!gameData && gameData}
           onEndReached={this.handleLoadMore}
-          onEndReachedThreshold={100}
+          onEndReachedThreshold={0.5}
           renderItem={({ item }) => (
             <View key={item.name}>
-              <LinearGradient
-                useAngle={true}
-                angle={90}
-                colors={[randomColorGenerator(), randomColorGenerator()]}
-                style={css.card}
-              >
+              <LinearGradient useAngle={true} angle={90} colors={["#532576", "#00f244"]} style={css.card}>
                 <View style={css.gameName}>
                   <Text style={css.gameNameText}>{item.name}</Text>
                 </View>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
@@ -46,6 +46,22 @@ class EnterVerificationCode extends React.Component {
   componentDidMount() {
     console.log("EnterVerificationCode props", this.props.navigation.state.params);
   }
+
+  generateOTP = () => {
+    generateOTP(this.props.navigation.state.params)
+      .then(res => {
+        if (res.status === 200) {
+          Toast.show("OTP Sent Successfully", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+        } else if (res.status === 404) {
+          Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
+        } else if (res.status === 500) {
+          Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+        }
+      })
+      .catch(err => {
+        console.log("err", err);
+      });
+  };
 
   compareOTP = (phNumber, OTPCode) => {
     let {
@@ -111,9 +127,9 @@ class EnterVerificationCode extends React.Component {
           <View style={{ height: 80 }}>
             <OtpInputs inputStyles={css.otp} handleChange={code => this.setState({ code })} numberOfInputs={4} />
           </View>
-          <View style={{ margin: 10 }}>
+          <TouchableOpacity style={{ margin: 10 }} onPress={() => this.generateOTP()}>
             <Text style={css.helpText}>Resend code?</Text>
-          </View>
+          </TouchableOpacity>
           <View style={{ margin: 10 }}>
             <Text style={css.helpText}>Haven't received the code?</Text>
           </View>

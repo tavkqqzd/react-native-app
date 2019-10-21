@@ -190,21 +190,28 @@ class SignUp extends React.Component {
       employeeId: this.state.EmployeeId,
       SIGNUP: true
     };
-
-    generateOTP(number)
-      .then(res => {
-        if (res.status === 200) {
-          Toast.show("OTP Sent Successfully", Toast.LONG, Toast.BOTTOM, phoneNumberError);
-          this.props.navigation.dispatch(OTPVerificationScreen(data));
-        } else if (res.status === 404) {
-          Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
-        } else if (res.status === 500) {
-          Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
-        }
-      })
-      .catch(err => {
-        console.log("err", err);
-      });
+    if (this.state.radioBtn === true) {
+      if (this.state.name.length > 3 && this.state.password.length > 3 && this.state.phNumber.length > 3) {
+        generateOTP(number)
+          .then(res => {
+            if (res.status === 200) {
+              Toast.show("OTP Sent Successfully", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+              this.props.navigation.dispatch(OTPVerificationScreen(data));
+            } else if (res.status === 404) {
+              Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
+            } else if (res.status === 500) {
+              Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+            }
+          })
+          .catch(err => {
+            console.log("err", err);
+          });
+      } else {
+        Toast.show("Please fill the fields", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+      }
+    } else {
+      Toast.show("Please accept the Agreement", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+    }
   };
 
   uploadImage = () => {

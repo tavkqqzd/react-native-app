@@ -769,7 +769,7 @@ class QuestionAnswer extends React.Component {
               </TouchableOpacity>
             ))}
         </View>
-        <View style={{ bottom: 200, alignItems: "center" }}>
+        <View style={{ marginTop: 30, alignItems: "center" }}>
           <ButtonGradient
             title="Next"
             clickHandler={() =>

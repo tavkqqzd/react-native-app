@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, Image, ScrollView } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import { connect } from "react-redux";
@@ -51,7 +51,7 @@ class InstructionPage extends React.Component {
     let { id, instruction } = this.props.selectedGame;
     console.log("this.props.selectedGame instruction page", this.props.selectedGame);
     return (
-      <View style={InstructionStyle.instructionIntent}>
+      <ScrollView contentContainerStyle={InstructionStyle.instructionIntent}>
         <View>
           <Image source={images.small_logo} />
         </View>
@@ -66,7 +66,7 @@ class InstructionPage extends React.Component {
         <View>
           <Text style={InstructionStyle.gameInstruction}>{instruction}</Text>
         </View>
-        <View style={InstructionStyle.buttonAlignment}>
+        <View style={InstructionStyle.instructionPageButton}>
           <ButtonGradient
             title="Enter The Game"
             clickHandler={() => this.getQuestions(id)}
@@ -76,7 +76,7 @@ class InstructionPage extends React.Component {
             buttonTextStyle={css.buttonTextStyle}
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

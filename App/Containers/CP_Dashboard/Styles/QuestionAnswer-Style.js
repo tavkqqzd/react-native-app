@@ -32,7 +32,7 @@ export const QuestionAnswerStyle = StyleSheet.create({
   score: { marginLeft: 5 },
   question: { textAlign: "center", margin: 20, fontFamily: Fonts.Fonts.CA_book },
   questionOptions: {
-    height: 40,
+    // height: 40,
     width: widthPercentageToDP("80%"),
     marginBottom: 10,
     borderRadius: 25,
@@ -42,7 +42,7 @@ export const QuestionAnswerStyle = StyleSheet.create({
     alignItems: "center"
   },
   questionOptionsSelected: {
-    height: 40,
+    // height: 40,
     width: widthPercentageToDP("80%"),
     marginBottom: 10,
     borderRadius: 25,
@@ -50,8 +50,22 @@ export const QuestionAnswerStyle = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  optionsText: { color: "black", fontFamily: Fonts.Fonts.CA_book },
-  optionsTextSelected: { color: "white", fontFamily: Fonts.Fonts.CA_bold },
+  optionsText: {
+    color: "black",
+    fontFamily: Fonts.Fonts.CA_book,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  optionsTextSelected: {
+    color: "white",
+    fontFamily: Fonts.Fonts.CA_bold,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
   exitButton: {
     height: 50,
     width: 90,

@@ -28,12 +28,15 @@ export const InstructionStyle = StyleSheet.create({
     opacity: 0.8,
     fontFamily: Fonts.Fonts.CA_book
   },
+  instructionPageButton: {
+    marginTop: 40
+  },
   buttonAlignment: { position: "absolute", bottom: 100 },
   instructionIntent: {
     padding: 10,
     alignItems: "center",
-    position: "relative",
-    height: heightPercentageToDP("100%")
+    position: "relative"
+    // height: heightPercentageToDP("100%")
     // width: widthPercentageToDP("100%")
   },
   ModalButtons: {

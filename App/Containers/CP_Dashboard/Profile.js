@@ -50,9 +50,10 @@ class ProfilePage extends React.Component {
         </TouchableOpacity>
       ),
       headerRight: (
-        <TouchableOpacity onPress={() => navigation.dispatch(UpdateProfile)}>
-          <Image source={Images.setting} style={{ height: 24, width: 25, marginRight: 20 }} resizeMode="cover" />
-        </TouchableOpacity>
+        <View />
+        // <TouchableOpacity onPress={() => navigation.dispatch(UpdateProfile)}>
+        //   <Image source={Images.setting} style={{ height: 24, width: 25, marginRight: 20 }} resizeMode="cover" />
+        // </TouchableOpacity>
       )
     };
   };
@@ -109,7 +110,10 @@ class ProfilePage extends React.Component {
               <Text style={ProfileStyle.changeClub}>Change Club</Text>
             </View>
           </View>
-          <View style={[ProfileStyle.col6, { position: "relative" }]}>
+          <TouchableOpacity
+            style={[ProfileStyle.col6, { position: "relative" }]}
+            onPress={() => this.props.navigation.dispatch(UpdateProfile)}
+          >
             <View style={ProfileStyle.userImage}>
               {profilePic ? (
                 <Image source={{ uri: profilePic }} style={ProfileStyle.userImagePic} />
@@ -117,7 +121,7 @@ class ProfilePage extends React.Component {
                 <Image source={Images.ic_passport} style={ProfileStyle.userImagePic} />
               )}
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={ProfileStyle.basicProfileInfo}>
           <View style={ProfileStyle.clubNameBox}>

@@ -174,6 +174,8 @@ class Login extends React.Component {
             label="Password*"
             value={password}
             tintColor="#000"
+            secureTextEntry={true}
+            password={true}
             onChangeText={password => this.setState({ password })}
             inputContainerStyle={LoginStyles.MatUI_Text_Field}
           />

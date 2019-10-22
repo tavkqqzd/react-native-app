@@ -6,7 +6,8 @@ import {
   Image,
   TouchableNativeFeedback,
   TouchableWithoutFeedback,
-  TouchableOpacity
+  TouchableOpacity,
+  ToastAndroid
 } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
@@ -64,15 +65,15 @@ class EnterClubId extends React.Component {
           this.props.getClubData(res.data.result[0]);
           this.props.navigation.dispatch(navigateToSignUpPage(this.state.clubId));
         } else if (res.status === 404) {
-          Toast.show("Enter Valid Club ID", Toast.LONG, Toast.BOTTOM, errorToast);
+          ToastAndroid.show("Enter Valid Club ID", ToastAndroid.LONG, ToastAndroid.BOTTOM, errorToast);
         } else if (res.status === 400) {
-          Toast.show("Bad Request", Toast.LONG, Toast.BOTTOM, errorToast);
+          ToastAndroid.show("Bad Request", ToastAndroid.LONG, ToastAndroid.BOTTOM, errorToast);
         } else if (res.status === 500) {
-          Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+          ToastAndroid.show("Server Error", ToastAndroid.LONG, ToastAndroid.BOTTOM, errorToast);
         }
       })
       .catch(err => {
-        Toast.show("Something went wrong...", Toast.LONG, Toast.BOTTOM, errorToast);
+        ToastAndroid.show("Something went wrong...", ToastAndroid.LONG, ToastAndroid.BOTTOM, errorToast);
       });
   };
 

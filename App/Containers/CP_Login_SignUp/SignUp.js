@@ -8,7 +8,7 @@ import {
   TouchableNativeFeedback,
   Switch,
   ScrollView,
-  Button
+  ToastAndroid
 } from "react-native";
 import ImagePicker from "react-native-image-picker";
 import { NavigationActions } from "react-navigation";
@@ -23,6 +23,7 @@ import CountryPicker from "react-native-country-picker-modal";
 import { connect } from "react-redux";
 import { TextField } from "react-native-material-textfield";
 import { LoginStyles } from "./Styles/Login-Styles";
+import { InstructionStyle } from "../CP_Dashboard/Styles/Instruction-Style";
 import { RadioGroup, RadioButton } from "react-native-flexi-radio-button";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
 import { Dropdown } from "react-native-material-dropdown";
@@ -103,7 +104,8 @@ class SignUp extends React.Component {
     radioBtn: false,
     imageCaptured: "",
     fileData: "",
-    EmployeeId: ""
+    EmployeeId: "",
+    imageSelectorModal: false
   };
   onPhoneChange = e => {
     this.setState({
@@ -195,55 +197,72 @@ class SignUp extends React.Component {
         generateOTP(number)
           .then(res => {
             if (res.status === 200) {
-              Toast.show("OTP Sent Successfully", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+              ToastAndroid.show("OTP Sent Successfully", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
               this.props.navigation.dispatch(OTPVerificationScreen(data));
             } else if (res.status === 404) {
-              Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
+              ToastAndroid.show(res.data.message, ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
             } else if (res.status === 500) {
-              Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+              ToastAndroid.show("Server Error", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
             }
           })
           .catch(err => {
             console.log("err", err);
           });
       } else {
-        Toast.show("Please fill the fields", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+        ToastAndroid.show("Please fill the fields", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
       }
     } else {
-      Toast.show("Please accept the Agreement", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+      ToastAndroid.show("Please accept the Agreement", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
     }
   };
 
-  uploadImage = () => {
-    ImagePicker.launchImageLibrary(options, response => {
+  uploadImageOpenCamera = () => {
+    this.setState({ imageSelectorModal: false });
+    ImagePicker.launchCamera(options, response => {
       let id = this.props.clubData.clubId;
-      let newName = id.concat(`-${this.state.name}`);
+      let newName = id.concat(`-${this.state.name}` + new Date().getTime());
       let file = this.file(response, newName);
+
       RNS3.put(file, options).then(response => {
         if (response.status !== 201) throw new Error("Failed to upload image to S3");
+        console.log("response.body.postResponse.location)", response.body.postResponse.location);
         this.props.profileImageS3UploadLocation(response.body.postResponse.location);
+        this.props.updateImageGlobally(response.body.postResponse.location);
+        ToastAndroid.show("Profile Picture Updated", ToastAndroid.LONG, ToastAndroid.BOTTOM, invalidClub);
       });
       if (response.didCancel) {
+        this.setState({ imageSelectorModal: false });
         console.log("User cancelled image picker");
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
       } else if (response.customButton) {
+        this.setState({ imageSelectorModal: false });
         console.log("User tapped custom button: ", response.customButton);
       }
     });
-    ImagePicker.launchCamera(options, response => {
+  };
+
+  uploadImageGallery = () => {
+    this.setState({ imageSelectorModal: false });
+    ImagePicker.launchImageLibrary(options, response => {
       let id = this.props.clubData.clubId;
-      let newName = id.concat(`-${this.state.name}`);
+      let newName = id.concat(`-${this.state.name}` + new Date().getTime());
       let file = this.file(response, newName);
+
       RNS3.put(file, options).then(response => {
         if (response.status !== 201) throw new Error("Failed to upload image to S3");
+        console.log("response.body.postResponse.location)", response.body.postResponse.location);
         this.props.profileImageS3UploadLocation(response.body.postResponse.location);
+        this.props.updateImageGlobally(response.body.postResponse.location);
+        ToastAndroid.show("Profile Picture Updated", ToastAndroid.LONG, ToastAndroid.BOTTOM, invalidClub);
       });
       if (response.didCancel) {
         console.log("User cancelled image picker");
+        this.setState({ imageSelectorModal: false });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
       } else if (response.customButton) {
+        this.setState({ imageSelectorModal: false });
         console.log("User tapped custom button: ", response.customButton);
       }
     });
@@ -252,6 +271,9 @@ class SignUp extends React.Component {
   setEmployee = v => {
     let el = this.props.listOfEmployeeTypes.filter(k => k.value === v);
     this.setState({ EmployeeId: el[0].id });
+  };
+  toggleImageSelectorModal = () => {
+    this.setState({ imageSelectorModal: !this.state.imageSelectorModal });
   };
 
   render() {
@@ -264,7 +286,10 @@ class SignUp extends React.Component {
         </View>
 
         <View style={{ position: "relative" }}>
-          <TouchableOpacity style={{ position: "absolute", right: 10, top: -30 }} onPress={() => this.uploadImage()}>
+          <TouchableOpacity
+            style={{ position: "absolute", right: 10, top: -30 }}
+            onPress={() => this.toggleImageSelectorModal()}
+          >
             <Image source={images.ic_camera} style={{ width: 70, height: 60 }} />
           </TouchableOpacity>
 
@@ -379,6 +404,33 @@ class SignUp extends React.Component {
             buttonTextStyle={LoginStyles.loginButtonText}
           />
         </View>
+        <Modal
+          isVisible={this.state.imageSelectorModal}
+          onBackdropPress={this.toggleImageSelectorModal}
+          useNativeDriver={true}
+          style={{ alignItems: "center" }}
+        >
+          <View
+            style={{ width: "95%", height: "auto", backgroundColor: Colors.white, borderRadius: 30, paddingTop: 20 }}
+          >
+            <View style={{ alignItems: "center" }}>
+              <View style={InstructionStyle.gameInstructionAlignment}>
+                <Text style={InstructionStyle.DashboardCardModalText}>Select Image</Text>
+              </View>
+              <View style={{ alignItems: "center", justifyContent: "center", paddingBottom: 20 }}>
+                <TouchableOpacity
+                  style={InstructionStyle.ImagePickerButtons}
+                  onPress={() => this.uploadImageOpenCamera()}
+                >
+                  <Text style={InstructionStyle.ModalButtonText}>Open Camera</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={InstructionStyle.ImagePickerButtons} onPress={() => this.uploadImageGallery()}>
+                  <Text style={InstructionStyle.ModalButtonText}>Open Gallery</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     );
   }

@@ -118,17 +118,18 @@ class UpdateProfile extends React.Component {
   };
 
   uploadImageOpenCamera = () => {
+    this.setState({ imageSelectorModal: false });
     ImagePicker.launchCamera(options, response => {
       let id = this.props.clubData.clubId;
-      let newName = id.concat(`-${this.state.name}`);
+      let newName = id.concat(`-${this.state.name}` + new Date().getTime());
       let file = this.file(response, newName);
+
       RNS3.put(file, options).then(response => {
         if (response.status !== 201) throw new Error("Failed to upload image to S3");
         console.log("response.body.postResponse.location)", response.body.postResponse.location);
         this.props.profileImageS3UploadLocation(response.body.postResponse.location);
         this.props.updateImageGlobally(response.body.postResponse.location);
         Toast.show("Profile Picture Updated", Toast.LONG, Toast.BOTTOM, invalidClub);
-        this.setState({ imageSelectorModal: false });
       });
       if (response.didCancel) {
         this.setState({ imageSelectorModal: false });
@@ -143,17 +144,18 @@ class UpdateProfile extends React.Component {
   };
 
   uploadImageGallery = () => {
+    this.setState({ imageSelectorModal: false });
     ImagePicker.launchImageLibrary(options, response => {
       let id = this.props.clubData.clubId;
-      let newName = id.concat(`-${this.state.name}`);
+      let newName = id.concat(`-${this.state.name}` + new Date().getTime());
       let file = this.file(response, newName);
+
       RNS3.put(file, options).then(response => {
         if (response.status !== 201) throw new Error("Failed to upload image to S3");
         console.log("response.body.postResponse.location)", response.body.postResponse.location);
         this.props.profileImageS3UploadLocation(response.body.postResponse.location);
         this.props.updateImageGlobally(response.body.postResponse.location);
         Toast.show("Profile Picture Updated", Toast.LONG, Toast.BOTTOM, invalidClub);
-        this.setState({ imageSelectorModal: false });
       });
       if (response.didCancel) {
         console.log("User cancelled image picker");

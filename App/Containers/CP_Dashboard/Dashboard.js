@@ -162,6 +162,7 @@ class DashboardPage extends React.Component {
 
   render() {
     let { gameData } = this.state;
+    console.log("render data -> dashboard", gameData);
     return (
       <View>
         <FlatList
@@ -176,7 +177,7 @@ class DashboardPage extends React.Component {
           onEndReachedThreshold={0.5}
           renderItem={({ item }) => (
             <View key={item.name}>
-              <LinearGradient useAngle={true} angle={90} colors={["#532576", "#00f244"]} style={css.card}>
+              <LinearGradient useAngle={true} angle={90} colors={[item.colorCode1, item.colorCode2]} style={css.card}>
                 <View style={css.gameName}>
                   <Text style={css.gameNameText}>{item.name}</Text>
                 </View>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, TouchableNativeFeedback } from "react-native";
+import { Text, View, Image, TouchableNativeFeedback, ToastAndroid } from "react-native";
 import { NavigationActions } from "react-navigation";
 import colors from "../../Themes/Colors";
 import images from "../../Themes/Images";
@@ -100,14 +100,14 @@ class Login extends React.Component {
             this.props.userLoginDetails(res.data.result[0]);
             this.props.navigation.dispatch(navigateToDashboardPage);
           } else if (res.status === 404) {
-            Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, invalidClub);
+            ToastAndroid.show(res.data.message, ToastAndroid.LONG, ToastAndroid.BOTTOM, invalidClub);
           } else if (res.status === 500) {
-            Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, errorToast);
+            ToastAndroid.show("Server Error", ToastAndroid.LONG, ToastAndroid.BOTTOM, invalidClub);
           }
         })
         .catch(err => {
           console.log("err", err);
-          Toast.show("Something went wrong...", Toast.LONG, Toast.BOTTOM, invalidClub);
+          ToastAndroid.show("Something went wrong", ToastAndroid.LONG, ToastAndroid.BOTTOM, invalidClub);
         });
     }
   };
@@ -116,7 +116,7 @@ class Login extends React.Component {
     if (number.length > 5) {
       return this.props.navigation.dispatch(navigateToHelpWithPasswordPage(this.state.phNumber));
     } else {
-      Toast.show("Please check your number...", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+      ToastAndroid.show("Please check your number..", ToastAndroid.LONG, ToastAndroid.BOTTOM, invalidClub);
     }
   };
 

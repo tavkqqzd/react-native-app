@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity, ToastAndroid } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
@@ -51,11 +51,11 @@ class EnterVerificationCode extends React.Component {
     generateOTP(this.props.navigation.state.params)
       .then(res => {
         if (res.status === 200) {
-          Toast.show("OTP Sent Successfully", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+          ToastAndroid.show("OTP Sent Successfully", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
         } else if (res.status === 404) {
-          Toast.show(res.data.message, Toast.LONG, Toast.BOTTOM, phoneNumberError);
+          ToastAndroid.show(res.data.message, ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
         } else if (res.status === 500) {
-          Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+          ToastAndroid.show("Server Error", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
         }
       })
       .catch(err => {
@@ -94,19 +94,19 @@ class EnterVerificationCode extends React.Component {
               employeeId
             )
               .then(res => {
-                Toast.show("Sign Up Successfull", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+                ToastAndroid.show("Sign Up Successfull", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
                 this.props.navigation.dispatch(NavigateToLoginPage);
               })
               .catch(err => {
-                Toast.show("Sign Up Failed", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+                ToastAndroid.show("Sign Up Failed", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
               });
           } else {
             this.props.navigation.dispatch(navigateToMobileNumberVerified(phNumber));
           }
         } else if (res.status === 404) {
-          Toast.show("Invalid OTP", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+          ToastAndroid.show("Invalid OTP", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
         } else if (res.status === 500) {
-          Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+          ToastAndroid.show("Server Error", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
         }
       })
       .catch(err => {

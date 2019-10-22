@@ -166,8 +166,8 @@ class QuestionAnswer extends React.Component {
         <View style={{ flexDirection: "row", height: heightPercentageToDP("45%") }}>
           <View style={{ width: widthPercentageToDP("75%"), padding: 5 }}>
             <VideoPlayer
-              // source={{ uri: this.props.questions.result[QuestionIndex].image }}
-              source={{ uri: "https://www.youtube.com/watch?v=4fndeDfaWCg" }}
+              source={{ uri: this.props.questions.result[QuestionIndex].image }}
+              // source={{ uri: "https://www.youtube.com/watch?v=4fndeDfaWCg" }}
               toggleResizeModeOnFullscreen={true}
               navigator={this.props.navigator}
               paused={false}

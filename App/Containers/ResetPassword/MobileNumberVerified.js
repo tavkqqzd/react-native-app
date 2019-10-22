@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, ToastAndroid } from "react-native";
 import { NavigationActions } from "react-navigation";
 import images from "../../Themes/Images";
 import Colors from "../../Themes/Colors";
@@ -42,19 +42,19 @@ class HelpWithPassword extends React.Component {
       setNewPassword(params, password1)
         .then(res => {
           if (res.status === 200) {
-            Toast.show("Password Reset Successfull", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+            ToastAndroid.show("Password Reset Successfull", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
             this.props.navigation.dispatch(navigateToLoginPage);
           } else if (res.status === 404) {
-            Toast.show("Invalid OTP", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+            ToastAndroid.show("Invalid OTP", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
           } else if (res.status === 500) {
-            Toast.show("Server Error", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+            ToastAndroid.show("Server Error", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
           }
         })
         .catch(err => {
           console.log("err", err);
         });
     } else {
-      Toast.show("Please Check your password", Toast.LONG, Toast.BOTTOM, phoneNumberError);
+      ToastAndroid.show("Please Check your password", ToastAndroid.LONG, ToastAndroid.BOTTOM, phoneNumberError);
     }
   };
 

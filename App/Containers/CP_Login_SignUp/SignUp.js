@@ -121,7 +121,7 @@ class SignUp extends React.Component {
     return {
       uri: response.uri,
       name: name,
-      type: response.type
+      type: "image/jpeg" || "image/jpg"
     };
   };
 
@@ -216,6 +216,22 @@ class SignUp extends React.Component {
 
   uploadImage = () => {
     ImagePicker.launchImageLibrary(options, response => {
+      let id = this.props.clubData.clubId;
+      let newName = id.concat(`-${this.state.name}`);
+      let file = this.file(response, newName);
+      RNS3.put(file, options).then(response => {
+        if (response.status !== 201) throw new Error("Failed to upload image to S3");
+        this.props.profileImageS3UploadLocation(response.body.postResponse.location);
+      });
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      }
+    });
+    ImagePicker.launchCamera(options, response => {
       let id = this.props.clubData.clubId;
       let newName = id.concat(`-${this.state.name}`);
       let file = this.file(response, newName);

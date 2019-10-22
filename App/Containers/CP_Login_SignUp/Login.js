@@ -121,8 +121,7 @@ class Login extends React.Component {
   };
 
   clubId = e => {
-    let event = e.toUpperCase();
-    this.setState({ clubId: event });
+    this.setState({ clubId: e });
   };
 
   selectCountry(country) {

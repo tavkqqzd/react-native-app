@@ -77,11 +77,7 @@ class EnterClubId extends React.Component {
   };
 
   ConvertTextToUpperCase = e => {
-    var A = e;
-
-    var B = A.toUpperCase();
-
-    this.setState({ clubId: B });
+    this.setState({ clubId: e });
   };
 
   render() {

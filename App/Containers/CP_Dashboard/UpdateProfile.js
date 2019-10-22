@@ -15,10 +15,11 @@ import { SignUpStyles } from "../CP_Login_SignUp/Styles/SingUp-Styles";
 import { editProfile } from "../../Services/API";
 import { TextField } from "react-native-material-textfield";
 import { ScoreStyles } from "./Styles/ScoreScreen-Style";
+import { InstructionStyle } from "./Styles/Instruction-Style";
 import { LoginStyles } from "../CP_Login_SignUp/Styles/Login-Styles";
-
 import { RNS3 } from "react-native-s3-upload";
 import Toast from "react-native-toast-native";
+import Modal from "react-native-modal";
 
 const ProfilePage = NavigationActions.navigate({
   routeName: "Profile",
@@ -87,7 +88,8 @@ class UpdateProfile extends React.Component {
     radioBtn: false,
     imageCaptured: "",
     fileData: "",
-    EmployeeId: ""
+    EmployeeId: "",
+    imageSelectorModal: false
   };
   selectCountry = country => {
     this.phone.selectCountry(country.cca2.toLowerCase());
@@ -108,10 +110,39 @@ class UpdateProfile extends React.Component {
     return {
       uri: response.uri,
       name: name,
-      type: response.type
+      type: "image/jpeg" || "image/jpg"
     };
   };
-  uploadImage = () => {
+  toggleImageSelectorModal = () => {
+    this.setState({ imageSelectorModal: !this.state.imageSelectorModal });
+  };
+
+  uploadImageOpenCamera = () => {
+    ImagePicker.launchCamera(options, response => {
+      let id = this.props.clubData.clubId;
+      let newName = id.concat(`-${this.state.name}`);
+      let file = this.file(response, newName);
+      RNS3.put(file, options).then(response => {
+        if (response.status !== 201) throw new Error("Failed to upload image to S3");
+        console.log("response.body.postResponse.location)", response.body.postResponse.location);
+        this.props.profileImageS3UploadLocation(response.body.postResponse.location);
+        this.props.updateImageGlobally(response.body.postResponse.location);
+        Toast.show("Profile Picture Updated", Toast.LONG, Toast.BOTTOM, invalidClub);
+        this.setState({ imageSelectorModal: false });
+      });
+      if (response.didCancel) {
+        this.setState({ imageSelectorModal: false });
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        this.setState({ imageSelectorModal: false });
+        console.log("User tapped custom button: ", response.customButton);
+      }
+    });
+  };
+
+  uploadImageGallery = () => {
     ImagePicker.launchImageLibrary(options, response => {
       let id = this.props.clubData.clubId;
       let newName = id.concat(`-${this.state.name}`);
@@ -122,12 +153,15 @@ class UpdateProfile extends React.Component {
         this.props.profileImageS3UploadLocation(response.body.postResponse.location);
         this.props.updateImageGlobally(response.body.postResponse.location);
         Toast.show("Profile Picture Updated", Toast.LONG, Toast.BOTTOM, invalidClub);
+        this.setState({ imageSelectorModal: false });
       });
       if (response.didCancel) {
         console.log("User cancelled image picker");
+        this.setState({ imageSelectorModal: false });
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
       } else if (response.customButton) {
+        this.setState({ imageSelectorModal: false });
         console.log("User tapped custom button: ", response.customButton);
       }
     });
@@ -186,7 +220,8 @@ class UpdateProfile extends React.Component {
     let { profilePic } = this.props.userLoginData;
     return (
       <View style={SignUpStyles.signUpPageActivity}>
-        <TouchableOpacity style={centerAlignment.contentAlignInCenter} onPress={() => this.uploadImage()}>
+        {/* <TouchableOpacity style={centerAlignment.contentAlignInCenter} onPress={() => this.uploadImage()}></TouchableOpacity> */}
+        <TouchableOpacity style={centerAlignment.contentAlignInCenter} onPress={() => this.toggleImageSelectorModal()}>
           {profilePic ? (
             <Image source={{ uri: profilePic }} style={css.profilePic} />
           ) : (
@@ -275,6 +310,33 @@ class UpdateProfile extends React.Component {
             />
           </View>
         </View>
+        <Modal
+          isVisible={this.state.imageSelectorModal}
+          onBackdropPress={this.toggleImageSelectorModal}
+          useNativeDriver={true}
+          style={{ alignItems: "center" }}
+        >
+          <View
+            style={{ width: "95%", height: "auto", backgroundColor: Colors.white, borderRadius: 30, paddingTop: 20 }}
+          >
+            <View style={{ alignItems: "center" }}>
+              <View style={InstructionStyle.gameInstructionAlignment}>
+                <Text style={InstructionStyle.DashboardCardModalText}>Select Image</Text>
+              </View>
+              <View style={{ alignItems: "center", justifyContent: "center", paddingBottom: 20 }}>
+                <TouchableOpacity
+                  style={InstructionStyle.ImagePickerButtons}
+                  onPress={() => this.uploadImageOpenCamera()}
+                >
+                  <Text style={InstructionStyle.ModalButtonText}>Open Camera</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={InstructionStyle.ImagePickerButtons} onPress={() => this.uploadImageGallery()}>
+                  <Text style={InstructionStyle.ModalButtonText}>Open Gallery</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }

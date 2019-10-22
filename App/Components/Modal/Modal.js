@@ -67,6 +67,21 @@ class ModalC extends React.Component {
         </View>
       </Modal>
     );
+    let selectImageModal = (
+      <Modal
+        isVisible={this.props.modalState}
+        useNativeDriver={true}
+        onBackdropPress={this.props.toggleModal}
+        height="50%"
+        backdropOpacity={0.5}
+      >
+        <View style={{ justifyContent: "center", alignItems: "center", marginTop: 20, backgroundColor: "#FFF" }}>
+          <Text>Select Image</Text>
+          <RoundedButton title="Open Camera" styleProps={css.b_margin} toggleModal={this.props.uploadImageOpenCamera} />
+          <RoundedButton title="Open Gallery" styleProps={css.b_margin} toggleModal={this.props.uploadImageGallery} />
+        </View>
+      </Modal>
+    );
     let modal = undefined;
     switch (this.props.modalType) {
       case "loginModal":
@@ -77,6 +92,9 @@ class ModalC extends React.Component {
         break;
       case "regularModal":
         modal = regularModal;
+        break;
+      case "selectImageModal":
+        modal = selectImageModal;
         break;
       default:
         modal = LoginModal;

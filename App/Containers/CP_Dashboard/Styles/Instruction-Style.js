@@ -52,6 +52,22 @@ export const InstructionStyle = StyleSheet.create({
     shadowRadius: 8.3,
     elevation: 13
   },
+  ImagePickerButtons: {
+    backgroundColor: Colors.white,
+    borderRadius: 15,
+    height: 40,
+    width: 200,
+    margin: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6
+    },
+    justifyContent: "center",
+    shadowOpacity: 0.39,
+    shadowRadius: 8.3,
+    elevation: 13
+  },
   ModalButtonText: {
     fontFamily: Fonts.CA_book,
     fontSize: 18,

@@ -66,7 +66,6 @@ class DashboardPage extends React.Component {
 
   getGamesOnMount = () => {
     let { clubId, playerId, employeeTypeCode } = this.props.userLoginData;
-
     getGameAndUserDetail(employeeTypeCode, clubId, this.state.startIndex, this.state.endIndex, playerId)
       .then(res => {
         if (res.status === 200) {
@@ -114,8 +113,10 @@ class DashboardPage extends React.Component {
   restartGame = (gid, uId) => {
     restartGame(gid, uId)
       .then(res => {
-        this.getGamesOnMount();
-        this.setState({ modal: false });
+        this.setState({ startIndex: 0, endIndex: 10, modal: false, gameData: [] });
+        setTimeout(() => {
+          this.getGamesOnMount();
+        }, 200);
       })
       .catch(err => {
         this.setState({ modal: false });
@@ -162,7 +163,6 @@ class DashboardPage extends React.Component {
 
   render() {
     let { gameData } = this.state;
-    console.log("render data -> dashboard", gameData);
     return (
       <View>
         <FlatList

@@ -580,7 +580,7 @@ class QuestionAnswer extends React.Component {
   };
 
   // media type for image
-  mediaWithImage = QuestionIndex => { 
+  mediaWithImage = QuestionIndex => {
     let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
       <ScrollView>
@@ -718,19 +718,8 @@ class QuestionAnswer extends React.Component {
             buttonTextStyle={QuestionAnswerStyle.exitButtonText}
           />
         </View>
-        <View style={{ justifyContent: "flex-end", alignItems: "flex-end", marginRight: 50 }}>
-          <TouchableOpacity onPress={() => this.openModal()}>
-            <Image source={images.ic_info} style={{ height: 25, width: 25 }} />
-          </TouchableOpacity>
-        </View>
-        <View style={InstructionStyle.instructionIntent}>
-          <View style={{ marginTop: 20, marginBottom: 10 }}>
-            <ProgressCircle percent={30} radius={40} borderWidth={2} color="#1CACF4" shadowColor="#999" bgColor="#fff">
-              <Text style={{ fontSize: 18, fontFamily: Fonts.Fonts.CA_book }}>
-                {QuestionIndex + 1} of {totalQuestions}
-              </Text>
-            </ProgressCircle>
-          </View>
+        {/* <View style={QuestionAnswerStyle.coinAlignment}> */}
+        <View style={{ justifyContent: "flex-end", alignItems: "flex-end", marginRight: 30, marginBottom: 20 }}>
           <View style={QuestionAnswerStyle.coinAlignment}>
             <View>
               <Image source={images.dollar} style={QuestionAnswerStyle.coin} />
@@ -741,6 +730,22 @@ class QuestionAnswer extends React.Component {
               </Text>
             </View>
           </View>
+        </View>
+        <View style={{ justifyContent: "flex-end", alignItems: "flex-end", marginRight: 50 }}>
+          <TouchableOpacity onPress={() => this.openModal()}>
+            <Image source={images.ic_info} style={{ height: 25, width: 25 }} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={InstructionStyle.instructionIntent}>
+          <View style={{ marginTop: 0, marginBottom: 10 }}>
+            <ProgressCircle percent={30} radius={40} borderWidth={2} color="#1CACF4" shadowColor="#999" bgColor="#fff">
+              <Text style={{ fontSize: 18, fontFamily: Fonts.Fonts.CA_book }}>
+                {QuestionIndex + 1} of {totalQuestions}
+              </Text>
+            </ProgressCircle>
+          </View>
+
           <View>
             <Text style={QuestionAnswerStyle.question}>
               {this.props.questions && this.props.questions.result[QuestionIndex].question}
@@ -858,7 +863,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    questions: state.ClubReducer.questions, 
+    questions: state.ClubReducer.questions,
     selectedGame: state.ClubReducer.selectedGame,
     userData: state.ClubReducer.userData,
     questionIndex: state.ClubReducer.indexOfQuestion,

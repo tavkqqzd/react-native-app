@@ -16,6 +16,17 @@ export const QuestionAnswerStyle = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  coinAlignmentRegularQuestion: {
+    flexDirection: "row",
+    borderRadius: 25,
+    height: 30,
+    borderWidth: 1,
+    borderColor: "#FFCC33",
+    padding: 5,
+    width: 60,
+    alignItems: "center",
+    justifyContent: "flex-end"
+  },
   coinAlignmentVideoScreen: {
     flexDirection: "row",
     borderRadius: 25,
@@ -30,7 +41,7 @@ export const QuestionAnswerStyle = StyleSheet.create({
   },
   coin: { width: 15, height: 15 },
   score: { marginLeft: 5 },
-  question: { textAlign: "center", margin: 20, fontFamily: Fonts.Fonts.CA_book },
+  question: { textAlign: "center", margin: 20, fontFamily: Fonts.Fonts.CA_bold, fontSize: 18 },
   questionOptions: {
     // height: 40,
     width: widthPercentageToDP("80%"),

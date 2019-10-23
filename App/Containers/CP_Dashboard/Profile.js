@@ -31,6 +31,11 @@ const UpdateProfile = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "UpdateProfile" })
 });
 
+const SettingPage = NavigationActions.navigate({
+  routeName: "Settings",
+  action: NavigationActions.navigate({ routeName: "Settings" })
+});
+
 class ProfilePage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -50,10 +55,9 @@ class ProfilePage extends React.Component {
         </TouchableOpacity>
       ),
       headerRight: (
-        <View />
-        // <TouchableOpacity onPress={() => navigation.dispatch(UpdateProfile)}>
-        //   <Image source={Images.setting} style={{ height: 24, width: 25, marginRight: 20 }} resizeMode="cover" />
-        // </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.dispatch(SettingPage)}>
+          <Image source={Images.setting} style={{ height: 24, width: 25, marginRight: 20 }} resizeMode="cover" />
+        </TouchableOpacity>
       )
     };
   };

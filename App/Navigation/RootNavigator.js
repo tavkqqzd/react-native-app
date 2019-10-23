@@ -21,6 +21,9 @@ import WrongAnswer from "../Containers/CP_Dashboard/WrongAnswer";
 import ScoreScreen from "../Containers/CP_Dashboard/ScoreScreen";
 import UpdateProfile from "../Containers/CP_Dashboard/UpdateProfile";
 import Testing from "../Containers/CP_Dashboard/Testing";
+import Settings from "../Containers/CP_Dashboard/Settings";
+import TermsAndService from "../Containers/StaticPages/TermsAndConditions";
+import AboutUs from "../Containers/StaticPages/AboutUs";
 
 const PreLoginNavigator = createStackNavigator(
   {
@@ -77,12 +80,25 @@ const InGameNavigators = createStackNavigator(
   }
 );
 
+const StaticNavigator = createStackNavigator(
+  {
+    Settings: { screen: Settings },
+    TermsAndService: { screen: TermsAndService },
+    AboutUs: { screen: AboutUs }
+  },
+  {
+    // initialRouteName: "TermsOfService",
+    headerLayoutPreset: "center"
+  }
+);
+
 const RootNav = createSwitchNavigator(
   {
     PreLogin: PreLoginNavigator,
     Post_Login_SignUp: PostLoginNavigators,
     ResetPassword: ResetPasswordNavigattor,
-    InGame: InGameNavigators
+    InGame: InGameNavigators,
+    Static: StaticNavigator
   },
   {
     headerMode: "none"

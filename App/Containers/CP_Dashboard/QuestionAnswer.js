@@ -580,7 +580,7 @@ class QuestionAnswer extends React.Component {
   };
 
   // media type for image
-  mediaWithImage = QuestionIndex => {
+  mediaWithImage = QuestionIndex => { 
     let { id, totalQuestions, instruction } = this.props.selectedGame;
     return (
       <ScrollView>
@@ -858,7 +858,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    questions: state.ClubReducer.questions,
+    questions: state.ClubReducer.questions, 
     selectedGame: state.ClubReducer.selectedGame,
     userData: state.ClubReducer.userData,
     questionIndex: state.ClubReducer.indexOfQuestion,

@@ -8,6 +8,7 @@ import * as actions from "../../Store/Actions/ClubData";
 import { QuestionAnswerStyle } from "./Styles/QuestionAnswer-Style";
 import Colors from "../../Themes/Colors";
 import ButtonGradient from "../../Components/Buttons/ButtonGradient";
+import { widthPercentageToDP } from "../../Components/Utils/PercentageToPixels";
 
 const navigateToQuestionAnswerPage = NavigationActions.navigate({
   routeName: "QuestionAnswer",
@@ -50,14 +51,23 @@ class WrongAnswer extends React.Component {
     this.backHandler.remove();
   }
   render() {
-    console.log("score of player", this.props.scoreOfPlayer);
     let index = this.props.questionIndex;
     let mobileIcon = { marginRight: "20%" };
     let tabletIcon = { marginRight: "10%" };
     let marginForIcon = Math.round(Dimensions.get("window").width) > 550 ? tabletIcon : mobileIcon;
     return (
       <View style={Styles.container}>
-        <Image source={image.wrongCircle} style={marginForIcon} />
+        {this.props.questions &&
+        this.props.questions.result[index].mediaType === 0 &&
+        this.props.questions.result[index].image ? (
+          <Image
+            source={{ uri: this.props.questions && this.props.questions.result[index].image }}
+            style={{ width: 300, height: 300 }}
+          />
+        ) : (
+          <Image source={image.wrongCircle} style={marginForIcon} />
+        )}
+
         <Text style={Styles.textBelowLogo}>Oops</Text>
         <Text style={Styles.suggestion}>Sorry better luck next time.</Text>
         <View style={Styles.answerSection}>

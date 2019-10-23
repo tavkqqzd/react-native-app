@@ -169,7 +169,9 @@ class ProfilePage extends React.Component {
                   <View style={[LeaderBoardStyle.randomColor, { backgroundColor: randomColorGenerator() }]}></View>
                   <View style={ProfileStyle.leaderBoardGameNameAlignment}>
                     <View style={ProfileStyle.w_100}>
-                      <Text style={LeaderBoardStyle.playerNameText}>{k.gameName}</Text>
+                      <Text numberOfLines={1} style={LeaderBoardStyle.playerNameText}>
+                        {k.gameName}
+                      </Text>
                     </View>
                     <View style={ProfileStyle.leaderBoardBUttonAlignment}>
                       <ButtonGradient
@@ -183,7 +185,7 @@ class ProfilePage extends React.Component {
                     </View>
                   </View>
                 </View>
-                <View style={ProfileStyle.leaderBoardBookAlignment}></View>
+                {/* <View style={ProfileStyle.leaderBoardBookAlignment}></View> */}
                 <View style={ProfileStyle.leaderBoardCoinsAlignment}>
                   <View style={LeaderBoardStyle.userScore}>
                     <View style={LeaderBoardStyle.coinAlignment}>

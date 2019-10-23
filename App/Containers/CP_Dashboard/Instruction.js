@@ -51,14 +51,12 @@ class InstructionPage extends React.Component {
     let { id, instruction } = this.props.selectedGame;
     console.log("this.props.selectedGame instruction page", this.props.selectedGame);
     return (
-      <ScrollView contentContainerStyle={InstructionStyle.instructionIntent}>
+      <ScrollView contentContainerStyle={InstructionStyle.instructionIntent} scrollEnabled={true}>
+        <View style={InstructionStyle.CP_banner}>
+          <Text style={InstructionStyle.CP_banner2}>Your ticket to the Gamification of Learning</Text>
+        </View>
         <View>
           <Image source={images.small_logo} />
-        </View>
-        <View style={InstructionStyle.CP_banner}>
-          <Text style={InstructionStyle.CP_banner2}>
-            Club Passport is your ticket to all the Fun that is available at your Club...
-          </Text>
         </View>
         <View style={InstructionStyle.gameInstructionAlignment}>
           <Text style={InstructionStyle.gameInstructionText}>Instruction for game</Text>

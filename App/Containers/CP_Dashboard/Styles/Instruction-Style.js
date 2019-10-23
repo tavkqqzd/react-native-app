@@ -17,8 +17,15 @@ export const InstructionStyle = StyleSheet.create({
     borderRightColor: "#fff",
     borderBottomColor: "#747474"
   },
-  CP_banner2: { fontSize: 17, color: "#282828", textAlign: "center", fontFamily: Fonts.Fonts.CA_book, opacity: 0.5 },
-  gameInstructionAlignment: { marginBottom: 20 },
+  CP_banner2: {
+    fontSize: 20,
+    color: "#282828",
+    textAlign: "center",
+    fontFamily: Fonts.Fonts.CA_book,
+    opacity: 0.5,
+    padding: 10
+  },
+  gameInstructionAlignment: { marginBottom: 20, marginTop: 20 },
   gameInstructionText: { fontSize: 16, color: "#000", fontFamily: Fonts.Fonts.CA_book },
   DashboardCardModalText: { fontSize: 20, color: "#000", fontFamily: Fonts.Fonts.CA_bold, textAlign: "center" },
   gameInstruction: {

@@ -40,7 +40,10 @@ class CP_Login_SignUp extends React.Component {
         </View>
         <View style={css.margin}>
           <Text style={css.clubPassportInfo}>Welcome to Club Passport</Text>
-          <Text style={css.clubPassportInfo}>Enjoy your Club in new ways...</Text>
+          <Text style={[css.clubPassportHeadInfo, { marginTop: 10 }]}>
+            {" "}
+            Your ticket to the Gamification of Learning
+          </Text>
         </View>
         <View style={{ marginTop: 140 }}>
           <TouchableWithoutFeedback
@@ -74,6 +77,7 @@ const css = StyleSheet.create({
     textAlign: "center",
     color: colors.black
   },
+  clubPassportHeadInfo: { fontFamily: Fonts.Fonts.CA_book, fontSize: 19, textAlign: "center", color: colors.black },
   logoStyle: {
     width: widthPercentageToDP("22%"),
     height: heightPercentageToDP("22%")

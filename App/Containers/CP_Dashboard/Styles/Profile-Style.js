@@ -92,11 +92,9 @@ export const ProfileStyle = StyleSheet.create({
   card: {
     flexDirection: "row",
     height: 80,
-
     shadowRadius: 5,
     margin: 10,
     shadowOpacity: 1.0,
-
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -124,7 +122,7 @@ export const ProfileStyle = StyleSheet.create({
   leaderBoardBUttonAlignment: { width: "100%" },
   w_100: { width: "100%" },
   leaderBoardGameNameAlignment: { flexDirection: "column", width: "100%", position: "relative" },
-  leaderBoardGameName_Color: { width: "50%", flexDirection: "row" },
+  leaderBoardGameName_Color: { width: "82%", flexDirection: "row" },
   leaderBoardCardScrollView: {
     paddingTop: 4,
     paddingBottom: 4,
